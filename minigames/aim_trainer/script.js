@@ -48,6 +48,7 @@ function saveHighScore() {
 
 // Start game logic
 function startGame() {
+  reset();
   //show elements/hide elements
   startButton.hidden = true;
   gameArea.hidden = false;
@@ -165,6 +166,24 @@ function stopGame(completed) {
           );
           highScore = score;
           saveHighScore();
+        } else if (score == highScore) {
+          old_acc = localStorage.getItem("highest-accuracy");
+          if (accuracy > old_acc) {
+            alert(
+              `so close! you tied your high score of: ${highScore}.\non the bright-side, your accuracy went up by ${(
+                accuracy - old_acc
+              ).toFixed(2)}%!\nyour highest recorded reaction time remains: ${(
+                10000 / highScore
+              ).toFixed(0)}.`
+            );
+            saveHighScore();
+          } else {
+            alert(
+              `so close! you tied your high score of: ${highScore}.\nyour highest recorded reaction time remains: ${(
+                10000 / highScore
+              ).toFixed(0)}.`
+            );
+          }
         } else {
           alert(
             `you were unable to beat your previous highscore of ${highScore}.\nyour highest recorded reaction time remains: ${(
@@ -207,4 +226,5 @@ giveUpBtn.onclick = () => {
   completed = 0;
   stopGame();
   startButton.hidden = false;
+  completed = 1;
 };
