@@ -2,6 +2,9 @@
 
 This repository houses a series of small, interactive web-based games created for the purpose of learning HTML, CSS, and JavaScript. It's pretty informal, so some of the features might follow that aesthetic. I plan to create a more professional repository that will be linked on my resume, but this is the more casual and fun implementation, including some information about who I am and what I enjoy doing in my free time!
 
+## How to play:
+Click on (this link)[https://mattwydra.github.io/projects/] and select the game you would like to try out! Detailed feature-lists for each game is detailed below.
+
 ### Note  
 This repository is a work in progress. Some features may not work as intended, and bugs are to be expected. Feedback is always welcome!  
 
