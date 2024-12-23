@@ -5,23 +5,23 @@ This repository houses a series of small, interactive web-based games created fo
 ### Current Games
 
 #### 1. **Clicker Game**
-- Click targets that randomly appear on the screen.
-- Tracks accuracy and scores.
-- Saves and displays highest scores and accuracy.
+- Everytime you click "increment", the score increases.
+- Clicking "decrement" will decrease the score.
+- Click "reset" to start over.
 
 #### 2. **Clicks Per Second (CPS) Game**
 - Calculates clicks per second.
 - Select game duration (5 seconds, 10 seconds, 1 minute).
 - Tracks and saves highscores.
 
-#### 2. **Aim Trainer**
+#### 3. **Aim Trainer**
 - Helps to get better aim for games like Valorant.
 - Select game duration (5 seconds, 10 seconds, 1 minute).
 - Tracks and saves highscores.
 
 ### Upcoming Features
-- More games from the [planned list](./minigames/program_list.txt)
-- More features for the [Aim Trainer](./minigames/aim_trainer/issues_aim_trainer.txt)
-- QoL updates for [all programs](./minigames/feature_list_all_programs.txt)
+- More games from the [planned list](minigames/program_list.txt)
+- More features for the [Aim Trainer](minigames/aim_trainer/issues_aim_trainer.txt) and [Clicker Game](minigames/count_clicker/issues_count_clicker.txt)
+- QoL updates for [all programs](minigames/feature_list_all_programs.txt)
 
 Thanks for reading!
