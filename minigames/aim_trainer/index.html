@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=0.5" />
+    <title>Aim Trainer</title>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        text-align: center;
+        color: white;
+        background-color: black;
+        margin: 0;
+        padding: 0;
+      }
+      #timer {
+        margin-bottom: 15px;
+        color: thistle;
+      }
+      #game-area {
+        position: relative;
+        align-items: center;
+        width: 100vw;
+        height: 40vh;
+        background-color: aliceblue;
+        overflow: hidden;
+      }
+      .target {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        background-color: crimson;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+      #start-button {
+        margin-bottom: 100px;
+        margin-top: 80px;
+        height: 40px;
+        width: 60px;
+        font-size: 15px;
+      }
+      #highest-score {
+        margin-top: 12px;
+        margin-bottom: 7px;
+      }
+      #highest-accuracy {
+        margin-bottom: 7px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Aim Trainer</h1>
+    <div id="timer">time left: 10s</div>
+    <button id="start-button">start</button>
+    <p>
+      <span id="score">score: 0</span><span id="accuracy">accuracy: 0</span>
+    </p>
+    <div id="game-area" hidden></div>
+    <!-- <p>This is <span style="color: red">important</span> text.</p> -->
+
+    <button id="save-score">save score?</button>
+    <button id="reset-button">reset?</button>
+    <button id="give-up">give up?</button>
+
+    <!-- show PBs -->
+    <div id="highest-score">highscore: 0</div>
+    <div id="highest-accuracy">highest accuracy: 0%</div>
+    <div id="highest-reaction-time">reaction time: poor</div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

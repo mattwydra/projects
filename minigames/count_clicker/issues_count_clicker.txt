@@ -1,0 +1,15 @@
+Progressive Unlocks:
+
+    Start with a simple click mechanic and introduce upgrades over time (e.g., multipliers, autoclickers).
+
+Resource Management:
+
+    Implement a currency system to buy upgrades.
+
+Achievements:
+
+    Add milestones and rewards for high click counts or specific gameplay goals.
+
+Dynamic Scaling:
+
+    Introduce exponential growth mechanics for income or resources.

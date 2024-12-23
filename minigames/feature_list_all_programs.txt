@@ -1,0 +1,7 @@
+Custom Themes:
+
+    Add light/dark mode or color customization options.
+
+Database Integration:
+	
+    Saving highscores, average scores, showing leaderboards, etc.

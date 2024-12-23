@@ -1,0 +1,15 @@
+Custom Duration Selection:
+
+    Allow users to choose the test duration (5 seconds, 10 seconds, 15 seconds, etc.).
+
+Dynamic Click Display:
+
+    Show live feedback on clicks per second during the test.
+
+High Score Tracking:
+
+    Store the highest CPM achieved for different durations.
+
+Graphical Feedback:
+
+    Display a small graph or visual element showing the user's click consistency over time.

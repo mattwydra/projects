@@ -1,0 +1,140 @@
+body {
+  background-color: black;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  margin: 60;
+}
+head {
+  font-size: 50px;
+  color: white;
+  text-align: center;
+}
+header {
+  margin: 60;
+  font-size: 28px;
+  color: white;
+  text-align: center;
+  margin-bottom: 16px;
+  margin-top: 20px;
+}
+p {
+  font-size: 8px;
+}
+
+/* time selection buttons */
+#time-selection {
+  margin-bottom: 20px;
+}
+
+.duration-btn {
+  font-size: 16px;
+  padding: 10px 25px;
+  margin: 0px 15px;
+  color: black;
+  cursor: pointer;
+}
+
+.duration-btn:hover {
+  color: white;
+  background-color: black;
+}
+
+/* label */
+#label-container {
+  margin-bottom: 20px;
+}
+
+#click-container {
+  background-color: rosybrown;
+  width: 400px;
+  height: 260px;
+  position: relative;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#click-total {
+  font-size: 50px;
+  text-align: center;
+  position: absolute;
+  color: aliceblue;
+  top: -105px;
+}
+
+#control-btns {
+  margin-top: 13px;
+}
+#save-btn:hover,
+#reset-btn:hover {
+  color: white;
+  background-color: black;
+  /* border-color: black; */
+}
+
+#start-btn {
+  background-color: rosybrown;
+  width: 400px;
+  height: 260px;
+  position: relative;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+}
+
+#time-left {
+  font-size: 20px;
+  font-weight: bold;
+  color: crimson;
+  margin-bottom: 10px; /* Space between the timer and other elements */
+}
+
+#start-btn:hover {
+  color: red;
+  background-color: rgb(87, 35, 35);
+  border-color: black;
+}
+
+button {
+  size: 20px;
+}
+
+#counter-container {
+  text-align: center;
+  background-color: aliceblue;
+  padding: 20px;
+  border: 4px solid #ccc;
+  border-radius: 18px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#counter-display {
+  color: black;
+  text-decoration: underline;
+  text-decoration-color: rosybrown;
+  background-color: lavender;
+  padding: 10px;
+  /* font-size-adjust: 2; */
+}
+
+/* Highlight active duration button */
+.duration-btn.selected {
+  background-color: lightgreen;
+  color: white;
+  border: 2px solid darkgreen;
+}
+
+/* High Score */
+#high-score {
+  font-size: 20px;
+  color: gold;
+  margin-top: 20px;
+}

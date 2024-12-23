@@ -1,0 +1,15 @@
+Display Top 5 Scores:
+
+    Show a list of the top 5 scores with their associated accuracies.
+
+Server Integration:
+
+    Save and load scores from a server/database instead of local storage.
+
+Dynamic Timer Options:
+
+    Add buttons for different game durations (e.g., 5 seconds, 10 seconds, 1 minute).
+
+Detailed Post-Game Statistics:
+
+    Display more insights like average time between hits or streak lengths.

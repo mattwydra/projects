@@ -1,0 +1,43 @@
+Unstarted Projects
+
+    Number Memory Game
+        Displays a string of numbers (5–15 digits) for a short time.
+        Time to memorize is proportional to the number of digits (e.g., 0.5 seconds per character).
+
+    Typing Practice/WPM Game
+        Modes:
+            Easy mode to learn home position.
+            Timed typing tests (50–100 words).
+            Number typing practice for speed and accuracy.
+        Calculates WPM and accuracy.
+
+    Typing Mini-Games for Specific Purposes
+        Focusing on:
+            Complex or uncommon words.
+            Random words.
+            CS-specific terms (e.g., HTML tags, commands).
+            Special characters.
+
+    Recommendation Microservice
+        Suggests games, anime, or movies based on user input.
+        Tracks personal library and preferences.
+        Parameters: genre, length, ratings, etc.
+
+    To-Do List/Calendar App
+        Includes:
+            Event categorization with custom reminders.
+            Support for daily, weekly, and monthly tasks.
+            Motivational quotes.
+            Scanning future events for priority tasks.
+
+    First-Person Maze Game
+        A maze with:
+            Multiple floors.
+            Encounters with monsters or traps.
+
+    Math Puzzle Maze Game
+        Features:
+            Solve math problems to progress through a maze.
+            Unlock power-ups for streaks of correct answers.
+            High score tracking.
+            Extensions for other subjects (e.g., history, science).
