@@ -1,0 +1,7 @@
+Timer:
+
+    Timer that displays the amount of time remaining for memorization.
+
+High Score Tracking:
+
+    Store the highest number that was memorized.
