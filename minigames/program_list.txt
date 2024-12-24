@@ -1,9 +1,5 @@
 Unstarted Projects
 
-    Number Memory Game
-        Displays a string of numbers (5–15 digits) for a short time.
-        Time to memorize is proportional to the number of digits (e.g., 0.5 seconds per character).
-
     Typing Practice/WPM Game
         Modes:
             Easy mode to learn home position.
