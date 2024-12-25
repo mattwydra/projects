@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Tracker</title>
+</head>
+<body>
+    <h1>Text Tracker</h1>
+    
+    <form method="POST">
+        <input type="text" name="text" placeholder="Enter text" required>
+        <button type="submit" name="action" value="add">Add</button>
+        <button type="submit" name="action" value="delete">Delete</button>
+    </form>
+    
+    <h2>Message: {{ message }}</h2>
+    <h2>Current Inputs:</h2>
+    <ul>
+        {% for input in inputs %}
+        <li>{{ input.text }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
