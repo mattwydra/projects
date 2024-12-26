@@ -30,9 +30,15 @@ This repository is a work in progress. Some features may not work as intended, a
 - Memorization time increases with each level.
 - Will eventually track and save highscores.
 
+#### 5. (currently broken) **Database Manager**
+- First attempt at database utilization
+- Goal: find a relible way to deploy a database
+    - Reason: re-use logic for highscore management across applications
+
 ### Upcoming Features
 - More games from the [planned list](minigames/program_list.txt)
 - More features for the [Aim Trainer](minigames/aim_trainer/issues_aim_trainer.txt), [Number Memory](minigames/number_memory/issues_number_memory.txt), and [Clicker Game](minigames/count_clicker/issues_count_clicker.txt)
 - QoL updates for [all programs](minigames/feature_list_all_programs.txt)
+- Database to house all highscores in the user's personal hub
 
 Thanks for reading!
