@@ -5,3 +5,7 @@ Custom Themes:
 Database Integration:
 	
     Saving highscores, average scores, showing leaderboards, etc.
+
+Future Support:
+
+    Ensure support on different browsers (chrome, etc.)
