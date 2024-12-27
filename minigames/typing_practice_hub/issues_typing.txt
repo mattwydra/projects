@@ -1,0 +1,20 @@
+Planned Features:
+
+    multiple gamemodes:
+
+        - strange words
+	- new words
+	- hard to spell words
+	- special characters
+	- numbers
+	- comp sci terms (system.out.println(); and other things for other langs like html, etc.)
+
+    gamemodes within gamemodes:
+
+        - survival: 3 lives, go as far as you can until you make 3 mistakes
+	- timed: get as many correct words/chars/terms, etc. in a time limir
+	- combined: combines all gamemodes; can be helpful for multitaskers
+
+'Bugs':
+
+    highscore functionality hasn't been coded. furthermore, no easter eggs yet. maybe soon
