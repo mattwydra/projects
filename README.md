@@ -15,7 +15,7 @@ This repository is a work in progress. Some features may not work as intended, a
 - Clicking "decrement" will decrease the score.
 - Click "reset" to start over.
 
-#### 1. **Cookie Clicker**
+#### 2. **Cookie Clicker**
 - Similar to the Clicker Game, but with an image to click instead of just a button
 - Will eventually have other features like power-ups
 
@@ -29,12 +29,18 @@ This repository is a work in progress. Some features may not work as intended, a
 - Select game duration (5 seconds, 10 seconds, 1 minute).
 - Tracks and saves highscores.
 
-#### 5. **Number Memory**
+#### 5. **Reaction Time Trainer**
+- Helps to improve reaction time
+- Click on the screen when it changes colors to find your reaction time
+- Future updates will improve functionality
+    - Color blind mode, averaging the RT over 5 attempts, highscore capabilities, and more
+
+#### 6. **Number Memory**
 - Helps to improve short-term memory.
 - Memorization time increases with each level.
 - Will eventually track and save highscores.
 
-#### 6. (currently broken) **Database Manager**
+#### 7. (currently broken) **Database Manager**
 - First attempt at database utilization
 - Goal: find a relible way to deploy a database
     - Reason: re-use logic for highscore management across applications
