@@ -40,7 +40,12 @@ This repository is a work in progress. Some features may not work as intended, a
 - Memorization time increases with each level.
 - Will eventually track and save highscores.
 
-#### 7. (currently broken) **Database Manager**
+#### 7. Typing Practice
+- For becoming a more proficient and accurate typer
+- Includes multiple game modes for numerous use cases
+- More info can be found [here](minigames/typing_practice_hub/README.md)
+
+#### 8. (currently broken) **Database Manager**
 - First attempt at database utilization
 - Goal: find a relible way to deploy a database
     - Reason: re-use logic for highscore management across applications
