@@ -1,0 +1,23 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 50px;
+}
+
+#cookie {
+  width: 200px;
+  cursor: pointer;
+  border: 5px solid #d2691e;
+  border-radius: 50%;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.1s;
+}
+
+#cookie:active {
+  transform: scale(0.95);
+}
+
+#cookie-count {
+  font-size: 2rem;
+  color: #555;
+}
