@@ -15,22 +15,26 @@ This repository is a work in progress. Some features may not work as intended, a
 - Clicking "decrement" will decrease the score.
 - Click "reset" to start over.
 
-#### 2. **Clicks Per Second (CPS) Game**
+#### 1. **Cookie Clicker**
+- Similar to the Clicker Game, but with an image to click instead of just a button
+- Will eventually have other features like power-ups
+
+#### 3. **Clicks Per Second (CPS) Game**
 - Calculates clicks per second.
 - Select game duration (5 seconds, 10 seconds, 1 minute).
 - Tracks and saves highscores.
 
-#### 3. **Aim Trainer**
+#### 4. **Aim Trainer**
 - Helps to get better aim for games like Valorant.
 - Select game duration (5 seconds, 10 seconds, 1 minute).
 - Tracks and saves highscores.
 
-#### 4. **Number Memory**
+#### 5. **Number Memory**
 - Helps to improve short-term memory.
 - Memorization time increases with each level.
 - Will eventually track and save highscores.
 
-#### 5. (currently broken) **Database Manager**
+#### 6. (currently broken) **Database Manager**
 - First attempt at database utilization
 - Goal: find a relible way to deploy a database
     - Reason: re-use logic for highscore management across applications
