@@ -36,9 +36,9 @@ if (!token) {
 
 	console.log("5");
 
-        // Register global commands (use Routes.applicationGuildCommands for guild-specific testing)
+        // Register global commands (use Routes.applicationCommands for guild-specific testing)
         await rest.put(
-            Routes.applicationGuildCommands(process.env.CLIENT_ID, "779605128411086878"), 
+            Routes.applicationGuildCommands(process.env.CLIENT_ID), 
             { body: commands },
         );
 
