@@ -6,13 +6,13 @@ console.log("1");
 
 // Load the commands
 const commands = [];
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+const commandFiles = fs.readdirSync('path/to/commands_directory').filter(file => file.endsWith('.js'));
 
 console.log("2");
 
 // Add each command to the commands array
 for (const file of commandFiles) {
-    const command = require(`./commands/${file}`);
+    const command = require(`path/to/commands_directory/${file}`);
     commands.push(command.data.toJSON());
 
     console.log("3");
@@ -23,7 +23,7 @@ const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
 
 console.log("4");
 
-const token = process.env.DISCORD_TOKEN;  // Token from your .env file
+const token = process.env.DISCORD_TOKEN;  // Token from your .env file. Don't forget to include this, you'll get an error
 if (!token) {
     console.error('No token found!');
     process.exit(1);  // Exit the process if token is missing
