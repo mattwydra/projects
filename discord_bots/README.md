@@ -49,7 +49,6 @@ The Hopecore bot is a somewhat simple bot. you run the /hopecore command, and it
    npm install
    npm install canvas
    npm install dotenv
-   
    ```
 
 4. **Setup:**
@@ -67,6 +66,7 @@ The Hopecore bot is a somewhat simple bot. you run the /hopecore command, and it
    ```
    node deploy-commands.js 
    ```
+   NOTE: this only needs to be done once to set up the command for the bot. If you add more commands later, you will need to run this command again.
 
 ## Running the Bot
 
