@@ -10,6 +10,7 @@ try {
   quotes = fileContent.split('\n').filter(line => line.trim() !== '');
   console.log(`Loaded ${quotes.length} quotes from quotes.txt`);
 } catch (error) {
+  // If you're getting an error, ensure you have quotes.txt called correctly. Check file paths.
   console.error('Error loading quotes:', error);
   process.exit(1);
 }
@@ -38,11 +39,19 @@ async function generateImage(quote) {
   ctx.fillStyle = 'black';
   ctx.font = 'bold 24px Arial';
   ctx.textAlign = 'center';
+  // Eventual functionality will be as follows:
   // ctx.fillText(`how i look at bro when he says\n\"${quote}\"`, width / 2, 60);
   ctx.fillText(`${quote}`, width / 2, 60);
 
-  //handle long quotes as follows: check length. if it's over a certain length, find the part that's fine
-  // and backtrack until a space is found. then, see if the remainder is fine. if not, repeat
+  /* handle long quotes: 
+  check length. if it's over a certain length, find the part that's fine
+  and backtrack until a space is found. then, see if the remainder is fine. if not, repeat
+
+  alternative:
+  create a text-wrapping class. send in the quote. the total length will be the intro meme (how i look at bro...) + the quote
+  when the text reaches a certain length, cut it. repeat until you have lines that all work. 
+  NOTE: may have to keep track of how many times you cut it. if there are too many lines, you might have to make the white box bigger
+  */ 
 
   return canvas.toBuffer(); // Return the image as a buffer
 }
