@@ -28,7 +28,7 @@ async function generateImage(quote) {
   const ctx = canvas.getContext('2d');
 
   // Background image
-  const backgroundImage = await loadImage('assets/musashi.jpg');
+  const backgroundImage = await loadImage('path/to/image.jpg');
   ctx.drawImage(backgroundImage, 0, 0, width, height);
 
   // Add white bar at the top
