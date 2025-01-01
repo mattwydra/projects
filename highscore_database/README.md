@@ -63,7 +63,7 @@ This project is a highscore management system designed for games and mini-projec
 (CURRENTLY NON-FUNCTIONAL) Will change with each version release. After version 1.0, there should be no legwork required on the user's end, aside from adding a Discord Bot to your server (which is only needed if you want discord functionality. Planned release is version 4.0 for Discord integration). 
 1. Clone the repository.
 2. Install dependencies using `pip install -r requirements.txt`.
-3. Ensure you are in the [correct directory](highscore_database)
+3. Ensure you are in the [correct directory](.)
 4. Run the application with `python database.py`.
 
 Thank you for trying out my service!
