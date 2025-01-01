@@ -6,13 +6,14 @@ Unstarted Projects
             Timed typing tests (50–100 words).
             Number typing practice for speed and accuracy.
         Calculates WPM and accuracy.
+        Will have a UI that gives helpful visual feedback as the user is typing
 
-    Typing Mini-Games for Specific Purposes
+    Certain Typing Mini-Games for Specific Purposes
         Focusing on:
-            Complex or uncommon words.
+            ~~Complex or uncommon words.~~ (this has been started)
             Random words.
             CS-specific terms (e.g., HTML tags, commands).
-            Special characters.
+            ~~Special characters.~~ (this has been started)
 
     Recommendation Microservice
         Suggests games, anime, or movies based on user input.
