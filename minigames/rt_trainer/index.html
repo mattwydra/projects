@@ -2,23 +2,21 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=0.5" />
-    <title>Test Your Reaction Time</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reaction Time Minigame</title>
   </head>
   <body>
-    <h1>ract kwik</h1>
-    <button id="start-button">start</button>
-    <div id="game-area" hidden></div>
-    <!-- <p>This is <span style="color: red">important</span> text.</p> -->
-
-    <div>
-      <button id="save-button">save score?</button>
-      <button id="reset-button">reset?</button>
-      <button id="give-up">give up?</button>
+    <div class="game-area">
+      <h1>Reaction Time Minigame</h1>
+      <p id="instructions">Click "Start" to begin the game.</p>
+      <button id="start-btn">Start</button>
+      <div>
+        <button id="save-average-btn" class="hidden">Save Best Average</button>
+        <button id="save-best-btn" class="hidden">Save Best Time</button>
+      </div>
+      <p id="result" class="hidden">Results will appear here.</p>
+      <p id="stats" class="hidden">Stats will appear here.</p>
     </div>
-
-    <!-- show PBs -->
-    <div id="highest-reaction-time">reaction time: poor</div>
 
     <script src="script.js"></script>
     <link rel="stylesheet" href="styles.css" />
