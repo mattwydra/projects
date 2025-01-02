@@ -167,7 +167,8 @@ function stopGame(completed) {
           highScore = score;
           saveHighScore();
         } else if (score == highScore) {
-          let old_acc = parseFloat(localStorage.getItem("highest-accuracy")) || 0; // turn into float because string logic was flawed
+          let old_acc =
+            parseFloat(localStorage.getItem("highest-accuracy")) || 0;
           if (accuracy > old_acc) {
             alert(
               `so close! you tied your high score of: ${highScore}.\non the bright-side, your accuracy went up by ${(
