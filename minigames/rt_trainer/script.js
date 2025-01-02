@@ -25,6 +25,7 @@ function startGame() {
   let attempt = 0;
 
   function nextAttempt() {
+    instructions.textContent = "Wait for the screen to turn green, then click!";
     if (attempt >= 5) {
       endGame();
       return;
