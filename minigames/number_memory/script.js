@@ -7,7 +7,8 @@ const memorizeDisplay = document.getElementById("memorize-prompt");
 const sequenceDisplay = document.getElementById("sequence");
 
 // Select elements
-const startButton = document.getElementById("start-timer");
+const startBtn = document.getElementById("start-timer");
+const saveBtn = document.getElementById("save-btn");
 const resetBtn = document.getElementById("reset-button");
 const proceedBtn = document.getElementById("proceed-button");
 const startTimer = document.getElementById("start-timer");
@@ -27,6 +28,7 @@ memorizeDisplay.hidden = true;
 correctDisplay.hidden = true;
 incorrectDisplay.hidden = true;
 resetBtn.hidden = true;
+saveBtn.hidden = true;
 proceedBtn.hidden = true;
 
 // Generate a random sequence of numbers of a given length.
@@ -39,7 +41,7 @@ function generateSequence() {
   console.log("Generated sequence:", sequence);
 }
 
-startButton.onclick = () => {
+startBtn.onclick = () => {
   startGame();
 };
 
@@ -48,6 +50,11 @@ function displaySequence() {
   sequenceDisplay.hidden = false;
   memorizeDisplay.hidden = false;
 
+  progressBar.style.opacity = "1";
+  progressBarDisplay.style.opacity = "1";
+
+  // Debug: Ensure visible and sized correctly
+  progressBar.style.width = "100%";
   progressBar.hidden = false;
   progressBarDisplay.hidden = false;
 
@@ -59,12 +66,16 @@ function displaySequence() {
   const interval = setInterval(() => {
     currentTime -= 0.1; // Decrease time
     const percentage = (currentTime / memorizationTime) * 100;
+
+    // Debug: Log width updates
+    console.log(`Progress Bar Width: ${percentage}%`);
+
     progressBar.style.width = `${percentage}%`;
 
     if (currentTime <= 0) {
       clearInterval(interval);
       progressBar.style.width = "0%";
-      progressBar.hidden = true;
+      progressBar.style.opacity = "0"; // Hide smoothly
       beginTest();
     }
   }, 100);
@@ -104,10 +115,34 @@ proceedBtn.onclick = () => {
 
 function fail() {
   incorrectDisplay.hidden = false;
-  incorrectDisplay.textContent = `That was incorrect. Your final score was: ${
-    startingLength - 1
-  }. Wanna try again?`;
+  if (startingLength === 6) {
+    incorrectDisplay.textContent = `That was incorrect. Wanna try again?`;
+  } else {
+    incorrectDisplay.textContent = `That was incorrect. Your final score was: ${
+      startingLength - 1
+    }. Wanna try again?`;
+  }
   resetBtn.hidden = false;
+  saveBtn.hidden = false;
+  progressBar.hidden = true;
+  progressBarDisplay.hidden = true;
+  saveBtn.onclick = () => {
+    prev_high = localStorage.getItem("highscore") || 0;
+    if (startingLength === 6) {
+      alert(`we both know i can't count that`);
+    } else if (startingLength - 1 > prev_high) {
+      localStorage.setItem("highscore", startingLength - 1);
+      alert(
+        `NEW HIGHSCORE! You managed to memorize a string up to length ${
+          startingLength - 1
+        }!`
+      );
+    } else {
+      alert(
+        `You were not able to beat your highscore of ${prev_high} :/ \nBetter luck next time <3`
+      );
+    }
+  };
 }
 resetBtn.onclick = () => {
   numberSequence = [];
@@ -116,15 +151,16 @@ resetBtn.onclick = () => {
   startingLength = 6;
   sequence = 0;
   startPage.hidden = false;
-  startButton.hidden = false;
+  startBtn.hidden = false;
   incorrectDisplay.hidden = true;
   resetBtn.hidden = true;
+  saveBtn.hidden = true;
 };
 
 // Start game logic
 function startGame() {
   startPage.hidden = true;
-  startButton.hidden = true;
+  startBtn.hidden = true;
   correctDisplay.hidden = true;
   proceedBtn.hidden = true;
 
