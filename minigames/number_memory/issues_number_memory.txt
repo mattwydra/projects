@@ -1,7 +1,19 @@
 Timer:
 
-    Timer that displays the amount of time remaining for memorization.
+    Timer that displays the amount of time remaining for memorization
 
 High Score Tracking:
 
-    Store the highest number that was memorized.
+    Store the highest number that was memorized
+
+Gameplay:
+
+    Allow for reverse memorization 
+	- This would require the user to input the given string of numbers backwards
+
+    Lightning mode
+	- Half the time (or something similar)
+
+    Custom starting length
+	- Strings of length 1-5 are quite easy to memorize. Hence, the game starts at 6 by default
+	- Future functionality would start at 1, with the option to start higher if the user chooses
