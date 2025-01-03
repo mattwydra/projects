@@ -18,12 +18,15 @@
       }
 
       .progress-bar-container {
-        width: 80%;
+        width: 50dvw;
         height: 20px;
         background-color: #ccc;
         border-radius: 10px;
         overflow: hidden;
         margin: 20px 0;
+        /* border: 15px solid red; */
+        z-index: 1000;
+        position: relative;
       }
 
       .progress-bar {
@@ -86,7 +89,10 @@
     <h1 id="incorrect-text">
       That was incorrect. Your final score was: 6. Wanna try again?
     </h1>
-    <button id="reset-button">try again?</button>
+    <div>
+      <button id="reset-button">try again?</button>
+      <button id="save-btn">save score?</button>
+    </div>
     <button id="proceed-button">higher sequence?</button>
 
     <button id="start-timer">Start</button>
