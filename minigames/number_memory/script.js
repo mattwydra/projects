@@ -38,7 +38,6 @@ function generateSequence() {
     numberSequence.push(Math.floor(Math.random() * 10)); // Generate random digit 0-9
   }
   sequence = numberSequence.join(""); // Convert array to a single string
-  console.log("Generated sequence:", sequence);
 }
 
 startBtn.onclick = () => {
@@ -66,9 +65,6 @@ function displaySequence() {
   const interval = setInterval(() => {
     currentTime -= 0.1; // Decrease time
     const percentage = (currentTime / memorizationTime) * 100;
-
-    // Debug: Log width updates
-    console.log(`Progress Bar Width: ${percentage}%`);
 
     progressBar.style.width = `${percentage}%`;
 
