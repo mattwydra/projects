@@ -21,41 +21,62 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 // Helper function to generate the image
 async function generateImage(quote) {
-  const width = 900;
-  const height = 900;
+  // Load the image
+  const image = await loadImage('path/to/image.jpg');
+  const imageWidth = image.width;
+  const imageHeight = image.height;
 
-  const canvas = createCanvas(width, height);
-  const ctx = canvas.getContext('2d');
+  // Set text properties
+  const ctxFont = 'bold 24px Arial';
+  const ctx = createCanvas(1, 1).getContext('2d'); // Temporary context to measure text
+  ctx.font = ctxFont;
 
-  // Background image
-  const backgroundImage = await loadImage('path/to/image.jpg');
-  ctx.drawImage(backgroundImage, 0, 0, width, height);
+  const lineHeight = 30;
+  const maxTextWidth = imageWidth - 40; // 20px padding on each side
 
-  // Add white bar at the top
-  ctx.fillStyle = 'white';
-  ctx.fillRect(0, 0, width, 100);
+  // Split the quote into lines
+  const words = quote.split(' ');
+  let lines = [];
+  let currentLine = '';
 
-  // Add text
-  ctx.fillStyle = 'black';
-  ctx.font = 'bold 24px Arial';
-  ctx.textAlign = 'center';
-  // Eventual functionality will be as follows:
-  // ctx.fillText(`how i look at bro when he says\n\"${quote}\"`, width / 2, 60);
-  ctx.fillText(`${quote}`, width / 2, 60);
+  for (let word of words) {
+    const testLine = currentLine ? `${currentLine} ${word}` : word;
+    const { width: testLineWidth } = ctx.measureText(testLine);
 
-  /* handle long quotes: 
-  check length. if it's over a certain length, find the part that's fine
-  and backtrack until a space is found. then, see if the remainder is fine. if not, repeat
+    if (testLineWidth > maxTextWidth) {
+      lines.push(currentLine);
+      currentLine = word;
+    } else {
+      currentLine = testLine;
+    }
+  }
+  if (currentLine) lines.push(currentLine);
 
-  alternative:
-  create a text-wrapping class. send in the quote. the total length will be the intro meme (how i look at bro...) + the quote
-  when the text reaches a certain length, cut it. repeat until you have lines that all work. 
-  NOTE: may have to keep track of how many times you cut it. if there are too many lines, you might have to make the white box bigger
-  */ 
+  // Calculate the height of the white bar
+  const barHeight = 90 + (lines.length - 1) * lineHeight;
 
-  return canvas.toBuffer(); // Return the image as a buffer
+  // Create canvas based on image and bar height
+  const canvas = createCanvas(imageWidth, imageHeight + barHeight);
+  const canvasCtx = canvas.getContext('2d');
+
+  // Draw the white bar at the top
+  canvasCtx.fillStyle = 'white';
+  canvasCtx.fillRect(0, 0, imageWidth, barHeight);
+
+  // Draw the text on the white bar
+  canvasCtx.fillStyle = 'black';
+  canvasCtx.font = ctxFont;
+  canvasCtx.textAlign = 'center';
+
+  lines.forEach((line, index) => {
+    canvasCtx.fillText(line, imageWidth / 2, 50 + index * lineHeight);
+  });
+
+  // Draw the image below the white bar
+  canvasCtx.drawImage(image, 0, barHeight, imageWidth, imageHeight);
+
+  return canvas.toBuffer(); // Return the complete canvas as a buffer
 }
-
 // When the bot is ready
 client.once('ready', () => {
   console.log('Hopecore Bot is online!');
