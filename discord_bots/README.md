@@ -1,6 +1,8 @@
 # Hopecore Bot
 
-The Hopecore bot is a somewhat simple bot. you run the /hopecore command, and it sends back a nice quote to help keep life in perspective, overlayed on an image of Miyamoto Musashi. Hopecore is a beautiful thing. I will create an in-depth explanation eventually, but in short, it's a movement to help young people keep things in perspective.
+The Hopecore bot is a somewhat simple bot. you run the ```/hopecore``` command, and it sends back a nice quote to help keep life in perspective, overlayed on an image of Miyamoto Musashi. Hopecore is a beautiful thing. I will create an in-depth explanation eventually, but in short, it's a movement to help young people keep things in perspective.
+
+Full explanation of the code can be found [here](code_explanation.md)
 
 ## Features
 
