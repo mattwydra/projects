@@ -2,6 +2,7 @@ require('dotenv').config();
 const { Client, GatewayIntentBits } = require('discord.js');
 const { createCanvas, loadImage } = require('canvas');
 const fs = require('fs');
+const path = require('path');
 
 // Load the quotes from the text file
 let quotes = [];
@@ -10,19 +11,45 @@ try {
   quotes = fileContent.split('\n').filter(line => line.trim() !== '');
   console.log(`Loaded ${quotes.length} quotes from quotes.txt`);
 } catch (error) {
-  // If you're getting an error, ensure you have quotes.txt called correctly. Check file paths.
   console.error('Error loading quotes:', error);
   process.exit(1);
 }
 
-
 // Initialize the bot
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
+// Paths for the image folders
+const regularImagePath = path.join(__dirname, 'path', 'to', 'hopecore');
+const specialImagePath = path.join(__dirname, 'path', 'to', 'other');
+
+// Helper function to pick a random image
+function getRandomImage(folderPath) {
+  const files = fs.readdirSync(folderPath).filter(file => /\.(jpg|jpeg|png|gif)$/i.test(file));
+
+  if (files.length === 0) {
+    throw new Error(`No images found in ${folderPath}`);
+  }
+
+  const randomIndex = Math.floor(Math.random() * files.length);
+  const randomFile = files[randomIndex];
+
+  console.log(`Selected file: ${randomFile} from ${folderPath}`); // Log selected file
+
+  return path.join(folderPath, randomFile);
+}
+
+
 // Helper function to generate the image
 async function generateImage(quote) {
-  // Load the image
-  const image = await loadImage('path/to/image.jpg');
+  // Determine the image folder based on the quote
+  const isSpecialQuote = quote.trim().toLowerCase() === 'special_case'; // Use this if you have a special case. Conditionals will need to be updated if you have multiple.
+  const folderPath = isSpecialQuote ? specialImagePath : regularImagePath;
+
+  // Pick a random image from the appropriate folder
+  const randomImagePath = getRandomImage(folderPath);
+
+  // Load the selected image
+  const image = await loadImage(randomImagePath);
   const imageWidth = image.width;
   const imageHeight = image.height;
 
@@ -77,6 +104,8 @@ async function generateImage(quote) {
 
   return canvas.toBuffer(); // Return the complete canvas as a buffer
 }
+
+
 // When the bot is ready
 client.once('ready', () => {
   console.log('Hopecore Bot is online!');
