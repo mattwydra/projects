@@ -21,7 +21,7 @@ A series of interactive web-based [games](https://mattwydra.github.io/projects/)
 - **Reaction Time Trainer**: Tests and improves reaction time, with future plans for advanced features.  
 - **Number Memory**: Enhances short-term memory with increasing difficulty and planned highscore tracking.  
 - **Typing Practice**: Offers various modes to enhance typing speed and accuracy.  
-- [more coming soon](program_list.txt)
+- [more coming soon](minigames/program_list.txt)
 
 ### **Discord Bot: Hopecore**  
 A bot designed to spread positivity and motivation, featuring custom daily reminders and image-based responses.  
