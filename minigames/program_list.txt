@@ -13,19 +13,7 @@ Unstarted Projects
             ~~Complex or uncommon words.~~ (this has been started)
             Random words.
             CS-specific terms (e.g., HTML tags, commands).
-            ~~Special characters.~~ (this has been started)
-
-    Recommendation Microservice
-        Suggests games, anime, or movies based on user input.
-        Tracks personal library and preferences.
-        Parameters: genre, length, ratings, etc.
-
-    To-Do List/Calendar App
-        Includes:
-            Event categorization with custom reminders.
-            Support for daily, weekly, and monthly tasks.
-            Motivational quotes.
-            Scanning future events for priority tasks.
+            ~~Special characters.~~ (this has been started)    
 
     First-Person Maze Game
         A maze with:
@@ -38,3 +26,11 @@ Unstarted Projects
             Unlock power-ups for streaks of correct answers.
             High score tracking.
             Extensions for other subjects (e.g., history, science).
+
+    Pixel Escape Minigame
+ 	Features:
+	    Multiple game modes
+	    Powerups
+	    Difficulty levels
+	    Eventual 3D display
+	    Variability of obstacle dimensions

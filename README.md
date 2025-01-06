@@ -13,7 +13,7 @@ This repository is a work in progress. Some features may not work as intended, a
 ## Current Projects  
 
 ### **Mini-Games**  
-A series of interactive web-based [games](minigames) designed for learning and experimentation.  
+A series of interactive web-based [games](https://mattwydra.github.io/projects/) designed for learning and experimentation.  
 - **Clicker Game**: Simple score management through increment, decrement, and reset.  
 - **Cookie Clicker**: Similar to Clicker Game but with plans for power-ups and enhancements.  
 - **Clicks Per Second (CPS) Game**: Measures and tracks clicks per second over various time intervals.  
@@ -21,6 +21,7 @@ A series of interactive web-based [games](minigames) designed for learning and e
 - **Reaction Time Trainer**: Tests and improves reaction time, with future plans for advanced features.  
 - **Number Memory**: Enhances short-term memory with increasing difficulty and planned highscore tracking.  
 - **Typing Practice**: Offers various modes to enhance typing speed and accuracy.  
+- [more coming soon](program_list.txt)
 
 ### **Discord Bot: Hopecore**  
 A bot designed to spread positivity and motivation, featuring custom daily reminders and image-based responses.  

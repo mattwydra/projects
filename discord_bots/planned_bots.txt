@@ -1,0 +1,11 @@
+Recommendation Microservice
+        Suggests games, anime, or movies based on user input.
+        Tracks personal library and preferences.
+        Parameters: genre, length, ratings, etc.
+
+To-Do List/Calendar App
+        Includes:
+        Event categorization with custom reminders.
+        Support for daily, weekly, and monthly tasks.
+        Motivational quotes.
+        Scanning future events for priority tasks.
