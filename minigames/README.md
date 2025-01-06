@@ -43,7 +43,7 @@ This repository is a work in progress. Some features may not work as intended, a
 #### 7. Typing Practice
 - For becoming a more proficient and accurate typer
 - Includes multiple game modes for numerous use cases
-- More info can be found [here](minigames/typing_practice_hub/README.md)
+- More info can be found [here](typing_practice_hub/README.md)
 
 #### 8. (currently broken) **Database Manager**
 - First attempt at database utilization
@@ -51,9 +51,9 @@ This repository is a work in progress. Some features may not work as intended, a
     - Reason: re-use logic for highscore management across applications
 
 ### Upcoming Features
-- More games from the [planned list](minigames/program_list.txt)
-- More features for the [Aim Trainer](minigames/aim_trainer/issues_aim_trainer.txt), [Number Memory](minigames/number_memory/issues_number_memory.txt), and [Clicker Game](minigames/count_clicker/issues_count_clicker.txt)
-- QoL updates for [all programs](minigames/feature_list_all_programs.txt)
+- More games from the [planned list](program_list.txt)
+- More features for the [Aim Trainer](aim_trainer/issues_aim_trainer.txt), [Number Memory](number_memory/issues_number_memory.txt), and [Clicker Game](count_clicker/issues_count_clicker.txt)
+- QoL updates for [all programs](feature_list_all_programs.txt)
 - Database to house all highscores in the user's personal hub
 
 Thanks for reading!
