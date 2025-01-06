@@ -1,0 +1,11 @@
+Planned features:
+
+	More gamemodes
+	Powerups
+	Difficulty levels
+	Eventual 3d display
+
+Planned enhancements:
+
+	Lessen the effect of gravity
+	Move variability to obstacle dimensions
