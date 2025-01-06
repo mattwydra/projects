@@ -9,3 +9,7 @@ Database Integration:
 Future Support:
 
     Ensure support on different browsers (chrome, etc.)
+
+Discord Integration:
+
+    Add functionality with discord bots where they can deploy the minigames via a command in discord.
