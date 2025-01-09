@@ -18,27 +18,32 @@ This repository is a work in progress. Some features may not work as intended, a
 #### 2. **Cookie Clicker**
 - Similar to the Clicker Game, but with an image to click instead of just a button
 - Will eventually have other features like power-ups
+- [read more](cookie_clicker/README.md)
 
 #### 3. **Clicks Per Second (CPS) Game**
 - Calculates clicks per second.
 - Select game duration (5 seconds, 10 seconds, 1 minute).
 - Tracks and saves highscores.
+- [read more](cps/README.md)
 
 #### 4. **Aim Trainer**
 - Helps to get better aim for games like Valorant.
 - Select game duration (5 seconds, 10 seconds, 1 minute).
 - Tracks and saves highscores.
+- [read more](aim_trainer/README.md)
 
 #### 5. **Reaction Time Trainer**
 - Helps to improve reaction time
 - Click on the screen when it changes colors to find your reaction time
 - Future updates will improve functionality
     - Color blind mode, averaging the RT over 5 attempts, highscore capabilities, and more
+- [read more](rt_trainer/README.md)
 
 #### 6. **Number Memory**
 - Helps to improve short-term memory.
 - Memorization time increases with each level.
 - Will eventually track and save highscores.
+- [read more](number_memory/README.md)
 
 #### 7. Typing Practice
 - For becoming a more proficient and accurate typer
