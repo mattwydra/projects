@@ -21,11 +21,13 @@ async function getQuotes() {
 async function getImageList(folder) {
   const apiUrl = `https://api.github.com/repos/mattwydra/projects/contents/discord_bots/hopecore_v1/static/assets/${folder}`;
 
-  const response = await fetch(apiUrl, {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  });
+  // PAT required for more than 60 requests; this was needed in testing (unsure if needed for production)
+  // const token = 'TOKEN';
+  // const response = await fetch(apiUrl, {
+  //   headers: {
+  //     'Authorization': `Bearer ${token}`
+  //   }
+  // });
 
   // Check if the response is successful
   if (!response.ok) {
