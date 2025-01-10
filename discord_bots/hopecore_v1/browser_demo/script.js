@@ -3,61 +3,48 @@ console.log("Script is loaded!");
 // Select the generate button
 const generateButton = document.getElementById("hopecore-link");
 
-// GitHub API paths for the image folders (make sure to replace `your-username` and `your-repo` with actual values)
-const regularImagePath = "https://raw.githubusercontent.com/mattwydra/projects/main/discord_bots/hopecore_v1/static/assets/hc";
-const specialImagePath = "https://raw.githubusercontent.com/mattwydra/projects/main/discord_bots/hopecore_v1/static/assets/daily-reminder-that-you-will-have-this";
-
+// GitHub raw paths for images
+const regularImagePath = "https://raw.githubusercontent.com/gymney/hopecore/main/assets/hc";
+const specialImagePath = "https://raw.githubusercontent.com/gymney/hopecore/main/assets/daily-reminder-that-you-will-have-this";
 
 // Function to fetch and parse the quotes file
 async function getQuotes() {
-  console.log("Fetching quotes from './assets/quotes.txt'...");
-  const response = await fetch("./assets/quotes.txt");
-  const text = await response.text();
-  console.log("Quotes fetched successfully!");
-  return text.split("\n").filter((line) => line.trim() !== "");
+  try {
+    console.log("Fetching quotes...");
+    const response = await fetch("./assets/quotes.txt"); // Adjust path if needed
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    const text = await response.text();
+    console.log("Quotes fetched successfully!");
+    return text.split("\n").filter((line) => line.trim() !== "");
+  } catch (error) {
+    console.error("Error fetching quotes:", error);
+    return [];
+  }
 }
 
-// Function to fetch the image list from GitHub API
-async function getImageList(folder) {
-  // const apiUrl = `https://api.github.com/repos/mattwydra/projects/contents/discord_bots/hopecore_v1/static/assets/${folder}`;
-  const apiUrl = `https://api.github.com/repos/mattwydra/projects/contents/discord_bots/hopecore_v1/static/assets/${folder.replace('https://raw.githubusercontent.com/mattwydra/projects/main/', '')}`;
+// Function to get a random image URL from GitHub
+async function getRandomImage(folderPath) {
+  const apiUrl = `https://api.github.com/repos/gymney/hopecore/contents/${folderPath}`;
+  try {
+    const response = await fetch(apiUrl);
+    const files = await response.json();
 
+    const imageFilenames = files
+      .filter(file => file.name.toLowerCase().endsWith('.png'))
+      .map(file => file.name);
 
-  // PAT required for more than 60 requests. __TOKEN_PLACEHOLDER__ is updated with the deploy.yml file
-  const token = "__TOKEN_PLACEHOLDER__"; // This will be replaced during deployment
-  const response = await fetch(apiUrl, {
-    headers: {
-      'Authorization': `Bearer ${token}`
+    if (imageFilenames.length === 0) {
+      console.error("No images found!");
+      return "";
     }
-  });
 
-  // Check if the response is successful
-
-  if (!response.ok) {
-    console.error("Error fetching folder contents:", response.statusText);
-    return [];
+    const randomIndex = Math.floor(Math.random() * imageFilenames.length);
+    const imageName = imageFilenames[randomIndex];
+    return `${folderPath}/${imageName}`;
+  } catch (error) {
+    console.error("Error fetching image filenames:", error);
+    return "";
   }
-
-  const data = await response.json();
-  console.log("GitHub API Response:", data);
-
-  // Ensure the data is an array and filter out non-file items
-  if (Array.isArray(data)) {
-    const imageFiles = data.filter(item => item.type === 'file').map(item => item.name);
-    console.log("Filtered image files:", imageFiles);
-    return imageFiles;
-  } else {
-    console.error("Expected an array but received:", typeof data);
-    return [];
-  }
-}
-
-// Function to get a random image from a list
-function getRandomImage(imagesArray) {
-  console.log("Selecting a random image...");
-  const randomImage = imagesArray[Math.floor(Math.random() * imagesArray.length)];
-  console.log("Random image selected:", randomImage);
-  return randomImage;
 }
 
 // Function to generate the hopecore content
@@ -67,7 +54,10 @@ async function generateHopecore() {
 
     // Load quotes
     const quotes = await getQuotes();
-    console.log("Quotes loaded:", quotes);
+    if (quotes.length === 0) {
+      console.error("No quotes available!");
+      return;
+    }
 
     const randomQuote = quotes[Math.floor(Math.random() * quotes.length)].trim();
     console.log("Random quote selected:", randomQuote);
@@ -76,26 +66,16 @@ async function generateHopecore() {
     const isSpecialQuote = randomQuote.toLowerCase() === "daily reminder that you will have this";
     console.log("Is this a special quote?", isSpecialQuote);
 
-    // Load the image list (regular and special images)
-    const folderImages = await getImageList(isSpecialQuote ? 'daily-reminder-that-you-will-have-this' : 'hc');
-    console.log("Selected image list:", folderImages);
+    // Get a random image URL
+    const folderPath = isSpecialQuote ? "assets/daily-reminder-that-you-will-have-this" : "assets/hc";
+    const imageUrl = await getRandomImage(folderPath);
+    if (!imageUrl) return; // Exit if no image URL is generated
 
-    // Check if there are any images in the folder
-    if (folderImages.length === 0) {
-      console.error("No images found in the folder!");
-      return;
-    }
+    console.log("Random image URL:", imageUrl);
 
-    // Get a random image from the selected list
-    const randomImagePath = getRandomImage(folderImages);
-    console.log("Random image path:", randomImagePath);
-
-
-    console.log("Image URL:", isSpecialQuote ? `${specialImagePath}/${randomImagePath}` : `${regularImagePath}/${randomImagePath}`);
-
-    // Create image URL by combining folder path with image filename
+    // Create and display the image and quote
     const imageElement = document.createElement("img");
-    imageElement.src = isSpecialQuote ? `${specialImagePath}/${randomImagePath}` : `${regularImagePath}/${randomImagePath}`;
+    imageElement.src = imageUrl;
     imageElement.alt = "Generated Hopecore Image";
     imageElement.style.maxWidth = "100%";
     imageElement.style.marginTop = "14px";
@@ -106,9 +86,8 @@ async function generateHopecore() {
     quoteElement.style.marginTop = "25px";
     quoteElement.style.fontWeight = "bold";
 
-    // Clear previous content and append new
+    // Update the result container
     const resultContainer = document.getElementById("result");
-    console.log("Clearing previous content...");
     resultContainer.innerHTML = "";
     resultContainer.appendChild(quoteElement);
     resultContainer.appendChild(imageElement);
@@ -119,4 +98,8 @@ async function generateHopecore() {
 }
 
 // Attach the event listener
-generateButton.addEventListener("click", generateHopecore);
+if (generateButton) {
+  generateButton.addEventListener("click", generateHopecore);
+} else {
+  console.error("Generate button not found!");
+}
