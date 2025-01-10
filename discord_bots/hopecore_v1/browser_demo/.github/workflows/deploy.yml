@@ -1,22 +1,33 @@
-name: Deploy GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
     branches:
-      - main  # Trigger deployment when pushing to the main branch
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the repository
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v2
 
-      # Deploy to GitHub Pages
+      - name: Generate Image List
+        run: |
+          echo "Fetching image list from GitHub API..."
+          mkdir -p assets
+          curl -H "Authorization: token ${{ secrets.PERSONAL_ACCESS_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/mattwydra/projects/contents/discord_bots/hopecore_v1/static/assets/hc \
+            | jq -r '[.[] | select(.type=="file") | .download_url] | {"hc": .}' > assets/image-list.json
+          curl -H "Authorization: token ${{ secrets.PERSONAL_ACCESS_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/mattwydra/projects/contents/discord_bots/hopecore_v1/static/assets/daily-reminder-that-you-will-have-this \
+            | jq -r '[.[] | select(.type=="file") | .download_url] | {"daily-reminder-that-you-will-have-this": .}' >> assets/image-list.json
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          publish_dir: ./  # Use the root directory of your repository
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./  # Assuming this is the directory with your static site files
