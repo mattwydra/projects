@@ -10,24 +10,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      - name: Generate Image List
-        run: |
-          echo "Fetching image list from GitHub API..."
-          mkdir -p assets
-          curl -H "Authorization: token ${{ secrets.PERSONAL_ACCESS_TOKEN }}" \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/mattwydra/projects/contents/discord_bots/hopecore_v1/static/assets/hc \
-            | jq -r '[.[] | select(.type=="file") | .download_url] | {"hc": .}' > assets/image-list.json
-          curl -H "Authorization: token ${{ secrets.PERSONAL_ACCESS_TOKEN }}" \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/mattwydra/projects/contents/discord_bots/hopecore_v1/static/assets/daily-reminder-that-you-will-have-this \
-            | jq -r '[.[] | select(.type=="file") | .download_url] | {"daily-reminder-that-you-will-have-this": .}' >> assets/image-list.json
+    - name: Install dependencies
+      run: npm install
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./  # Assuming this is the directory with your static site files
+    - name: Inject GitHub Token
+      run: |
+        echo "Injecting token..."
+        sed -i "s/__TOKEN_PLACEHOLDER__/${{ secrets.PERSONAL_ACCESS_TOKEN }}/g" ../../script.js
+
+    - name: Build project
+      run: npm run build # Adjust based on your project setup
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./build
