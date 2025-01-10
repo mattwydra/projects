@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Test</title>
+    <link rel="stylesheet" href="hopecore.css" />
+  </head>
+  <body>
+    <h1>Image Loading Test</h1>
+    <button id="load-image">Load Test Image</button>
+    <div id="image-container" style="margin-top: 20px"></div>
+
+    <script>
+      document.getElementById("load-image").addEventListener("click", () => {
+        const imagePath =
+          "assets/daily-reminder-that-you-will-have-this/IMG_1047.png";
+
+        const imageElement = document.createElement("img");
+        imageElement.src = imagePath;
+        imageElement.alt = "Test Image";
+        imageElement.style.maxWidth = "100%";
+
+        const container = document.getElementById("image-container");
+        container.innerHTML = ""; // Clear any existing images
+        container.appendChild(imageElement);
+      });
+    </script>
+  </body>
+</html>
