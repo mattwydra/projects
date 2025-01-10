@@ -21,15 +21,16 @@ async function getQuotes() {
 async function getImageList(folder) {
   const apiUrl = `https://api.github.com/repos/mattwydra/projects/contents/discord_bots/hopecore_v1/static/assets/${folder}`;
 
-  // PAT required for more than 60 requests; this was needed in testing (unsure if needed for production)
-  // const token = 'TOKEN';
-  // const response = await fetch(apiUrl, {
-  //   headers: {
-  //     'Authorization': `Bearer ${token}`
-  //   }
-  // });
+  // PAT required for more than 60 requests. __TOKEN_PLACEHOLDER__ is updated with the deploy.yml file
+  const token = "__TOKEN_PLACEHOLDER__"; // This will be replaced during deployment
+  const response = await fetch(apiUrl, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
 
   // Check if the response is successful
+
   if (!response.ok) {
     console.error("Error fetching folder contents:", response.statusText);
     return [];
@@ -96,6 +97,7 @@ async function generateHopecore() {
     imageElement.alt = "Generated Hopecore Image";
     imageElement.style.maxWidth = "100%";
     imageElement.style.marginTop = "14px";
+    imageElement.style.marginBottom = "24px";
 
     const quoteElement = document.createElement("div");
     quoteElement.textContent = randomQuote;
