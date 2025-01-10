@@ -19,7 +19,9 @@ async function getQuotes() {
 
 // Function to fetch the image list from GitHub API
 async function getImageList(folder) {
-  const apiUrl = `https://api.github.com/repos/mattwydra/projects/contents/discord_bots/hopecore_v1/static/assets/${folder}`;
+  // const apiUrl = `https://api.github.com/repos/mattwydra/projects/contents/discord_bots/hopecore_v1/static/assets/${folder}`;
+  const apiUrl = `https://api.github.com/repos/mattwydra/projects/contents/discord_bots/hopecore_v1/static/assets/${folder.replace('https://raw.githubusercontent.com/mattwydra/projects/main/', '')}`;
+
 
   // PAT required for more than 60 requests. __TOKEN_PLACEHOLDER__ is updated with the deploy.yml file
   const token = "__TOKEN_PLACEHOLDER__"; // This will be replaced during deployment
