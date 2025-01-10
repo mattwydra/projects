@@ -3,7 +3,7 @@ console.log("Script is loaded!");
 // Select the generate button
 const generateButton = document.getElementById("hopecore-link");
 
-// GitHub raw paths for images
+// Correct GitHub raw paths for images (using the updated repo links)
 const regularImagePath = "https://raw.githubusercontent.com/gymney/hopecore/main/assets/hc";
 const specialImagePath = "https://raw.githubusercontent.com/gymney/hopecore/main/assets/daily-reminder-that-you-will-have-this";
 
@@ -27,14 +27,27 @@ async function getRandomImage(folderPath) {
   const apiUrl = `https://api.github.com/repos/gymney/hopecore/contents/${folderPath}`;
   try {
     const response = await fetch(apiUrl);
+
+    // If the folder doesn't exist or is empty, return an empty string
+    if (response.status === 404) {
+      console.error(`Folder "${folderPath}" not found.`);
+      return "";
+    }
+
     const files = await response.json();
 
+    if (!Array.isArray(files)) {
+      console.error("Unexpected response format:", files);
+      return "";
+    }
+
+    // Filter for .png and .PNG files (case-insensitive)
     const imageFilenames = files
       .filter(file => file.name.toLowerCase().endsWith('.png'))
       .map(file => file.name);
 
     if (imageFilenames.length === 0) {
-      console.error("No images found!");
+      console.error("No images found in the folder!");
       return "";
     }
 
