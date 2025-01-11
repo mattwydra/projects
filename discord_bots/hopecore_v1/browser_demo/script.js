@@ -75,14 +75,12 @@ async function generateHopecore() {
     const randomQuote = quotes[Math.floor(Math.random() * quotes.length)].trim();
     console.log("Random quote selected:", randomQuote);
 
-    // Determine if the quote is special
     const isSpecialQuote = randomQuote.toLowerCase() === "daily reminder that you will have this";
     console.log("Is this a special quote?", isSpecialQuote);
 
-    // Get a random image URL
     const folderPath = isSpecialQuote ? "assets/daily-reminder-that-you-will-have-this" : "assets/hc";
     const imageUrl = await getRandomImage(folderPath);
-    if (!imageUrl) return; // Exit if no image URL is generated
+    if (!imageUrl) return;
 
     console.log("Random image URL:", imageUrl);
 
@@ -90,25 +88,34 @@ async function generateHopecore() {
     const imageElement = document.createElement("img");
     imageElement.src = imageUrl;
     imageElement.alt = "Generated Hopecore Image";
-    imageElement.style.maxWidth = "100%";
-    imageElement.style.marginTop = "14px";
-    imageElement.style.marginBottom = "24px";
+    imageElement.style.margin = "14px auto";
+    imageElement.style.display = "block"; // Ensures the image is centered
+    imageElement.style.maxWidth = "80%"; // Responsive sizing
+    imageElement.style.height = "auto"; // Maintain aspect ratio
 
     const quoteElement = document.createElement("div");
     quoteElement.textContent = randomQuote;
     quoteElement.style.marginTop = "25px";
-    quoteElement.style.fontWeight = "bold";
+    quoteElement.style.textAlign = "center"; // Center text by default
 
-    // Update the result container
     const resultContainer = document.getElementById("result");
     resultContainer.innerHTML = "";
     resultContainer.appendChild(quoteElement);
     resultContainer.appendChild(imageElement);
+
+    // Adjust the quote width after the image loads
+    imageElement.onload = () => {
+      const imageWidth = imageElement.offsetWidth; // Get the rendered width of the image
+      quoteElement.style.maxWidth = `${imageWidth}px`; // Match the quote's max width to the image
+      quoteElement.style.margin = "0 auto"; // Center the quote below the image
+    };
+
     console.log("Hopecore content generated successfully!");
   } catch (error) {
     console.error("Error generating hopecore content:", error);
   }
 }
+
 
 // Attach the event listener
 if (generateButton) {
