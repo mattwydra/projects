@@ -8,10 +8,12 @@ body {
 
 p {
   color: gold;
+  font-size: 50px;
 }
 
 #cookie {
-  width: 200px;
+  /* width: 200px; */
+  align-items: center;
   cursor: pointer;
   border: 5px solid #d2691e;
   border-radius: 50%;
@@ -25,6 +27,6 @@ p {
 }
 
 #cookie-count {
-  font-size: 2rem;
+  font-size: 3rem;
   color: lavenderblush;
 }
