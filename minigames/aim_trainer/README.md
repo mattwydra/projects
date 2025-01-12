@@ -56,7 +56,7 @@ The `aim_trainer.js` script implements the game logic. Key components include:
 ---
 
 ## Future Features
-The following features are planned for future implementation (see `issues_aim_trainer.txt`):
+The following features are planned for future implementation, and can be found [here](issues_aim_trainer.txt):
 
 1. **Display Top 5 Scores**:
    - Show a leaderboard of the top 5 scores with their associated accuracies.
