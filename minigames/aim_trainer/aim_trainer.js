@@ -156,8 +156,7 @@ function stopGame(completed) {
       saveBtn.onclick = () => {
         if (score > highScore) {
           alert(
-            `NEW HIGHSCORE!\n${score} is ${
-              score - highScore
+            `NEW HIGHSCORE!\n${score} is ${score - highScore
             } greater than your previous highscore of: ${highScore}\nyour previous highest reaction time was: ${(
               10000 / highScore
             ).toFixed(0)}\nyour new highest reaction time is: ${(
@@ -229,3 +228,15 @@ giveUpBtn.onclick = () => {
   startButton.hidden = false;
   completed = 1;
 };
+
+const themeToggle = document.getElementById("themeToggle")
+themeToggle.addEventListener("click", () => {
+  const body = document.body;
+  const currentTheme = body.getAttribute("data-theme");
+
+  if (currentTheme === "light") {
+    body.setAttribute("data-theme", "dark");
+  } else {
+    body.setAttribute("data-theme", "light");
+  }
+});

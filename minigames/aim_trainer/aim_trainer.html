@@ -1,31 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=0.5" />
-    <title>Aim Trainer</title>
-    <link rel="stylesheet" href="aim_trainer.css" />
 
-  </head>
-  <body>
-    <h1>Aim Trainer</h1>
-    <div id="timer">time left: 10s</div>
-    <button id="start-button">start</button>
-    <p>
-      <span id="score">score: 0</span><span id="accuracy">accuracy: 0</span>
-    </p>
-    <div id="game-area" hidden></div>
-    <!-- <p>This is <span style="color: red">important</span> text.</p> -->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=0.5" />
+  <title>Aim Trainer</title>
+  <link rel="stylesheet" href="aim_trainer.css" />
 
-    <button id="save-score">save score?</button>
-    <button id="reset-button">reset?</button>
-    <button id="give-up">give up?</button>
+</head>
 
-    <!-- show PBs -->
-    <div id="highest-score">highscore: 0</div>
-    <div id="highest-accuracy">highest accuracy: 0%</div>
-    <div id="highest-reaction-time">reaction time: poor</div>
+<body>
+  <h1>Aim Trainer</h1>
+  <div><button class="toggle-btn" id="themeToggle">Toggle Dark/Light Mode</button></div>
+  <div id="timer">time left: 10s</div>
+  <button id="start-button">start</button>
+  <p>
+    <span id="score">score: 0</span><span id="accuracy">accuracy: 0</span>
+  </p>
+  <div id="game-area" hidden></div>
+  <!-- <p>This is <span style="color: red">important</span> text.</p> -->
 
-    <script src="aim_trainer.js"></script>
-  </body>
+  <button id="save-score">save score?</button>
+  <button id="reset-button">reset?</button>
+  <button id="give-up">give up?</button>
+
+  <!-- show PBs -->
+  <div id="highest-score">highscore: 0</div>
+  <div id="highest-accuracy">highest accuracy: 0%</div>
+  <div id="highest-reaction-time">reaction time: poor</div>
+
+  <script src="aim_trainer.js"></script>
+</body>
+
 </html>
