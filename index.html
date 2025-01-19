@@ -1,62 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Minigames Hub</title>
-    <style>
-      body {
-        background-color: black;
-        color: aliceblue;
-        font-family: Arial, sans-serif;
-        text-align: center;
-        margin: 0;
-        padding: 0;
-      }
-      h1 {
-        margin-top: 20px;
-      }
-      .game-link {
-        display: inline-block;
-        margin: 15px;
-        padding: 10px 20px;
-        background-color: rosybrown;
-        color: aliceblue;
-        text-decoration: none;
-        border-radius: 5px;
-        font-size: 1.2em;
-      }
-      .game-link:hover {
-        background-color: lavenderblush;
-        color: darksalmon;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Welcome to My Minigames Hub!</h1>
-    <div>
-      <a href="minigames/count_clicker/index.html" class="game-link">count clicker</a>
-      <a href="minigames/cookie_clicker/cookie_clicker.html" class="game-link">cookie clicker</a>
-    </div>
-    <a href="minigames/aim_trainer/aim_trainer.html" class="game-link">aim trainer</a>
-    <a href="minigames/rt_trainer/index.html" class="game-link">reaction time trainer</a>
-    <a href="minigames/cps/index.html" class="game-link">cps tester</a>
 
-    <div>
-      <a href="minigames/number_memory/index.html" class="game-link">number memory</a>
-    </div>
-    <div>
-      <a href="minigames/typing_practice_hub/hub.html" class=game-link>typing practice</a>
-    </div>
-    <div>
-      <a href="highscore_database/templates/index.html" class="game-link">test database management</a>
-    </div>
-    <div>
-      <a href="discord_bots/hopecore_v1/browser_demo/index.html" class="game-link">hopecore demo</a>
-    </div>
-    <div><a href="discord_bots/test_img_gen/index.html" class="game-link">image generation demo</a></div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minigames Hub</title>
+  <style>
+    body {
+      background-color: black;
+      color: aliceblue;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.3s, color 0.3s;
+    }
 
-    <!-- placeholder -->
-    <!-- <a href="minigames/[directory]/index.html" class="game-link">[game]</a> -->
-  </body>
+    body[data-theme="light"] {
+      background-color: white;
+      color: black;
+    }
+
+    h1 {
+      margin-top: 20px;
+    }
+
+    .game-link {
+      display: inline-block;
+      margin: 15px;
+      padding: 10px 20px;
+      background-color: rosybrown;
+      color: aliceblue;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 1.2em;
+    }
+
+    body[data-theme="light"] .game-link {
+      background-color: lightgray;
+      color: black;
+    }
+
+    .game-link:hover {
+      background-color: lavenderblush;
+      color: darksalmon;
+    }
+
+    body[data-theme="light"] .game-link:hover {
+      background-color: darksalmon;
+      color: white;
+    }
+
+    .toggle-btn {
+      margin: 20px;
+      padding: 10px 15px;
+      font-size: 1em;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: darkgray;
+      color: black;
+    }
+
+    body[data-theme="light"] .toggle-btn {
+      background-color: gray;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Welcome to My Minigames Hub!</h1>
+  <button class="toggle-btn" id="themeToggle">Toggle Dark/Light Mode</button>
+  <div>
+    <a href="minigames/count_clicker/index.html" class="game-link">count clicker</a>
+    <a href="minigames/cookie_clicker/cookie_clicker.html" class="game-link">cookie clicker</a>
+  </div>
+  <a href="minigames/aim_trainer/aim_trainer.html" class="game-link">aim trainer</a>
+  <a href="minigames/rt_trainer/index.html" class="game-link">reaction time trainer</a>
+  <a href="minigames/cps/index.html" class="game-link">cps tester</a>
+
+  <div>
+    <a href="minigames/number_memory/index.html" class="game-link">number memory</a>
+  </div>
+  <div>
+    <a href="minigames/typing_practice_hub/hub.html" class="game-link">typing practice</a>
+  </div>
+  <div>
+    <a href="highscore_database/templates/index.html" class="game-link">test database management</a>
+  </div>
+  <div>
+    <a href="discord_bots/hopecore_v1/browser_demo/index.html" class="game-link">hopecore demo</a>
+  </div>
+  <div>
+    <a href="discord_bots/test_img_gen/index.html" class="game-link">image generation demo</a>
+  </div>
+
+  <script>
+    const themeToggle = document.getElementById("themeToggle");
+
+    themeToggle.addEventListener("click", () => {
+      const body = document.body;
+      const currentTheme = body.getAttribute("data-theme");
+
+      if (currentTheme === "light") {
+        body.setAttribute("data-theme", "dark");
+      } else {
+        body.setAttribute("data-theme", "light");
+      }
+    });
+  </script>
+</body>
+
 </html>
