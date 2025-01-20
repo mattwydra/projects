@@ -92,3 +92,15 @@ saveAverageBtn.addEventListener("click", () => {
 saveBestBtn.addEventListener("click", () => {
   alert(`Best time (${bestTime.toFixed(2)} ms) saved!`);
 });
+
+const themeToggle = document.getElementById("themeToggle")
+themeToggle.addEventListener("click", () => {
+  const body = document.body;
+  const currentTheme = body.getAttribute("data-theme");
+
+  if (currentTheme === "light") {
+    body.setAttribute("data-theme", "dark");
+  } else {
+    body.setAttribute("data-theme", "light");
+  }
+});
