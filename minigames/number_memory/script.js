@@ -114,9 +114,8 @@ function fail() {
   if (startingLength === 6) {
     incorrectDisplay.textContent = `That was incorrect. Wanna try again?`;
   } else {
-    incorrectDisplay.textContent = `That was incorrect. Your final score was: ${
-      startingLength - 1
-    }. Wanna try again?`;
+    incorrectDisplay.textContent = `That was incorrect. Your final score was: ${startingLength - 1
+      }. Wanna try again?`;
   }
   resetBtn.hidden = false;
   saveBtn.hidden = false;
@@ -129,8 +128,7 @@ function fail() {
     } else if (startingLength - 1 > prev_high) {
       localStorage.setItem("highscore", startingLength - 1);
       alert(
-        `NEW HIGHSCORE! You managed to memorize a string up to length ${
-          startingLength - 1
+        `NEW HIGHSCORE! You managed to memorize a string up to length ${startingLength - 1
         }!`
       );
     } else {
@@ -163,3 +161,15 @@ function startGame() {
   generateSequence();
   displaySequence();
 }
+
+const themeToggle = document.getElementById("themeToggle")
+themeToggle.addEventListener("click", () => {
+  const body = document.body;
+  const currentTheme = body.getAttribute("data-theme");
+
+  if (currentTheme === "light") {
+    body.setAttribute("data-theme", "dark");
+  } else {
+    body.setAttribute("data-theme", "light");
+  }
+});
