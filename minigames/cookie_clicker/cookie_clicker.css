@@ -15,11 +15,11 @@ p {
   /* width: 200px; */
   align-items: center;
   cursor: pointer;
-  border: 5px solid #d2691e;
-  border-radius: 50%;
+  border: 6px solid #d38248;
+  border-radius: 100%;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   transition: transform 0.1s;
-
+  object-fit: none;
 }
 
 #cookie:active {
@@ -29,4 +29,53 @@ p {
 #cookie-count {
   font-size: 3rem;
   color: lavenderblush;
+}
+
+body[data-theme="light"] {
+  background-color: wheat;
+  color: rgb(57, 44, 112);
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 50px;
+}
+
+body[data-theme="light"] p {
+  color: rgb(114, 108, 108);
+  font-size: 50px;
+}
+
+body[data-theme="light"] #cookie {
+  /* width: 200px; */
+  align-items: center;
+  cursor: pointer;
+  border: 5px solid #d2691e;
+  border-radius: 50%;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.1s;
+
+}
+
+body[data-theme="light"] #cookie:active {
+  transform: scale(0.95);
+}
+
+body[data-theme="light"] #cookie-count {
+  font-size: 3rem;
+  color: rgb(134, 66, 89);
+}
+
+body[data-theme="light"] button {
+  background-color: rosybrown;
+  color: lavenderblush;
+}
+
+.toggle-btn {
+  margin: 20px;
+  padding: 10px 15px;
+  font-size: 1em;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: darkgray;
+  color: black;
 }
