@@ -23,3 +23,28 @@ h1 {
   background-color: lavenderblush;
   color: darksalmon;
 }
+
+.toggle-btn {
+  margin: 20px;
+  padding: 10px 15px;
+  font-size: 1em;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: darkgray;
+  color: black;
+}
+
+body[data-theme="light"] .toggle-btn {
+  background-color: rgba(197, 109, 109, 0.863);
+  color: lavenderblush;
+}
+
+body[data-theme="light"] {
+  font-family: Arial, sans-serif;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  background-color: rgb(187, 187, 206);
+}
