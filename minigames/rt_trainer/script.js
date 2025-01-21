@@ -5,6 +5,18 @@ const instructions = document.getElementById("instructions");
 const result = document.getElementById("result");
 const stats = document.getElementById("stats");
 
+const themeToggle = document.getElementById("themeToggle")
+themeToggle.addEventListener("click", () => {
+  const body = document.body;
+  const currentTheme = body.getAttribute("data-theme");
+
+  if (currentTheme === "light") {
+    body.setAttribute("data-theme", "dark");
+  } else {
+    body.setAttribute("data-theme", "light");
+  }
+});
+
 let reactionTimes = [];
 let bestAverage = null;
 let bestTime = null;
@@ -25,7 +37,7 @@ function startGame() {
   let attempt = 0;
 
   function nextAttempt() {
-    instructions.textContent = "Wait for the screen to turn green, then click!";
+    instructions.textContent = "Wait for the screen to change color, then click!";
     if (attempt >= 5) {
       endGame();
       return;
@@ -35,7 +47,7 @@ function startGame() {
     setTimeout(() => {
       const startTime = performance.now();
       instructions.textContent = "CLICK NOW!";
-      document.body.style.backgroundColor = "green";
+      document.body.style.backgroundColor = document.body.getAttribute("data-theme") === "light" ? "#fdfd96" : "crimson";
 
       function handleClick() {
         const reactionTime = performance.now() - startTime;
@@ -93,14 +105,3 @@ saveBestBtn.addEventListener("click", () => {
   alert(`Best time (${bestTime.toFixed(2)} ms) saved!`);
 });
 
-const themeToggle = document.getElementById("themeToggle")
-themeToggle.addEventListener("click", () => {
-  const body = document.body;
-  const currentTheme = body.getAttribute("data-theme");
-
-  if (currentTheme === "light") {
-    body.setAttribute("data-theme", "dark");
-  } else {
-    body.setAttribute("data-theme", "light");
-  }
-});
