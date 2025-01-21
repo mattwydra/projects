@@ -8,6 +8,18 @@ let chars = []; // List of possible characters
 let round = 0; // Track the current round
 const totalRounds = 10; // Total rounds per game
 
+const themeToggle = document.getElementById("themeToggle")
+themeToggle.addEventListener("click", () => {
+  const body = document.body;
+  const currentTheme = body.getAttribute("data-theme");
+
+  if (currentTheme === "light") {
+    body.setAttribute("data-theme", "dark");
+  } else {
+    body.setAttribute("data-theme", "light");
+  }
+});
+
 // DOM elements
 const highscoreDisplay = document.getElementById("highscore-display");
 const charToEnter = document.getElementById("char-to-enter");
@@ -26,7 +38,7 @@ textBox.focus();
 // Handle key press to start the game
 function handleStartKey(event) {
   if (event.key === "Enter") {
-    introText.textContent = "Type the character below. Press Enter to restart.";
+    introText.textContent = "Type the character below:";
     startGame();
   }
 }
