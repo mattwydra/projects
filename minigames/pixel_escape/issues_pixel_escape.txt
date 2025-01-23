@@ -9,3 +9,5 @@ Planned enhancements:
 
 	Lessen the effect of gravity
 	Move variability to obstacle dimensions
+	Screen shakes when getting hit
+	Game over screen
