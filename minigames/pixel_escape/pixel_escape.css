@@ -1,13 +1,49 @@
+/* Global styles */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #222;
-    color: #fff;
+    background-color: var(--background-color);
+    color: var(--text-color);
     overflow: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
+
 canvas {
     display: block;
     margin: 0 auto;
-    background: #333;
-    border: 2px solid #555;
+    background: var(--canvas-background);
+    border: 2px solid var(--canvas-border);
+}
+
+button.toggle-btn {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: var(--button-background);
+    color: var(--button-text);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dark theme */
+body[data-theme="dark"] {
+    --background-color: #222;
+    --text-color: #fff;
+    --canvas-background: #333;
+    --canvas-border: #555;
+    --button-background: #555;
+    --button-text: #fff;
+}
+
+/* Light theme */
+body[data-theme="light"] {
+    --background-color: #f0f0f0;
+    --text-color: #333;
+    --canvas-background: #fff;
+    --canvas-border: #ccc;
+    --button-background: #ddd;
+    --button-text: #222;
 }
