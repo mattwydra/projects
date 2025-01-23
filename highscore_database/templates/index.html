@@ -22,19 +22,20 @@
         <ul id="inputList"></ul>
 
         <h2>Customize Your Page</h2>
-<form id="customizationForm">
-    <label for="bg-color">Background Color:</label>
-    <input type="color" id="bg-color" name="background_color">
-    
-    <label for="text-color">Text Color:</label>
-    <input type="color" id="text-color" name="text_color">
-    
-    <label for="bg-image">Upload Background Image:</label>
-    <input type="file" id="bg-image-upload" name="background_image_upload" accept="image/*">
-    
-    <button type="button" id="saveBtn">Save Preferences</button>
-    <button type="button" id="resetBtn">Reset Preferences</button>
-</form>
+        <form id="customizationForm" onsubmit="return false;">
+            <label for="bg-color">Background Color:</label>
+            <input type="color" id="bg-color" name="background_color">
+
+            <label for="text-color">Text Color:</label>
+            <input type="color" id="text-color" name="text_color">
+
+            <label for="bg-image">Upload Background Image:</label>
+            <input type="file" id="bg-image-upload" name="background_image_upload" accept="image/*">
+
+            <button type="button" id="saveBtn">Save Preferences</button>
+            <button type="button" id="resetBtn">Reset Preferences</button>
+        </form>
+
 
     </div>
     <script src="script.js"></script>
