@@ -40,9 +40,9 @@ body[data-theme="dark"] {
 
 /* Light theme */
 body[data-theme="light"] {
-    --background-color: #f0f0f0;
+    --background-color: #c98c8c;
     --text-color: #333;
-    --canvas-background: #fff;
+    --canvas-background: #c7bce7;
     --canvas-border: #ccc;
     --button-background: #ddd;
     --button-text: #222;
