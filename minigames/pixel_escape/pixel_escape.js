@@ -58,14 +58,17 @@ function gameLoop() {
   // Obstacle logic
   obstacleTimer++;
   if (obstacleTimer > 90) {
-    const obstacleType = Math.random() > 0.5 ? "destructible" : "indestructible";
+    const isDestructible = Math.random() > 0.5 ? true : false;
+    const isFlying = Math.random() > 0.5 ? true : false;
+    const yPos = isFlying === true ? 200 : 300;
     obstacles.push({
       x: canvas.width,
-      y: 300,
+      y: yPos,
       width: 20,
       height: 20,
-      color: obstacleType === "destructible" ? "#1e90ff" : "#ff6347",
-      type: obstacleType,
+      color: isDestructible === true ? "#1e90ff" : "#ff6347",
+      isDestructible: isDestructible,
+      isFlying: isFlying,
     });
     obstacleTimer = 0;
   }
@@ -107,7 +110,7 @@ function gameLoop() {
         bullet.y < obstacle.y + obstacle.height &&
         bullet.y + bullet.height > obstacle.y
       ) {
-        if (obstacle.type === "destructible") {
+        if (obstacle.isDestructible === true) {
           // Remove bullet and obstacle
           bullets.splice(bulletIndex, 1);
           obstacles.splice(obstacleIndex, 1);
