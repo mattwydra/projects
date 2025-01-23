@@ -11,10 +11,11 @@ let player = {
   color: "#ff4757",
   velocityY: 0,
 };
-let gravity = 0.3; // Reduced gravity for smoother fall
-let jumpStrength = -8; // Adjusted jump velocity
+let gravity = 0.3;
+let jumpStrength = -8;
 let isJumping = false;
 let obstacles = [];
+let bullets = [];
 let obstacleTimer = 0;
 let gameSpeed = 2;
 
@@ -24,6 +25,18 @@ function jump() {
     player.velocityY = jumpStrength;
     isJumping = true;
   }
+}
+
+// Shoot function
+function shoot() {
+  bullets.push({
+    x: player.x + player.width,
+    y: player.y + player.height / 2 - 2, // Centered on the player
+    width: 10,
+    height: 4,
+    color: "#ffdd57",
+    speed: 6,
+  });
 }
 
 // Game loop
@@ -79,29 +92,45 @@ function gameLoop() {
     }
   });
 
+  // Bullet logic
+  bullets.forEach((bullet, bulletIndex) => {
+    bullet.x += bullet.speed;
+
+    ctx.fillStyle = bullet.color;
+    ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+
+    // Check collision with obstacles
+    obstacles.forEach((obstacle, obstacleIndex) => {
+      if (
+        bullet.x < obstacle.x + obstacle.width &&
+        bullet.x + bullet.width > obstacle.x &&
+        bullet.y < obstacle.y + obstacle.height &&
+        bullet.y + bullet.height > obstacle.y &&
+        obstacle.type === "destructible"
+      ) {
+        // Remove bullet and obstacle
+        bullets.splice(bulletIndex, 1);
+        obstacles.splice(obstacleIndex, 1);
+      }
+    });
+
+    // Remove bullets that go off-screen
+    if (bullet.x > canvas.width) {
+      bullets.splice(bulletIndex, 1);
+    }
+  });
 
   requestAnimationFrame(gameLoop);
 }
 
-// Event listener for jump
+// Event listeners
 window.addEventListener("keydown", (e) => {
   if (e.code === "Space") {
     jump();
+  } else if (e.code === "KeyF") {
+    shoot();
   }
 });
 
 // Start the game
 gameLoop();
-
-// Theme toggle logic
-const themeToggle = document.getElementById("themeToggle");
-themeToggle.addEventListener("click", () => {
-  const body = document.body;
-  const currentTheme = body.getAttribute("data-theme");
-
-  if (currentTheme === "light") {
-    body.setAttribute("data-theme", "dark");
-  } else {
-    body.setAttribute("data-theme", "light");
-  }
-});
