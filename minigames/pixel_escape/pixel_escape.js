@@ -19,6 +19,8 @@ let bullets = [];
 let obstacleTimer = 0;
 let gameSpeed = 2;
 
+let isGameOver = false;
+
 // Jump function
 function jump() {
   if (!isJumping) {
@@ -41,6 +43,12 @@ function shoot() {
 
 // Game loop
 function gameLoop() {
+
+  if (isGameOver) {
+    drawGameOver();
+    return;
+  }
+
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   // Player logic
@@ -91,9 +99,23 @@ function gameLoop() {
       player.y < obstacle.y + obstacle.height &&
       player.y + player.height > obstacle.y
     ) {
-      document.location.reload();
+      isGameOver = true; // Trigger Game Over
     }
   });
+
+  // Event listeners
+  window.addEventListener("keydown", (e) => {
+    if (!isGameOver) {
+      if (e.code === "Space") {
+        jump();
+      } else if (e.code === "KeyF") {
+        shoot();
+      }
+    } else if (e.code === "KeyR") {
+      restartGame();
+    }
+  });
+
 
   // Bullet logic
   bullets.forEach((bullet, bulletIndex) => {
@@ -138,6 +160,32 @@ window.addEventListener("keydown", (e) => {
     shoot();
   }
 });
+
+// Draw Game Over Screen
+function drawGameOver() {
+  ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = "#fff";
+  ctx.font = "36px Arial";
+  ctx.textAlign = "center";
+  ctx.fillText("Game Over", canvas.width / 2, canvas.height / 2 - 20);
+
+  ctx.font = "24px Arial";
+  ctx.fillText("Press R to Restart", canvas.width / 2, canvas.height / 2 + 20);
+}
+
+// Restart Game Function
+function restartGame() {
+  player = { x: 50, y: 300, width: 20, height: 20, color: "#ff4757", velocityY: 0 };
+  obstacles = [];
+  bullets = [];
+  obstacleTimer = 0;
+  isGameOver = false;
+  gameSpeed = 2;
+  gravity = 0.5;
+  gameLoop();
+}
 
 // Start the game
 gameLoop();
