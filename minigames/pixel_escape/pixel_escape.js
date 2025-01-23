@@ -11,7 +11,8 @@ let player = {
   color: "#ff4757",
   velocityY: 0,
 };
-let gravity = 0.3;
+let gravity = 0.3; // Reduced gravity for smoother fall
+let jumpStrength = -8; // Adjusted jump velocity
 let isJumping = false;
 let obstacles = [];
 let obstacleTimer = 0;
@@ -20,7 +21,7 @@ let gameSpeed = 2;
 // Jump function
 function jump() {
   if (!isJumping) {
-    player.velocityY = -10;
+    player.velocityY = jumpStrength;
     isJumping = true;
   }
 }
@@ -44,18 +45,21 @@ function gameLoop() {
   // Obstacle logic
   obstacleTimer++;
   if (obstacleTimer > 90) {
+    const obstacleType = Math.random() > 0.5 ? "destructible" : "indestructible";
     obstacles.push({
       x: canvas.width,
       y: 300,
       width: 20,
       height: 20,
-      color: "#1e90ff",
+      color: obstacleType === "destructible" ? "#1e90ff" : "#ff6347",
+      type: obstacleType,
     });
     obstacleTimer = 0;
   }
 
   obstacles.forEach((obstacle, index) => {
     obstacle.x -= gameSpeed;
+
     ctx.fillStyle = obstacle.color;
     ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
 
@@ -64,17 +68,17 @@ function gameLoop() {
       obstacles.splice(index, 1);
     }
 
-    // Collision detection
+    // Collision detection with player
     if (
       player.x < obstacle.x + obstacle.width &&
       player.x + player.width > obstacle.x &&
       player.y < obstacle.y + obstacle.height &&
       player.y + player.height > obstacle.y
     ) {
-      // alert("Game Over!");
       document.location.reload();
     }
   });
+
 
   requestAnimationFrame(gameLoop);
 }
@@ -89,7 +93,8 @@ window.addEventListener("keydown", (e) => {
 // Start the game
 gameLoop();
 
-const themeToggle = document.getElementById("themeToggle")
+// Theme toggle logic
+const themeToggle = document.getElementById("themeToggle");
 themeToggle.addEventListener("click", () => {
   const body = document.body;
   const currentTheme = body.getAttribute("data-theme");
