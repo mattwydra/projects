@@ -11,7 +11,7 @@ let player = {
   color: "#ff4757",
   velocityY: 0,
 };
-let gravity = 0.5;
+let gravity = 0.3;
 let isJumping = false;
 let obstacles = [];
 let obstacleTimer = 0;
