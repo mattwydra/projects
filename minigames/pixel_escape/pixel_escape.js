@@ -105,12 +105,16 @@ function gameLoop() {
         bullet.x < obstacle.x + obstacle.width &&
         bullet.x + bullet.width > obstacle.x &&
         bullet.y < obstacle.y + obstacle.height &&
-        bullet.y + bullet.height > obstacle.y &&
-        obstacle.type === "destructible"
+        bullet.y + bullet.height > obstacle.y
       ) {
-        // Remove bullet and obstacle
-        bullets.splice(bulletIndex, 1);
-        obstacles.splice(obstacleIndex, 1);
+        if (obstacle.type === "destructible") {
+          // Remove bullet and obstacle
+          bullets.splice(bulletIndex, 1);
+          obstacles.splice(obstacleIndex, 1);
+        } else {
+          // Remove the bullet
+          bullets.splice(bulletIndex, 1);
+        }
       }
     });
 
