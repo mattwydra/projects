@@ -7,36 +7,37 @@
     <title>Text Tracker</title>
 </head>
 
+<link rel="stylesheet" href="styles.css" />
+
 <body>
-    <h1>Text Tracker</h1>
+    <div class="container">
+        <h1>Text Tracker</h1>
+        <form id="textForm">
+            <input type="text" name="text" placeholder="Enter text" required>
+            <button type="button" id="addBtn">Add</button>
+            <button type="button" id="deleteBtn">Delete</button>
+        </form>
 
-    <form method="POST">
-        <input type="text" name="text" placeholder="Enter text" required>
-        <button type="submit" name="action" value="add">Add</button>
-        <button type="submit" name="action" value="delete">Delete</button>
-    </form>
+        <h2>Current Inputs:</h2>
+        <ul id="inputList"></ul>
 
-    <h2>Message: {{ message }}</h2>
-    <h2>Current Inputs:</h2>
-    <ul>
-        {% for input in inputs %}
-        <li>{{ input.text }}</li>
-        {% endfor %}
-    </ul>
-    <h2>Customize Your Page</h2>
-    <form method="POST" action="/customize">
-        <label for="bg-color">Background Color:</label>
-        <input type="color" id="bg-color" name="background_color">
+        <h2>Customize Your Page</h2>
+<form id="customizationForm">
+    <label for="bg-color">Background Color:</label>
+    <input type="color" id="bg-color" name="background_color">
+    
+    <label for="text-color">Text Color:</label>
+    <input type="color" id="text-color" name="text_color">
+    
+    <label for="bg-image">Upload Background Image:</label>
+    <input type="file" id="bg-image-upload" name="background_image_upload" accept="image/*">
+    
+    <button type="button" id="saveBtn">Save Preferences</button>
+    <button type="button" id="resetBtn">Reset Preferences</button>
+</form>
 
-        <label for="text-color">Text Color:</label>
-        <input type="color" id="text-color" name="text_color">
-
-        <label for="bg-image">Background Image URL:</label>
-        <input type="url" id="bg-image" name="background_image_url" placeholder="https://example.com/image.jpg">
-
-        <button type="submit">Save Preferences</button>
-    </form>
-
+    </div>
+    <script src="script.js"></script>
 </body>
 
 </html>
