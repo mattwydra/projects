@@ -19,6 +19,19 @@ let bullets = [];
 let obstacleTimer = 0;
 let gameSpeed = 2;
 
+let score = 0;
+
+function updateScore(points) {
+  score += points;
+}
+
+function drawScore() {
+  ctx.fillStyle = "#fff";
+  ctx.font = "20px Arial";
+  ctx.textAlign = "left";
+  ctx.fillText(`Score: ${score}`, 10, 30);
+}
+
 let isGameOver = false;
 
 // Jump function
@@ -63,6 +76,11 @@ function gameLoop() {
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+  // Draw score
+  drawScore();
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
   // Player logic
   player.velocityY += gravity;
   player.y += player.velocityY;
@@ -102,6 +120,7 @@ function gameLoop() {
     // Remove obstacles that go off-screen
     if (obstacle.x + obstacle.width < 0) {
       obstacles.splice(index, 1);
+      score += 10;
     }
 
     // Collision detection with player
@@ -148,6 +167,7 @@ function gameLoop() {
           // Remove bullet and obstacle
           bullets.splice(bulletIndex, 1);
           obstacles.splice(obstacleIndex, 1);
+          score += 20;
         } else {
           // Remove the bullet
           bullets.splice(bulletIndex, 1);
@@ -181,12 +201,14 @@ function drawGameOver() {
   ctx.fillStyle = "#fff";
   ctx.font = "36px Arial";
   ctx.textAlign = "center";
-  ctx.fillText("Game Over", canvas.width / 2, canvas.height / 2 - 20);
+  ctx.fillText("Game Over", canvas.width / 2, canvas.height / 2 - 40);
 
   ctx.font = "24px Arial";
-  ctx.fillText(`Survived: ${survivalTime.toFixed(1)} seconds`, canvas.width / 2, canvas.height / 2 + 20);
-  ctx.fillText("Press R to Restart", canvas.width / 2, canvas.height / 2 + 60);
+  ctx.fillText(`Survived: ${survivalTime.toFixed(1)} seconds`, canvas.width / 2, canvas.height / 2);
+  ctx.fillText(`Score: ${score}`, canvas.width / 2, canvas.height / 2 + 40);
+  ctx.fillText("Press R to Restart", canvas.width / 2, canvas.height / 2 + 80);
 }
+
 
 // Restart Game Function
 function restartGame() {
@@ -197,11 +219,7 @@ function restartGame() {
   isGameOver = false;
   gameSpeed = 2;
   gravity = 0.3;
-
-  // // Restart survival timer
-  // survivalInterval = setInterval(() => {
-  //   survivalTime += 0.1; // Increment survival time
-  // }, 100);
+  score = 0;
 
   startSurvivalTimer()
   gameLoop();
