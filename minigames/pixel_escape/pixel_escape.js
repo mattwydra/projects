@@ -4,32 +4,6 @@ const ctx = canvas.getContext("2d");
 
 let gameMode = null; // Tracks the gamemode
 
-// Show the menu screen
-function showMenu() {
-  // Clear the canvas
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  // Draw the background
-  ctx.fillStyle = "rgba(0, 0, 0, 0.9)";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  // Draw menu text
-  ctx.fillStyle = "#fff";
-  ctx.font = "36px Arial";
-  ctx.textAlign = "center";
-  ctx.fillText("Select Game Mode", canvas.width / 2, canvas.height / 3);
-
-  // Draw buttons
-  drawButton("Survival", canvas.width / 2, canvas.height / 2 - 20, () => {
-    gameMode = "survival";
-    gameLoop();
-  });
-
-  drawButton("Challenge", canvas.width / 2, canvas.height / 2 + 60, () => {
-    gameMode = "challenge";
-    gameLoop();
-  });
-}
 
 // Draw a button on the menu
 function drawButton(text, x, y, callback) {
@@ -80,6 +54,7 @@ function showMenu() {
   const buttons = [
     drawButton("Survival", canvas.width / 2, canvas.height / 2 - 20, () => {
       gameMode = "survival";
+      startSurvivalTimer();
       gameLoop();
     }),
     drawButton("Challenge", canvas.width / 2, canvas.height / 2 + 60, () => {
