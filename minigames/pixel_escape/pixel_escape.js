@@ -45,6 +45,14 @@ function shoot() {
 let survivalTime = 0;
 let survivalInterval;
 
+// Start Survival Timer Function
+function startSurvivalTimer() {
+  survivalTime = 0; // Reset survival time
+  survivalInterval = setInterval(() => {
+    survivalTime += 0.1; // Increment survival time
+  }, 100); // Update every 0.1 second
+}
+
 // Game loop
 function gameLoop() {
   if (isGameOver) {
@@ -190,13 +198,15 @@ function restartGame() {
   gameSpeed = 2;
   gravity = 0.3;
 
-  // Restart survival timer
-  survivalInterval = setInterval(() => {
-    survivalTime += 0.1; // Increment survival time
-  }, 100);
+  // // Restart survival timer
+  // survivalInterval = setInterval(() => {
+  //   survivalTime += 0.1; // Increment survival time
+  // }, 100);
 
+  startSurvivalTimer()
   gameLoop();
 }
 
-// Start the game
+// Start the game and start the timer
+startSurvivalTimer()
 gameLoop();
