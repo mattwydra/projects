@@ -22,12 +22,12 @@ function showMenu() {
   // Draw buttons
   drawButton("Survival", canvas.width / 2, canvas.height / 2 - 20, () => {
     gameMode = "survival";
-    startGame();
+    gameLoop();
   });
 
   drawButton("Challenge", canvas.width / 2, canvas.height / 2 + 60, () => {
     gameMode = "challenge";
-    startGame();
+    gameLoop();
   });
 }
 
@@ -48,23 +48,67 @@ function drawButton(text, x, y, callback) {
   ctx.textAlign = "center";
   ctx.fillText(text, x, y + 7);
 
-  // Add click event listener
+  // Store button dimensions for click detection
+  return { x: buttonX, y: buttonY, width: buttonWidth, height: buttonHeight, callback };
+}
+
+// Debug
+// canvas.addEventListener("click", (event) => {
+//   const rect = canvas.getBoundingClientRect();
+//   const mouseX = event.clientX - rect.left;
+//   const mouseY = event.clientY - rect.top;
+//   console.log(`Mouse clicked at: ${mouseX}, ${mouseY}`);
+// });
+
+
+// Updated showMenu to handle button clicks
+function showMenu() {
+  // Clear the canvas
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Draw the background
+  ctx.fillStyle = "rgba(0, 0, 0, 0.9)";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Draw menu text
+  ctx.fillStyle = "#fff";
+  ctx.font = "36px Arial";
+  ctx.textAlign = "center";
+  ctx.fillText("Select Game Mode", canvas.width / 2, canvas.height / 3);
+
+  // Create buttons
+  const buttons = [
+    drawButton("Survival", canvas.width / 2, canvas.height / 2 - 20, () => {
+      gameMode = "survival";
+      gameLoop();
+    }),
+    drawButton("Challenge", canvas.width / 2, canvas.height / 2 + 60, () => {
+      gameMode = "challenge";
+      gameLoop();
+    }),
+  ];
+
+  // Add a single click event listener
   canvas.addEventListener("click", function handleClick(event) {
     const rect = canvas.getBoundingClientRect();
     const mouseX = event.clientX - rect.left;
     const mouseY = event.clientY - rect.top;
 
-    if (
-      mouseX > buttonX &&
-      mouseX < buttonX + buttonWidth &&
-      mouseY > buttonY &&
-      mouseY < buttonY + buttonHeight
-    ) {
-      canvas.removeEventListener("click", handleClick); // Remove listener to avoid duplicate calls
-      callback(); // Trigger the callback
-    }
+    // Check if any button was clicked
+    buttons.forEach((button) => {
+      if (
+        mouseX > button.x &&
+        mouseX < button.x + button.width &&
+        mouseY > button.y &&
+        mouseY < button.y + button.height
+      ) {
+        canvas.removeEventListener("click", handleClick); // Remove listener to avoid duplicate calls
+        button.callback(); // Trigger the callback
+      }
+    });
   });
 }
+
 
 // Game variables
 let player = {
@@ -84,17 +128,21 @@ let obstacleTimer = 0;
 let gameSpeed = 2;
 
 let score = 0;
+let challengeTargets = 10; // Number of targets to destroy in Challenge mode
 
 function updateScore(points) {
   score += points;
 }
 
 function drawScore() {
-  console.log(score);
   ctx.fillStyle = "#fff";
   ctx.font = "20px Arial";
   ctx.textAlign = "left";
   ctx.fillText(`Score: ${score}`, 10, 30);
+
+  if (gameMode === "challenge") {
+    ctx.fillText(`Targets Left: ${challengeTargets}`, 10, 60);
+  }
 }
 
 let isGameOver = false;
@@ -183,7 +231,7 @@ function gameLoop() {
     // Remove obstacles that go off-screen
     if (obstacle.x + obstacle.width < 0) {
       obstacles.splice(index, 1);
-      score += 10;
+      if (gameMode === "survival") score += 10;
     }
 
     // Collision detection with player
@@ -210,7 +258,6 @@ function gameLoop() {
     }
   });
 
-
   // Bullet logic
   bullets.forEach((bullet, bulletIndex) => {
     bullet.x += bullet.speed;
@@ -231,6 +278,13 @@ function gameLoop() {
           bullets.splice(bulletIndex, 1);
           obstacles.splice(obstacleIndex, 1);
           score += 20;
+          if (gameMode === "challenge") {
+            challengeTargets--;
+            if (challengeTargets <= 0) {
+              isGameOver = true; // End game when all targets are destroyed
+              challengeTargets = 10;
+            }
+          }
         } else {
           // Remove the bullet
           bullets.splice(bulletIndex, 1);
@@ -266,12 +320,17 @@ function drawGameOver() {
   ctx.textAlign = "center";
   ctx.fillText("Game Over", canvas.width / 2, canvas.height / 2 - 40);
 
-  ctx.font = "24px Arial";
-  ctx.fillText(`Survived: ${survivalTime.toFixed(1)} seconds`, canvas.width / 2, canvas.height / 2);
+  if (gameMode === "survival") {
+    ctx.font = "24px Arial";
+    ctx.fillText(`Survived: ${survivalTime.toFixed(1)} seconds`, canvas.width / 2, canvas.height / 2);
+  } else if (gameMode === "challenge") {
+    ctx.font = "24px Arial";
+    ctx.fillText(`Targets Destroyed: ${10 - challengeTargets}`, canvas.width / 2, canvas.height / 2);
+  }
+
   ctx.fillText(`Score: ${score}`, canvas.width / 2, canvas.height / 2 + 40);
   ctx.fillText("Press R to Restart", canvas.width / 2, canvas.height / 2 + 80);
 }
-
 
 // Update Restart Game Function to show the menu
 function restartGame() {
