@@ -41,11 +41,15 @@ function shoot() {
   });
 }
 
+// Add a survival time tracker
+let survivalTime = 0;
+let survivalInterval;
+
 // Game loop
 function gameLoop() {
-
   if (isGameOver) {
     drawGameOver();
+    clearInterval(survivalInterval); // Stop tracking survival time
     return;
   }
 
@@ -172,7 +176,8 @@ function drawGameOver() {
   ctx.fillText("Game Over", canvas.width / 2, canvas.height / 2 - 20);
 
   ctx.font = "24px Arial";
-  ctx.fillText("Press R to Restart", canvas.width / 2, canvas.height / 2 + 20);
+  ctx.fillText(`Survived: ${survivalTime.toFixed(1)} seconds`, canvas.width / 2, canvas.height / 2 + 20);
+  ctx.fillText("Press R to Restart", canvas.width / 2, canvas.height / 2 + 60);
 }
 
 // Restart Game Function
@@ -183,7 +188,13 @@ function restartGame() {
   obstacleTimer = 0;
   isGameOver = false;
   gameSpeed = 2;
-  gravity = 0.5;
+  gravity = 0.3;
+
+  // Restart survival timer
+  survivalInterval = setInterval(() => {
+    survivalTime += 0.1; // Increment survival time
+  }, 100);
+
   gameLoop();
 }
 
