@@ -35,30 +35,30 @@ function drawButton(text, x, y, callback) {
 // });
 
 
-// Updated showMenu to handle button clicks
+// Rename 'Survival' mode to 'Normal' and add '3 Lives Mode'
 function showMenu() {
-  // Clear the canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  // Draw the background
   ctx.fillStyle = "rgba(0, 0, 0, 0.9)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Draw menu text
   ctx.fillStyle = "#fff";
   ctx.font = "36px Arial";
   ctx.textAlign = "center";
   ctx.fillText("Select Game Mode", canvas.width / 2, canvas.height / 3);
 
-  // Create buttons
   const buttons = [
-    drawButton("Survival", canvas.width / 2, canvas.height / 2 - 20, () => {
-      gameMode = "survival";
-      startSurvivalTimer();
+    drawButton("Normal", canvas.width / 2, canvas.height / 2 - 20, () => {
+      gameMode = "normal";
+      startNormalGame();
       gameLoop();
     }),
     drawButton("Challenge", canvas.width / 2, canvas.height / 2 + 60, () => {
       gameMode = "challenge";
+      gameLoop();
+    }),
+    drawButton("3 Lives Mode", canvas.width / 2, canvas.height / 2 + 140, () => {
+      gameMode = "3lives";
+      startLivesMode();
       gameLoop();
     }),
   ];
@@ -104,11 +104,13 @@ let gameSpeed = 2;
 
 let score = 0;
 let challengeTargets = 10; // Number of targets to destroy in Challenge mode
+let lives = 3;  // Player starts with 3 lives
 
 function updateScore(points) {
   score += points;
 }
 
+// Draw score and lives
 function drawScore() {
   ctx.fillStyle = "#fff";
   ctx.font = "20px Arial";
@@ -117,6 +119,10 @@ function drawScore() {
 
   if (gameMode === "challenge") {
     ctx.fillText(`Targets Left: ${challengeTargets}`, 10, 60);
+  }
+
+  if (gameMode === "3lives") {
+    ctx.fillText(`Lives: ${lives}`, canvas.width - 100, 30);
   }
 }
 
@@ -216,7 +222,10 @@ function gameLoop() {
       player.y < obstacle.y + obstacle.height &&
       player.y + player.height > obstacle.y
     ) {
-      isGameOver = true; // Trigger Game Over
+      if (gameMode === "3lives" && lives > 1) {
+        obstacles.splice(index, 1);
+        lives--;
+      } else { lives--; isGameOver = true; } // Trigger Game Over
     }
   });
 
@@ -285,7 +294,7 @@ window.addEventListener("keydown", (e) => {
   }
 });
 
-// Draw Game Over Screen
+// Game Over screen
 function drawGameOver() {
   ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -295,19 +304,22 @@ function drawGameOver() {
   ctx.textAlign = "center";
   ctx.fillText("Game Over", canvas.width / 2, canvas.height / 2 - 40);
 
-  if (gameMode === "survival") {
+  if (gameMode === "normal") {
     ctx.font = "24px Arial";
     ctx.fillText(`Survived: ${survivalTime.toFixed(1)} seconds`, canvas.width / 2, canvas.height / 2);
   } else if (gameMode === "challenge") {
     ctx.font = "24px Arial";
     ctx.fillText(`Targets Destroyed: ${10 - challengeTargets}`, canvas.width / 2, canvas.height / 2);
+  } else if (gameMode === "3lives") {
+    ctx.font = "24px Arial";
+    // ctx.fillText(`Lives Remaining: ${lives}`, canvas.width / 2, canvas.height / 2);
   }
 
   ctx.fillText(`Score: ${score}`, canvas.width / 2, canvas.height / 2 + 40);
   ctx.fillText("Press R to Restart", canvas.width / 2, canvas.height / 2 + 80);
 }
 
-// Update Restart Game Function to show the menu
+// Restart Game
 function restartGame() {
   player = { x: 50, y: 300, width: 20, height: 20, color: "#ff4757", velocityY: 0 };
   obstacles = [];
@@ -317,13 +329,31 @@ function restartGame() {
   gameSpeed = 2;
   gravity = 0.3;
   score = 0;
+  lives = 3;  // Reset lives
 
   if (!gameMode) {
-    showMenu(); // Show menu if no mode is selected
+    showMenu();
+  } else if (gameMode === "normal" || gameMode === "3lives") {
+    startLivesMode();
+    gameLoop();
   } else {
-    startSurvivalTimer();
     gameLoop();
   }
+}
+
+// Start Lives Mode
+function startLivesMode() {
+  lives = 3;  // Reset lives
+  score = 0;
+  gameLoop();
+}
+
+// Start Normal Mode (if needed)
+function startNormalGame() {
+  survivalTime = 0;
+  survivalInterval = setInterval(() => {
+    survivalTime += 0.1;  // Increment survival time
+  }, 100); // Update every 0.1 second
 }
 
 // Start with the menu
