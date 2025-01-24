@@ -2,6 +2,70 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
+let gameMode = null; // Tracks the gamemode
+
+// Show the menu screen
+function showMenu() {
+  // Clear the canvas
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Draw the background
+  ctx.fillStyle = "rgba(0, 0, 0, 0.9)";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Draw menu text
+  ctx.fillStyle = "#fff";
+  ctx.font = "36px Arial";
+  ctx.textAlign = "center";
+  ctx.fillText("Select Game Mode", canvas.width / 2, canvas.height / 3);
+
+  // Draw buttons
+  drawButton("Survival", canvas.width / 2, canvas.height / 2 - 20, () => {
+    gameMode = "survival";
+    startGame();
+  });
+
+  drawButton("Challenge", canvas.width / 2, canvas.height / 2 + 60, () => {
+    gameMode = "challenge";
+    startGame();
+  });
+}
+
+// Draw a button on the menu
+function drawButton(text, x, y, callback) {
+  const buttonWidth = 200;
+  const buttonHeight = 50;
+  const buttonX = x - buttonWidth / 2;
+  const buttonY = y - buttonHeight / 2;
+
+  // Draw button rectangle
+  ctx.fillStyle = "#333";
+  ctx.fillRect(buttonX, buttonY, buttonWidth, buttonHeight);
+
+  // Draw button text
+  ctx.fillStyle = "#fff";
+  ctx.font = "20px Arial";
+  ctx.textAlign = "center";
+  ctx.fillText(text, x, y + 7);
+
+  // Add click event listener
+  canvas.addEventListener("click", function handleClick(event) {
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = event.clientX - rect.left;
+    const mouseY = event.clientY - rect.top;
+
+    if (
+      mouseX > buttonX &&
+      mouseX < buttonX + buttonWidth &&
+      mouseY > buttonY &&
+      mouseY < buttonY + buttonHeight
+    ) {
+      canvas.removeEventListener("click", handleClick); // Remove listener to avoid duplicate calls
+      callback(); // Trigger the callback
+    }
+  });
+}
+
 // Game variables
 let player = {
   x: 50,
@@ -26,6 +90,7 @@ function updateScore(points) {
 }
 
 function drawScore() {
+  console.log(score);
   ctx.fillStyle = "#fff";
   ctx.font = "20px Arial";
   ctx.textAlign = "left";
@@ -78,8 +143,6 @@ function gameLoop() {
 
   // Draw score
   drawScore();
-
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   // Player logic
   player.velocityY += gravity;
@@ -210,7 +273,7 @@ function drawGameOver() {
 }
 
 
-// Restart Game Function
+// Update Restart Game Function to show the menu
 function restartGame() {
   player = { x: 50, y: 300, width: 20, height: 20, color: "#ff4757", velocityY: 0 };
   obstacles = [];
@@ -221,10 +284,13 @@ function restartGame() {
   gravity = 0.3;
   score = 0;
 
-  startSurvivalTimer()
-  gameLoop();
+  if (!gameMode) {
+    showMenu(); // Show menu if no mode is selected
+  } else {
+    startSurvivalTimer();
+    gameLoop();
+  }
 }
 
-// Start the game and start the timer
-startSurvivalTimer()
-gameLoop();
+// Start with the menu
+showMenu();
