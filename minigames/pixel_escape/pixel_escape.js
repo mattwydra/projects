@@ -251,6 +251,9 @@ function gameLoop() {
         bullet.y < obstacle.y + obstacle.height &&
         bullet.y + bullet.height > obstacle.y
       ) {
+        if (obstacle.isCantHit) {
+          isGameOver = true; // Game over when a bullet hits a can't hit obstacle
+        }
         if (obstacle.isDestructible === true) {
           // Remove bullet and obstacle
           bullets.splice(bulletIndex, 1);
