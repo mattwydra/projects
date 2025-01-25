@@ -160,57 +160,6 @@ function startSurvivalTimer() {
   }, 100); // Update every 0.1 second
 }
 
-// Power-up variables
-let activePowerUp = null; // Tracks current power-up ("piercing", "birdshot")
-let powerUpTimer = null; // Timer for power-up duration
-const POWER_UP_DURATION = 10000; // 10 seconds
-
-// Speed increment logic
-let speedInterval = setInterval(() => {
-  gameSpeed += 0.2; // Increase speed every 10 seconds
-}, 10000);
-
-// Spawn power-ups
-function spawnPowerUp() {
-  const chance = Math.random();
-  let type = null;
-
-  if (chance < 0.01) {
-    type = "bonusLife"; // 1% chance
-  } else if (chance < 0.06) {
-    type = "piercing"; // 5% chance
-  } else if (chance < 0.085) {
-    type = "birdshot"; // 2.5% chance
-  }
-
-  if (type) {
-    const isFlying = type !== "bonusLife"; // Only bonusLife is ground-based
-    const yPos = isFlying ? Math.random() * 200 + 100 : 300;
-
-    obstacles.push({
-      x: canvas.width,
-      y: yPos,
-      width: 20,
-      height: 20,
-      color: type === "bonusLife" ? "#32CD32" : type === "piercing" ? "#FFD700" : "#00BFFF",
-      isDestructible: false,
-      isCantHit: false,
-      isFlying: isFlying,
-      isPowerUp: true,
-      type: type,
-    });
-  }
-}
-
-// Activate power-up
-function activatePowerUp(type) {
-  activePowerUp = type;
-  clearTimeout(powerUpTimer);
-  powerUpTimer = setTimeout(() => {
-    activePowerUp = null;
-  }, POWER_UP_DURATION);
-}
-
 // Game loop
 function gameLoop() {
   if (isGameOver) {
