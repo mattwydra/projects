@@ -188,16 +188,19 @@ function gameLoop() {
   // Obstacle logic
   obstacleTimer++;
   if (obstacleTimer > 90) {
-    const isDestructible = Math.random() > 0.5 ? true : false;
-    const isFlying = Math.random() > 0.5 ? true : false;
-    const yPos = isFlying === true ? 200 : 300;
+    const isDestructible = Math.random() > 0.5;
+    const isCantHit = Math.random() > 0.8; // 20% chance to spawn a can't-hit obstacle
+    const isFlying = Math.random() > 0.5;
+    const yPos = isFlying ? 200 : 300;
+
     obstacles.push({
       x: canvas.width,
       y: yPos,
       width: 20,
       height: 20,
-      color: isDestructible === true ? "#1e90ff" : "#ff6347",
-      isDestructible: isDestructible,
+      color: isCantHit ? "#ff0000" : isDestructible ? "#1e90ff" : "#ff6347",
+      isDestructible: isDestructible && !isCantHit,
+      isCantHit: isCantHit,
       isFlying: isFlying,
     });
     obstacleTimer = 0;
@@ -212,7 +215,6 @@ function gameLoop() {
     // Remove obstacles that go off-screen
     if (obstacle.x + obstacle.width < 0) {
       obstacles.splice(index, 1);
-      if (gameMode === "survival") score += 10;
     }
 
     // Collision detection with player
@@ -222,25 +224,17 @@ function gameLoop() {
       player.y < obstacle.y + obstacle.height &&
       player.y + player.height > obstacle.y
     ) {
-      if (gameMode === "3lives" && lives > 1) {
+      if (obstacle.isCantHit) {
+        isGameOver = true; // Game over on collision with can't-hit obstacle
+      } else if (gameMode === "3lives" && lives > 1) {
         obstacles.splice(index, 1);
         lives--;
-      } else { lives--; isGameOver = true; } // Trigger Game Over
+      } else {
+        isGameOver = true;
+      }
     }
   });
 
-  // Event listeners
-  window.addEventListener("keydown", (e) => {
-    if (!isGameOver) {
-      if (e.code === "Space") {
-        jump();
-      } else if (e.code === "KeyF") {
-        shoot();
-      }
-    } else if (e.code === "KeyR") {
-      restartGame();
-    }
-  });
 
   // Bullet logic
   bullets.forEach((bullet, bulletIndex) => {
@@ -312,11 +306,13 @@ function drawGameOver() {
     ctx.fillText(`Targets Destroyed: ${10 - challengeTargets}`, canvas.width / 2, canvas.height / 2);
   } else if (gameMode === "3lives") {
     ctx.font = "24px Arial";
+    ctx.fillText(`Survived: ${survivalTime.toFixed(1)} seconds`, canvas.width / 2, canvas.height / 2);
     // ctx.fillText(`Lives Remaining: ${lives}`, canvas.width / 2, canvas.height / 2);
   }
 
   ctx.fillText(`Score: ${score}`, canvas.width / 2, canvas.height / 2 + 40);
   ctx.fillText("Press R to Restart", canvas.width / 2, canvas.height / 2 + 80);
+
 }
 
 // Restart Game
@@ -330,6 +326,7 @@ function restartGame() {
   gravity = 0.3;
   score = 0;
   lives = 3;  // Reset lives
+  survivalTime = 0;
 
   if (!gameMode) {
     showMenu();
@@ -345,6 +342,9 @@ function restartGame() {
 function startLivesMode() {
   lives = 3;  // Reset lives
   score = 0;
+  survivalInterval = setInterval(() => {
+    survivalTime += 0.1;  // Increment survival time
+  }, 100); // Update every 0.1 second
   gameLoop();
 }
 
