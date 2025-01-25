@@ -318,6 +318,12 @@ function drawGameOver() {
 
 }
 
+window.addEventListener("keydown", (e) => {
+  if (e.code === "KeyR" && isGameOver) {
+    restartGame();
+  }
+});
+
 // Restart Game
 function restartGame() {
   player = { x: 50, y: 300, width: 20, height: 20, color: "#ff4757", velocityY: 0 };
