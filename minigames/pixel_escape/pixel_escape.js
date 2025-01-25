@@ -35,6 +35,7 @@ function drawButton(text, x, y, callback) {
 // });
 
 
+// Rename 'Survival' mode to 'Normal' and add '3 Lives Mode'
 function showMenu() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = "rgba(0, 0, 0, 0.9)";
@@ -62,11 +63,13 @@ function showMenu() {
     }),
   ];
 
-  const handleClick = (event) => {
+  // Add a single click event listener
+  canvas.addEventListener("click", function handleClick(event) {
     const rect = canvas.getBoundingClientRect();
     const mouseX = event.clientX - rect.left;
     const mouseY = event.clientY - rect.top;
 
+    // Check if any button was clicked
     buttons.forEach((button) => {
       if (
         mouseX > button.x &&
@@ -74,16 +77,12 @@ function showMenu() {
         mouseY > button.y &&
         mouseY < button.y + button.height
       ) {
-        canvas.removeEventListener("click", handleClick);
-        button.callback();
+        canvas.removeEventListener("click", handleClick); // Remove listener to avoid duplicate calls
+        button.callback(); // Trigger the callback
       }
     });
-  };
-
-  canvas.removeEventListener("click", handleClick); // Ensure no duplicate listeners
-  canvas.addEventListener("click", handleClick);
+  });
 }
-
 
 
 // Game variables
@@ -216,8 +215,7 @@ function activatePowerUp(type) {
 function gameLoop() {
   if (isGameOver) {
     drawGameOver();
-    clearInterval(survivalInterval); // Stop survival timer
-    clearInterval(speedInterval); // Stop speed increment
+    clearInterval(survivalInterval); // Stop tracking survival time
     return;
   }
 
@@ -270,18 +268,14 @@ function gameLoop() {
       obstacles.splice(index, 1);
     }
 
-    // Collision with player
+    // Collision detection with player
     if (
       player.x < obstacle.x + obstacle.width &&
       player.x + player.width > obstacle.x &&
       player.y < obstacle.y + obstacle.height &&
       player.y + player.height > obstacle.y
     ) {
-      if (obstacle.isPowerUp) {
-        // Handle power-up collision
-        activatePowerUp(obstacle.type);
-        obstacles.splice(index, 1);
-      } else if (obstacle.isCantHit) {
+      if (obstacle.isCantHit) {
         isGameOver = true; // Game over on collision with can't-hit obstacle
       } else if (gameMode === "3lives" && lives > 1) {
         obstacles.splice(index, 1);
@@ -300,19 +294,6 @@ function gameLoop() {
     ctx.fillStyle = bullet.color;
     ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
 
-    // Handle active power-ups
-    if (activePowerUp === "piercing") {
-      // Bullets go through obstacles
-      return;
-    } else if (activePowerUp === "birdshot") {
-      // Fire additional bullets at angles
-      if (!bullet.hasSpread) {
-        bullet.hasSpread = true;
-        bullets.push({ ...bullet, y: bullet.y - 20, speed: bullet.speed }); // 45 degrees
-        bullets.push({ ...bullet, y: bullet.y - 40, speed: bullet.speed }); // 90 degrees
-      }
-    }
-
     // Check collision with obstacles
     obstacles.forEach((obstacle, obstacleIndex) => {
       if (
@@ -322,20 +303,34 @@ function gameLoop() {
         bullet.y + bullet.height > obstacle.y
       ) {
         if (obstacle.isCantHit) {
-          isGameOver = true; // Game over when a bullet hits a can't-hit obstacle
-        } else if (obstacle.isDestructible) {
+          isGameOver = true; // Game over when a bullet hits a can't hit obstacle
+        }
+        if (obstacle.isDestructible === true) {
           // Remove bullet and obstacle
           bullets.splice(bulletIndex, 1);
           obstacles.splice(obstacleIndex, 1);
           score += 20;
-        } else if (obstacle.isPowerUp) {
-          // Collect power-up with bullet
-          activatePowerUp(obstacle.type);
-          obstacles.splice(obstacleIndex, 1);
+          if (gameMode === "challenge") {
+            challengeTargets--;
+            if (challengeTargets <= 0) {
+              isGameOver = true; // End game when all targets are destroyed
+              challengeTargets = 10;
+            }
+          }
+        } else {
+          // Remove the bullet
+          bullets.splice(bulletIndex, 1);
         }
       }
     });
+
+    // Remove bullets that go off-screen
+    if (bullet.x > canvas.width) {
+      bullets.splice(bulletIndex, 1);
+    }
   });
+
+  requestAnimationFrame(gameLoop);
 }
 
 // Event listeners
