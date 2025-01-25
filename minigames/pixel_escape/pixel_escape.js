@@ -35,7 +35,6 @@ function drawButton(text, x, y, callback) {
 // });
 
 
-// Rename 'Survival' mode to 'Normal' and add '3 Lives Mode'
 function showMenu() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = "rgba(0, 0, 0, 0.9)";
@@ -63,13 +62,11 @@ function showMenu() {
     }),
   ];
 
-  // Add a single click event listener
-  canvas.addEventListener("click", function handleClick(event) {
+  const handleClick = (event) => {
     const rect = canvas.getBoundingClientRect();
     const mouseX = event.clientX - rect.left;
     const mouseY = event.clientY - rect.top;
 
-    // Check if any button was clicked
     buttons.forEach((button) => {
       if (
         mouseX > button.x &&
@@ -77,12 +74,16 @@ function showMenu() {
         mouseY > button.y &&
         mouseY < button.y + button.height
       ) {
-        canvas.removeEventListener("click", handleClick); // Remove listener to avoid duplicate calls
-        button.callback(); // Trigger the callback
+        canvas.removeEventListener("click", handleClick);
+        button.callback();
       }
     });
-  });
+  };
+
+  canvas.removeEventListener("click", handleClick); // Ensure no duplicate listeners
+  canvas.addEventListener("click", handleClick);
 }
+
 
 
 // Game variables
@@ -160,11 +161,63 @@ function startSurvivalTimer() {
   }, 100); // Update every 0.1 second
 }
 
+// Power-up variables
+let activePowerUp = null; // Tracks current power-up ("piercing", "birdshot")
+let powerUpTimer = null; // Timer for power-up duration
+const POWER_UP_DURATION = 10000; // 10 seconds
+
+// Speed increment logic
+let speedInterval = setInterval(() => {
+  gameSpeed += 0.2; // Increase speed every 10 seconds
+}, 10000);
+
+// Spawn power-ups
+function spawnPowerUp() {
+  const chance = Math.random();
+  let type = null;
+
+  if (chance < 0.01) {
+    type = "bonusLife"; // 1% chance
+  } else if (chance < 0.06) {
+    type = "piercing"; // 5% chance
+  } else if (chance < 0.085) {
+    type = "birdshot"; // 2.5% chance
+  }
+
+  if (type) {
+    const isFlying = type !== "bonusLife"; // Only bonusLife is ground-based
+    const yPos = isFlying ? Math.random() * 200 + 100 : 300;
+
+    obstacles.push({
+      x: canvas.width,
+      y: yPos,
+      width: 20,
+      height: 20,
+      color: type === "bonusLife" ? "#32CD32" : type === "piercing" ? "#FFD700" : "#00BFFF",
+      isDestructible: false,
+      isCantHit: false,
+      isFlying: isFlying,
+      isPowerUp: true,
+      type: type,
+    });
+  }
+}
+
+// Activate power-up
+function activatePowerUp(type) {
+  activePowerUp = type;
+  clearTimeout(powerUpTimer);
+  powerUpTimer = setTimeout(() => {
+    activePowerUp = null;
+  }, POWER_UP_DURATION);
+}
+
 // Game loop
 function gameLoop() {
   if (isGameOver) {
     drawGameOver();
-    clearInterval(survivalInterval); // Stop tracking survival time
+    clearInterval(survivalInterval); // Stop survival timer
+    clearInterval(speedInterval); // Stop speed increment
     return;
   }
 
@@ -217,14 +270,18 @@ function gameLoop() {
       obstacles.splice(index, 1);
     }
 
-    // Collision detection with player
+    // Collision with player
     if (
       player.x < obstacle.x + obstacle.width &&
       player.x + player.width > obstacle.x &&
       player.y < obstacle.y + obstacle.height &&
       player.y + player.height > obstacle.y
     ) {
-      if (obstacle.isCantHit) {
+      if (obstacle.isPowerUp) {
+        // Handle power-up collision
+        activatePowerUp(obstacle.type);
+        obstacles.splice(index, 1);
+      } else if (obstacle.isCantHit) {
         isGameOver = true; // Game over on collision with can't-hit obstacle
       } else if (gameMode === "3lives" && lives > 1) {
         obstacles.splice(index, 1);
@@ -243,6 +300,19 @@ function gameLoop() {
     ctx.fillStyle = bullet.color;
     ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
 
+    // Handle active power-ups
+    if (activePowerUp === "piercing") {
+      // Bullets go through obstacles
+      return;
+    } else if (activePowerUp === "birdshot") {
+      // Fire additional bullets at angles
+      if (!bullet.hasSpread) {
+        bullet.hasSpread = true;
+        bullets.push({ ...bullet, y: bullet.y - 20, speed: bullet.speed }); // 45 degrees
+        bullets.push({ ...bullet, y: bullet.y - 40, speed: bullet.speed }); // 90 degrees
+      }
+    }
+
     // Check collision with obstacles
     obstacles.forEach((obstacle, obstacleIndex) => {
       if (
@@ -252,34 +322,20 @@ function gameLoop() {
         bullet.y + bullet.height > obstacle.y
       ) {
         if (obstacle.isCantHit) {
-          isGameOver = true; // Game over when a bullet hits a can't hit obstacle
-        }
-        if (obstacle.isDestructible === true) {
+          isGameOver = true; // Game over when a bullet hits a can't-hit obstacle
+        } else if (obstacle.isDestructible) {
           // Remove bullet and obstacle
           bullets.splice(bulletIndex, 1);
           obstacles.splice(obstacleIndex, 1);
           score += 20;
-          if (gameMode === "challenge") {
-            challengeTargets--;
-            if (challengeTargets <= 0) {
-              isGameOver = true; // End game when all targets are destroyed
-              challengeTargets = 10;
-            }
-          }
-        } else {
-          // Remove the bullet
-          bullets.splice(bulletIndex, 1);
+        } else if (obstacle.isPowerUp) {
+          // Collect power-up with bullet
+          activatePowerUp(obstacle.type);
+          obstacles.splice(obstacleIndex, 1);
         }
       }
     });
-
-    // Remove bullets that go off-screen
-    if (bullet.x > canvas.width) {
-      bullets.splice(bulletIndex, 1);
-    }
   });
-
-  requestAnimationFrame(gameLoop);
 }
 
 // Event listeners
