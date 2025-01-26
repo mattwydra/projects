@@ -6,7 +6,8 @@ body {
     justify-content: center;
     height: 100vh;
     margin: 0;
-    background-color: #f4f4f9;
+    background-color: black;
+    color: lavenderblush;
 }
 
 .question {
@@ -22,7 +23,7 @@ body {
 
 .choice {
     padding: 10px 20px;
-    background-color: #ffffff;
+    background-color: lavender;
     border: 2px solid #ccc;
     border-radius: 5px;
     text-align: center;
