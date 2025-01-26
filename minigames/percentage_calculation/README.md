@@ -36,7 +36,7 @@
 
 ## How to Run
 
-### via my github page: click [here]()
+### via my github page: click [here](https://mattwydra.github.io/projects/minigames/percentage_calculation/index.html)
 
 ### on your machine:
 
