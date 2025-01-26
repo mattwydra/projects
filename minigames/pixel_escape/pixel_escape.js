@@ -1,3 +1,6 @@
+import Player from '/projects/minigames/pixel_escape/player.js';
+
+
 // Get canvas and context
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
@@ -86,16 +89,8 @@ function showMenu() {
 
 
 // Game variables
-let player = {
-  x: 50,
-  y: 300,
-  width: 20,
-  height: 20,
-  color: "#ff4757",
-  velocityY: 0,
-};
-let gravity = 0.3;
-let jumpStrength = -8;
+const player = new Player(50, 300, 20, 20, "#ff4757", -8, 0.3);
+
 let isJumping = false;
 let obstacles = [];
 let bullets = [];
@@ -131,8 +126,7 @@ let isGameOver = false;
 // Jump function
 function jump() {
   if (!isJumping) {
-    player.velocityY = jumpStrength;
-    isJumping = true;
+    player.jump();
   }
 }
 
@@ -174,13 +168,8 @@ function gameLoop() {
   drawScore();
 
   // Player logic
-  player.velocityY += gravity;
-  player.y += player.velocityY;
-
-  if (player.y >= 300) {
-    player.y = 300;
-    isJumping = false;
-  }
+  player.update();
+  player.draw(ctx);
 
   ctx.fillStyle = player.color;
   ctx.fillRect(player.x, player.y, player.width, player.height);
