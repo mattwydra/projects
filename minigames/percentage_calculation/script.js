@@ -1,6 +1,8 @@
 let score = 0;
 let questions = 0;
 const totalQuestions = 10;
+let currentStreak = 0; // Tracks the current streak
+let highestStreak = 0; // Tracks the highest streak
 const scores = []; // Array to store player scores
 
 // Helper function to generate a random integer between min and max (inclusive)
@@ -58,9 +60,12 @@ function renderGame() {
                 result.textContent = 'Correct!';
                 result.style.color = 'green';
                 score++;
+                currentStreak++;
+                highestStreak = Math.max(highestStreak, currentStreak);
             } else {
                 result.textContent = `Wrong! The correct answer was ${correctAnswer}.`;
                 result.style.color = 'red';
+                currentStreak = 0; // Reset the streak
             }
             questions++;
             setTimeout(renderGame, 1000); // Load new question after 1 second
@@ -68,8 +73,8 @@ function renderGame() {
         choicesContainer.appendChild(button);
     });
 
-    // Update the score display
-    document.getElementById('score').textContent = `Score: ${score}/${questions}`;
+    // Update the score and streak display
+    document.getElementById('score').textContent = `Score: ${score}/${questions} | Streak: ${currentStreak}`;
     document.getElementById('result').textContent = ''; // Clear the result
 }
 
@@ -79,13 +84,15 @@ function endGame() {
     const endScreen = document.getElementById('end-screen');
     endScreen.style.display = 'block';
     document.getElementById('final-score').textContent = `Your final score is ${score}/${totalQuestions}.`;
+    const streakMessage = `Your highest streak was ${highestStreak}!`;
+    document.getElementById('final-score').textContent += ` ${streakMessage}`;
 }
 
 // Save the score
 document.getElementById('save-score').addEventListener('click', () => {
     const playerName = document.getElementById('player-name').value.trim();
     if (playerName) {
-        scores.push({ name: playerName, score });
+        scores.push({ name: playerName, score, highestStreak });
         alert(`Score saved!`);
         document.getElementById('player-name').value = '';
     } else {
@@ -97,6 +104,8 @@ document.getElementById('save-score').addEventListener('click', () => {
 document.getElementById('play-again').addEventListener('click', () => {
     score = 0;
     questions = 0;
+    currentStreak = 0;
+    highestStreak = 0;
     document.getElementById('game-container').style.display = 'block';
     document.getElementById('end-screen').style.display = 'none';
     renderGame();
