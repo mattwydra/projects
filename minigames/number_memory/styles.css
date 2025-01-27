@@ -99,3 +99,22 @@ body[data-theme="light"] .progress-bar {
     background-color: #c786bc;
     transition: width 0.1s linear;
 }
+
+#starting-length-container {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#starting-length-container label {
+    margin-bottom: 10px;
+    font-size: 1.2em;
+}
+
+#starting-length-container input,
+#starting-length-container button {
+    margin: 5px;
+    padding: 5px;
+    font-size: 1em;
+}
