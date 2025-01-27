@@ -31,6 +31,21 @@ resetBtn.hidden = true;
 saveBtn.hidden = true;
 proceedBtn.hidden = true;
 
+// Get starting length elements
+const startingLengthInput = document.getElementById("starting-length");
+const setLengthButton = document.getElementById("set-length-button");
+
+// Handle setting the starting length
+setLengthButton.onclick = () => {
+  const selectedLength = parseInt(startingLengthInput.value, 10);
+  if (selectedLength >= 1 && selectedLength <= 20) {
+    startingLength = selectedLength;
+    alert(`Starting length set to ${startingLength}`);
+  } else {
+    alert("Please choose a length between 1 and 20.");
+  }
+};
+
 // Generate a random sequence of numbers of a given length.
 function generateSequence() {
   numberSequence = [];
