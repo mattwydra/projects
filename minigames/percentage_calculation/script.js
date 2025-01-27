@@ -1,3 +1,6 @@
+let score = 0;
+let questions = 0;
+
 // Helper function to generate a random integer between min and max (inclusive)
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -31,6 +34,7 @@ function generateChoices(correctAnswer) {
 // Render the game UI
 function renderGame() {
     const { question, correctAnswer, choices } = generateQuestion();
+    wrong = false;
 
     // Display the question
     document.getElementById('question').textContent = question;
@@ -47,10 +51,12 @@ function renderGame() {
             if (choice === correctAnswer) {
                 result.textContent = 'Correct!';
                 result.style.color = 'green';
+                score++;
             } else {
                 result.textContent = `Wrong! The correct answer was ${correctAnswer}.`;
                 result.style.color = 'red';
             }
+            questions++;
             setTimeout(renderGame, 2000); // Load new question after 2 seconds
         });
         choicesContainer.appendChild(button);
@@ -58,6 +64,7 @@ function renderGame() {
 
     // Clear the result display
     document.getElementById('result').textContent = '';
+    document.getElementById('score').textContent = `${score}/${questions}`;
 }
 
 // Initialize the game
