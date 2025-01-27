@@ -62,3 +62,12 @@ function renderGame() {
 
 // Initialize the game
 renderGame();
+
+// Dark/Light Mode Toggle
+const themeToggle = document.getElementById('theme-toggle');
+themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('theme-dark');
+    themeToggle.textContent = document.body.classList.contains('theme-dark')
+        ? 'Switch to Light Mode'
+        : 'Switch to Dark Mode';
+});
