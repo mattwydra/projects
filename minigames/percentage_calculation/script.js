@@ -1,5 +1,7 @@
 let score = 0;
 let questions = 0;
+const totalQuestions = 10;
+const scores = []; // Array to store player scores
 
 // Helper function to generate a random integer between min and max (inclusive)
 function getRandomInt(min, max) {
@@ -15,7 +17,7 @@ function generateQuestion() {
     return {
         question: `What is ${percentage}% of ${total}?`,
         correctAnswer,
-        choices: generateChoices(correctAnswer)
+        choices: generateChoices(correctAnswer),
     };
 }
 
@@ -33,8 +35,12 @@ function generateChoices(correctAnswer) {
 
 // Render the game UI
 function renderGame() {
+    if (questions >= totalQuestions) {
+        endGame();
+        return;
+    }
+
     const { question, correctAnswer, choices } = generateQuestion();
-    wrong = false;
 
     // Display the question
     document.getElementById('question').textContent = question;
@@ -42,7 +48,7 @@ function renderGame() {
     // Display the choices
     const choicesContainer = document.getElementById('choices');
     choicesContainer.innerHTML = ''; // Clear previous choices
-    choices.forEach(choice => {
+    choices.forEach((choice) => {
         const button = document.createElement('button');
         button.textContent = choice;
         button.classList.add('choice');
@@ -57,15 +63,44 @@ function renderGame() {
                 result.style.color = 'red';
             }
             questions++;
-            setTimeout(renderGame, 2000); // Load new question after 2 seconds
+            setTimeout(renderGame, 1000); // Load new question after 1 second
         });
         choicesContainer.appendChild(button);
     });
 
-    // Clear the result display
-    document.getElementById('result').textContent = '';
-    document.getElementById('score').textContent = `${score}/${questions}`;
+    // Update the score display
+    document.getElementById('score').textContent = `Score: ${score}/${questions}`;
+    document.getElementById('result').textContent = ''; // Clear the result
 }
+
+// End the game
+function endGame() {
+    document.getElementById('game-container').style.display = 'none';
+    const endScreen = document.getElementById('end-screen');
+    endScreen.style.display = 'block';
+    document.getElementById('final-score').textContent = `Your final score is ${score}/${totalQuestions}.`;
+}
+
+// Save the score
+document.getElementById('save-score').addEventListener('click', () => {
+    const playerName = document.getElementById('player-name').value.trim();
+    if (playerName) {
+        scores.push({ name: playerName, score });
+        alert(`Score saved!`);
+        document.getElementById('player-name').value = '';
+    } else {
+        alert('Please enter your name.');
+    }
+});
+
+// Restart the game
+document.getElementById('play-again').addEventListener('click', () => {
+    score = 0;
+    questions = 0;
+    document.getElementById('game-container').style.display = 'block';
+    document.getElementById('end-screen').style.display = 'none';
+    renderGame();
+});
 
 // Initialize the game
 renderGame();
