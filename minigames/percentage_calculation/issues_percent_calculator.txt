@@ -29,6 +29,8 @@ Features
         Clean and accessible layout.
 
         Built with HTML, CSS, and JavaScript.
+    
+        Dark/Light Mode: Allow users to switch between themes
         
 
 Planned Enhancements
@@ -42,7 +44,5 @@ Planned Enhancements
     Difficulty Levels: Add tiers such as Easy, Medium, and Hard.
     
     Timer: Add a time limit for each question to increase challenge.
-    
-    Dark/Light Mode: Allow users to switch between themes.
     
     Integration: Add to a mini-game hub for easier access
