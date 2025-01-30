@@ -2,16 +2,16 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CS Lingo Typing Game</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Comp Sci Lingo Practice</title>
+    <link rel="stylesheet" href="cs_lingo.css" />
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             margin: 50px;
-            background-color: black;
-            color: lavenderblush;
         }
 
         #game-container {
@@ -29,6 +29,9 @@
 </head>
 
 <body>
+    <div class="top-right">
+        <a href="../../hub.html" class="home-button">gamemodes</a>
+    </div>
     <div id="game-container">
         <h1>CS Lingo Typing Game</h1>
         <p id="prompt">Loading...</p>
@@ -36,11 +39,38 @@
         <p id="feedback"></p>
     </div>
 
+    <script src="cs_lingo.js"></script>
     <script>
         const terms = [
             { question: "Java command to print to console:", answer: "System.out.println()" },
             { question: "Python command to print:", answer: "print()" },
-            { question: "Bash command to list files:", answer: "ls" }
+            { question: "Bash command to list files:", answer: "ls" },
+            { question: "HTML tag for a hyperlink:", answer: "<a>" },
+            { question: "CSS property to change text color:", answer: "color" },
+            { question: "JavaScript function to select an element by ID:", answer: "document.getElementById()" },
+            { question: "Java keyword to create a loop (not for):", answer: "while" },
+            { question: "Java keyword to create a loop (not while):", answer: "for" },
+            { question: "Command to navigate to a directory in the terminal:", answer: "cd" },
+            { question: "HTML tag for an image:", answer: "<img>" },
+            { question: "CSS property to make text bold:", answer: "font-weight" },
+            { question: "JavaScript function to log output to console:", answer: "console.log()" },
+            { question: "Java keyword for inheritance:", answer: "extends" },
+            { question: "Command to list all files including hidden ones:", answer: "ls -a" },
+            { question: "HTML tag for a table:", answer: "<table>" },
+            { question: "CSS property to set the background color:", answer: "background-color" },
+            { question: "JavaScript method to add an event listener:", answer: "addEventListener()" },
+            { question: "Java keyword for defining a method:", answer: "void" },
+            { question: "Command to show current directory path:", answer: "pwd" },
+            { question: "HTML tag for a form:", answer: "<form>" },
+            { question: "CSS property to set padding:", answer: "padding" },
+            { question: "JavaScript method to create a timeout:", answer: "setTimeout()" },
+            { question: "Java keyword to create an object instance:", answer: "new" },
+            { question: "Command to create a new directory:", answer: "mkdir" },
+            { question: "Python function to get input from a user:", answer: "input()" },
+            { question: "Python keyword to define a function:", answer: "def" },
+            { question: "Python keyword to loop through items in a list:", answer: "for" },
+            { question: "Python method to remove whitespace from a string:", answer: "strip()" },
+            { question: "Python command to install a package:", answer: "pip install" }
         ];
 
         let currentTerm = {};
