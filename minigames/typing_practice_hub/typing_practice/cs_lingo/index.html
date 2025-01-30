@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS Lingo Typing Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: black;
+            color: lavenderblush;
+        }
+
+        #game-container {
+            max-width: 500px;
+            margin: auto;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="game-container">
+        <h1>CS Lingo Typing Game</h1>
+        <p id="prompt">Loading...</p>
+        <input type="text" id="user-input" placeholder="Type here..." autofocus>
+        <p id="feedback"></p>
+    </div>
+
+    <script>
+        const terms = [
+            { question: "Java command to print to console:", answer: "System.out.println()" },
+            { question: "Python command to print:", answer: "print()" },
+            { question: "Bash command to list files:", answer: "ls" }
+        ];
+
+        let currentTerm = {};
+
+        function loadNewTerm() {
+            currentTerm = terms[Math.floor(Math.random() * terms.length)];
+            document.getElementById("prompt").innerText = currentTerm.question;
+            document.getElementById("user-input").value = "";
+            document.getElementById("feedback").innerText = "";
+        }
+
+        document.getElementById("user-input").addEventListener("input", function () {
+            const userText = this.value;
+            if (userText.trim() === currentTerm.answer) {
+                document.getElementById("feedback").innerText = "✅ Correct!";
+                setTimeout(loadNewTerm, 1000);
+            }
+        });
+
+        loadNewTerm(); // Start the game
+    </script>
+</body>
+
+</html>
