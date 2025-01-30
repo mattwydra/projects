@@ -14,7 +14,8 @@
             margin: 50px;
         }
 
-        #game-container {
+        #game-container,
+        #selection-container {
             max-width: 500px;
             margin: auto;
         }
@@ -25,72 +26,132 @@
             margin-top: 10px;
             font-size: 18px;
         }
+
+        .hidden {
+            display: none;
+        }
+
+        button {
+            padding: 10px;
+            margin: 5px;
+            font-size: 16px;
+        }
     </style>
 </head>
 
 <body>
     <div class="top-right">
-        <a href="../../hub.html" class="home-button">gamemodes</a>
+        <a href="../../hub.html" id="home-button">gamemodes</a>
     </div>
-    <div id="game-container">
+
+    <div id="selection-container">
+        <h1>Select a Language</h1>
+        <button onclick="startGame('Java')">Java</button>
+        <button onclick="startGame('Python')">Python</button>
+        <button onclick="startGame('JavaScript')">JavaScript</button>
+        <button onclick="startGame('HTML & CSS')">HTML & CSS</button>
+        <button onclick="startGame('Bash')">Bash</button>
+    </div>
+
+    <div id="game-container" class="hidden">
         <h1>CS Lingo Typing Game</h1>
         <p id="prompt">Loading...</p>
         <input type="text" id="user-input" placeholder="Type here..." autofocus>
         <p id="feedback"></p>
     </div>
 
-    <script src="cs_lingo.js"></script>
     <script>
-        const terms = [
-            { question: "Java command to print to console:", answer: "System.out.println()" },
-            { question: "Python command to print:", answer: "print()" },
-            { question: "Bash command to list files:", answer: "ls" },
-            { question: "HTML tag for a hyperlink:", answer: "<a>" },
-            { question: "CSS property to change text color:", answer: "color" },
-            { question: "JavaScript function to select an element by ID:", answer: "document.getElementById()" },
-            { question: "Java keyword to create a loop (not for):", answer: "while" },
-            { question: "Java keyword to create a loop (not while):", answer: "for" },
-            { question: "Command to navigate to a directory in the terminal:", answer: "cd" },
-            { question: "HTML tag for an image:", answer: "<img>" },
-            { question: "CSS property to make text bold:", answer: "font-weight" },
-            { question: "JavaScript function to log output to console:", answer: "console.log()" },
-            { question: "Java keyword for inheritance:", answer: "extends" },
-            { question: "Command to list all files including hidden ones:", answer: "ls -a" },
-            { question: "HTML tag for a table:", answer: "<table>" },
-            { question: "CSS property to set the background color:", answer: "background-color" },
-            { question: "JavaScript method to add an event listener:", answer: "addEventListener()" },
-            { question: "Java keyword for defining a method:", answer: "void" },
-            { question: "Command to show current directory path:", answer: "pwd" },
-            { question: "HTML tag for a form:", answer: "<form>" },
-            { question: "CSS property to set padding:", answer: "padding" },
-            { question: "JavaScript method to create a timeout:", answer: "setTimeout()" },
-            { question: "Java keyword to create an object instance:", answer: "new" },
-            { question: "Command to create a new directory:", answer: "mkdir" },
-            { question: "Python function to get input from a user:", answer: "input()" },
-            { question: "Python keyword to define a function:", answer: "def" },
-            { question: "Python keyword to loop through items in a list:", answer: "for" },
-            { question: "Python method to remove whitespace from a string:", answer: "strip()" },
-            { question: "Python command to install a package:", answer: "pip install" }
-        ];
 
-        let currentTerm = {};
+        const termBank = {
+            "Java": [
+                { question: "Java command to print to console:", answer: "System.out.println()" },
+                { question: "Java keyword to define a class:", answer: "class" },
+                { question: "Java keyword to create a loop (not for):", answer: "while" },
+                { question: "Java keyword to create a loop (not while):", answer: "for" },
+                { question: "Java keyword for inheritance:", answer: "extends" },
+                { question: "Java keyword for defining a method:", answer: "void" },
+                { question: "JavaScript method to add an event listener:", answer: "addEventListener()" },
+                { question: "JavaScript method to create a timeout:", answer: "setTimeout()" },
+                { question: "Java keyword to create an object instance:", answer: "new" },
+                { question: "JavaScript function to select an element by ID:", answer: "document.getElementById()" }
+            ],
+            "Python": [
+                { question: "Python command to print:", answer: "print()" },
+                { question: "Python function to get input from a user:", answer: "input()" },
+                { question: "Python keyword to define a function:", answer: "def" },
+                { question: "Python keyword to loop through items in a list:", answer: "for" },
+                { question: "Python method to remove whitespace from a string:", answer: "strip()" },
+                { question: "Python command to install a package:", answer: "pip install" },
+                { question: "Python keyword for defining a class:", answer: "class" },
+                { question: "Python keyword to return a value:", answer: "return" },
+                { question: "Python function to get the length of a list:", answer: "len()" },
+                { question: "Python keyword for a conditional statement:", answer: "if" }
+            ],
+            "JavaScript": [
+                { question: "JavaScript function to log output to console:", answer: "console.log()" },
+                { question: "JavaScript method to add an event listener:", answer: "addEventListener()" },
+                { question: "JavaScript method to create a timeout:", answer: "setTimeout()" },
+                { question: "JavaScript function to select an element by ID:", answer: "document.getElementById()" },
+                { question: "JavaScript keyword to declare a variable:", answer: "let" },
+                { question: "JavaScript keyword for constant variables:", answer: "const" },
+                { question: "JavaScript keyword for function declaration:", answer: "function" },
+                { question: "JavaScript operator for equality check:", answer: "===" },
+                { question: "JavaScript keyword for an asynchronous function:", answer: "async" },
+                { question: "JavaScript method to parse JSON:", answer: "JSON.parse()" }
+            ],
+            "HTML & CSS": [
+                { question: "HTML tag for a hyperlink:", answer: "<a>" },
+                { question: "HTML tag for an image:", answer: "<img>" },
+                { question: "HTML tag for a table:", answer: "<table>" },
+                { question: "HTML tag for a form:", answer: "<form>" },
+                { question: "CSS property to change text color:", answer: "color" },
+                { question: "CSS property to set the background color:", answer: "background-color" },
+                { question: "CSS property to set padding:", answer: "padding" },
+                { question: "CSS property to make text bold:", answer: "font-weight" },
+                { question: "CSS property to align text:", answer: "text-align" },
+                { question: "CSS property to set the font size:", answer: "font-size" }
+            ],
+            "Bash": [
+                { question: "Bash command to list files:", answer: "ls" },
+                { question: "Command to navigate to a directory in the terminal:", answer: "cd" },
+                { question: "Command to list all files including hidden ones:", answer: "ls -a" },
+                { question: "Command to show current directory path:", answer: "pwd" },
+                { question: "Command to create a new directory:", answer: "mkdir" },
+                { question: "Command to delete a file:", answer: "rm" },
+                { question: "Command to move a file:", answer: "mv" },
+                { question: "Command to copy a file:", answer: "cp" },
+                { question: "Command to display content of a file:", answer: "cat" },
+                { question: "Command to clear the terminal screen:", answer: "clear" }
+            ]
+        };
+
+        document.getElementById("user-input").addEventListener("input", function () {
+            let userInput = this.value.trim();
+            console.log(`current term: ${currentTerm}`)
+            if (userInput === currentTerm.answer) {
+                document.getElementById("feedback").innerText = "✅ Correct!";
+                setTimeout(loadNewTerm, 1000); // Load next term after a short delay
+            }
+        });
+
+        let currentTerms = [];
+        let currentTerm = null;  // Store the active term globally
+
+        function startGame(language) {
+            currentTerms = termBank[language];
+            document.getElementById("selection-container").classList.add("hidden");
+            document.getElementById("game-container").classList.remove("hidden");
+            loadNewTerm();
+        }
 
         function loadNewTerm() {
-            currentTerm = terms[Math.floor(Math.random() * terms.length)];
+            currentTerm = currentTerms[Math.floor(Math.random() * currentTerms.length)];
             document.getElementById("prompt").innerText = currentTerm.question;
             document.getElementById("user-input").value = "";
             document.getElementById("feedback").innerText = "";
         }
 
-        document.getElementById("user-input").addEventListener("input", function () {
-            const userText = this.value;
-            if (userText.trim() === currentTerm.answer) {
-                document.getElementById("feedback").innerText = "✅ Correct!";
-                setTimeout(loadNewTerm, 1000);
-            }
-        });
 
-        loadNewTerm(); // Start the game
     </script>
 </body>
 
