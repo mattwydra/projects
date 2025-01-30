@@ -1,21 +1,17 @@
 // Define variables
-let maxTime = 0; // Longest time to find special character
-let mt_char = ""; // Most difficult character to find
 let curWord = ""; // Current word to type
-let startTime = 0; // Time when the round starts
 let score = 0; // Player's score
-let words = []; // List of possible words
 let round = 0; // Track the current round
 const totalRounds = 10; // Total rounds per game
 
 // DOM elements
 const highscoreDisplay = document.getElementById("highscore-display");
-const charToEnter = document.getElementById("char-to-enter");
+const wordToEnter = document.getElementById("word-to-enter");
 const textBox = document.getElementById("text-box");
 const introText = document.getElementById("intro-text");
 
 // Hide character at the start
-charToEnter.hidden = true;
+wordToEnter.hidden = true;
 
 // Initialize the game after loading the words file
 (async function init() {
@@ -27,6 +23,7 @@ charToEnter.hidden = true;
 function handleStartKey(event) {
   if (event.key === "Enter") {
     introText.textContent = "Type the character below. Press Enter to restart.";
+    wordToEnter.hidden = false;
     startGame();
   }
 }
@@ -39,7 +36,6 @@ function startGame() {
   textBox.removeEventListener("keydown", handleStartKey);
 
   // Reset variables
-  charToEnter.hidden = false;
   score = 0;
   round = 0;
   nextRound();
@@ -55,32 +51,37 @@ function nextRound() {
   // Generate a new word
   curWord = words[Math.floor(Math.random() * words.length)];
   console.log(`New word: ${curWord}`); // Debug log to see the word update
-  charToEnter.textContent = curWord;
+  wordToEnter.textContent = curWord;
   textBox.value = "";
-  startTime = Date.now();
   round++;
 
-  // Listen for input
-  textBox.addEventListener("input", handleInput);
+  // Listen for input (Enter key press)
+  textBox.addEventListener("keydown", handleEnterPress);
 }
 
-// Handle user input
-function handleInput() {
-  const input = textBox.value.trim();
-  if (input === curWord) {
-    // Correct word
-    const reactionTime = Date.now() - startTime;
-    score++;
-    console.log("Correct input!"); // Debug log for correct input
-    introText.textContent = `Correct!`;
-    textBox.removeEventListener("input", handleInput);
+// Handle Enter key press to check the input
+function handleEnterPress(event) {
+  if (event.key === "Enter") {
+    const input = textBox.value.trim();
+    if (input === curWord) {
+      // Correct word
+      score++;
+      introText.textContent = `Correct!`;
+      console.log("Correct input!"); // Debug log for correct input
+    }
+    console.log(`input: ${input}`);
+    console.log(`should be: ${input}`);
+    // else {
+    //   // Incorrect word
+    //   score--;
+    //   introText.textContent = `Incorrect. Try again.`;
+    //   console.log("Incorrect input!"); // Debug log for incorrect input
+    // }
+
+    // Clear the input and proceed to the next round
+    textBox.value = "";
+    textBox.removeEventListener("keydown", handleEnterPress);
     nextRound();
-  } else if (input.length === curWord.length) {
-    // Incorrect word, check if input matches word length
-    score--;
-    console.log("Incorrect input!"); // Debug log for incorrect input
-    introText.textContent = `Incorrect. Try again.`;
-    textBox.value = ""; // Clear the incorrect input
   }
 }
 
@@ -88,7 +89,7 @@ function handleInput() {
 function endGame() {
   console.log(`Game over! Final score: ${score}`); // Debug log to see final score
   textBox.value = "";
-  charToEnter.hidden = true;
+  wordToEnter.hidden = true;
   introText.textContent = `Game over! Your final score was: ${score}. Press Enter to play again.`;
   textBox.addEventListener("keydown", handleStartKey); // Add the start listener back
 }

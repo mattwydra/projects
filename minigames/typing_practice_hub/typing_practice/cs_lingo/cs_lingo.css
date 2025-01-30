@@ -13,7 +13,7 @@ body {
   right: 10px;
 }
 
-.home-button {
+#home-button {
   display: inline-block;
   background-color: rosybrown;
   color: aliceblue;

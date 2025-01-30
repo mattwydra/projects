@@ -138,6 +138,8 @@
         let currentTerm = null;  // Store the active term globally
 
         function startGame(language) {
+            let link = document.getElementById("home-button");
+            link.setAttribute('href', 'index.html');
             currentTerms = termBank[language];
             document.getElementById("selection-container").classList.add("hidden");
             document.getElementById("game-container").classList.remove("hidden");
