@@ -62,21 +62,22 @@ function nextRound() {
 // Handle Enter key press to check the input
 function handleEnterPress(event) {
   if (event.key === "Enter") {
-    const input = textBox.value.trim();
-    if (input === curWord) {
+    const input = textBox.value.trim(); // Trim any spaces or newlines from the input
+    const sanitizedCurWord = curWord.trim(); // Trim any spaces or newlines from the word to type
+    console.log(`Input: "${input}"`);  // Debug log to check input
+    console.log(`Sanitized Current word: "${sanitizedCurWord}"`);  // Debug log to check curWord
+
+    if (input === sanitizedCurWord) {
       // Correct word
       score++;
       introText.textContent = `Correct!`;
       console.log("Correct input!"); // Debug log for correct input
+    } else {
+      // Incorrect word
+      score--;
+      introText.textContent = `Incorrect. Try again.`;
+      console.log("Incorrect input!"); // Debug log for incorrect input
     }
-    console.log(`input: ${input}`);
-    console.log(`should be: ${input}`);
-    // else {
-    //   // Incorrect word
-    //   score--;
-    //   introText.textContent = `Incorrect. Try again.`;
-    //   console.log("Incorrect input!"); // Debug log for incorrect input
-    // }
 
     // Clear the input and proceed to the next round
     textBox.value = "";
@@ -84,6 +85,7 @@ function handleEnterPress(event) {
     nextRound();
   }
 }
+
 
 // End the game
 function endGame() {
