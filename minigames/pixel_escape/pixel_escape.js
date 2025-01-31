@@ -15,7 +15,7 @@ let survivalInterval;
 canvas.addEventListener("click", handleMenuClick);
 window.addEventListener("keydown", (e) => {
     if (e.code === "Space") player.jump();
-    if (e.code === "KeyZ") player.shoot();
+    if (e.code === "KeyF") player.shoot();
 });
 
 function startSurvivalTimer() {
