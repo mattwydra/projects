@@ -62,6 +62,9 @@
         console.log(localStorage.getItem("misses"));
         console.log(localStorage.getItem("reactionTime"));
 
+        document.addEventListener("DOMContentLoaded", () => {
+            showGameOverScreen();
+        });
 
         function showGameOverScreen(score, accuracy, misses, reactionTime) {
             document.getElementById('finalScore').innerText = `Final Score: ${localStorage.getItem("score")}`;
