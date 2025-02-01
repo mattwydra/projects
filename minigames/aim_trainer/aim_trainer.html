@@ -30,6 +30,29 @@
   <div id="highest-reaction-time">reaction time: poor</div>
 
   <script src="aim_trainer.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const params = new URLSearchParams(window.location.search);
+
+      if (params.has("score")) {
+        // Save to localStorage
+        localStorage.setItem("score", params.get("score"));
+        localStorage.setItem("accuracy", params.get("accuracy"));
+        localStorage.setItem("misses", params.get("misses"));
+        localStorage.setItem("reactionTime", params.get("reactionTime"));
+
+        // Clear URL parameters to avoid duplicate saves
+        window.history.replaceState({}, document.title, "aim_trainer.html");
+      }
+
+      console.log("Loaded Aim Trainer. Scores in localStorage:", {
+        score: localStorage.getItem("score"),
+        accuracy: localStorage.getItem("accuracy"),
+        misses: localStorage.getItem("misses"),
+        reactionTime: localStorage.getItem("reactionTime")
+      });
+    });
+  </script>
 </body>
 
 </html>
