@@ -69,26 +69,17 @@
             localStorage.setItem("reactionTime", `${reactionTime}`);
             // localStorage.setItem("RT_raw", RT_raw);
             localStorage.setItem("misses", `${(misses)}`);
-            localStorage.setItem("accuracy", `${((score / clicks) * 100).toFixed(2)}`);
+            localStorage.setItem("accuracy", `${accuracy}`);
 
-            // document.getElementById('finalScore').innerText = `Final Score: ${score}`;
-            // document.getElementById('accuracy').innerText = `Accuracy: ${accuracy}%`;
-            // document.getElementById('totalMisses').innerText = `Total Misses: ${misses}`;
-            // document.getElementById('reactionTime').innerText = `Average Reaction Time: ${reactionTime}ms`;
+            document.getElementById('finalScore').innerText = `Final Score: ${localStorage.getItem("score")}`;
+            document.getElementById('accuracy').innerText = `Accuracy: ${localStorage.getItem("accuracy")}%`;
+            document.getElementById('totalMisses').innerText = `Total Misses: ${localStorage.getItem("misses")}`;
+            document.getElementById('reactionTime').innerText = `Average Reaction Time: ${localStorage.getItem("reactionTime")}ms`;
+            document.getElementById('gameOverScreen').style.display = 'block';
+            console.log("here");
 
-            // document.getElementById('gameOverScreen').style.display = 'block';
         });
 
-
-        console.log("there");
-        console.log(localStorage.getItem("score"))
-        console.log(localStorage.getItem("accuracy"));
-        console.log(localStorage.getItem("misses"));
-        console.log(localStorage.getItem("reactionTime"));
-
-        document.addEventListener("DOMContentLoaded", () => {
-            showGameOverScreen();
-        });
 
         function showGameOverScreen(score, accuracy, misses, reactionTime) {
             document.getElementById('finalScore').innerText = `Final Score: ${localStorage.getItem("score")}`;
@@ -103,6 +94,7 @@
             document.getElementById('gameOverScreen').style.display = 'none';
             // Reset your game logic here
             console.log("Game restarted");
+            window.location.href = "aim_trainer.html"
         }
     </script>
 </body>
