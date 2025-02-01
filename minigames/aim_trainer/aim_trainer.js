@@ -156,7 +156,7 @@ function stopGame(completed) {
     console.log(localStorage.getItem("misses"));
     console.log(localStorage.getItem("reactionTime"));
 
-    window.location.href = "gameover.html"; // Redirects to game-over.html
+    window.location.href = "test.html"; // Redirects to game-over.html
 
     if (clicks > 0) {
       alert(
