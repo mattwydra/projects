@@ -143,6 +143,8 @@ function stopGame(completed) {
       reactionTime = "insane";
     }
 
+    window.location.href = "gameover.html"; // Redirects to game-over.html
+
     if (clicks > 0) {
       alert(
         `final score: ${score}\naccuracy: ${((score / clicks) * 100).toFixed(
