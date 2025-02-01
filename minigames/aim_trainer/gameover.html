@@ -52,7 +52,8 @@
         <p id="accuracy"></p>
         <p id="totalMisses"></p>
         <p id="reactionTime"></p>
-        <button onclick="restartGame()">Restart</button>
+        <button onclick="saveScore()">Save Score</button>
+        <button onclick="goBack()">Okay</button>
     </div>
 
     <script>
@@ -74,11 +75,30 @@
             document.getElementById('finalScore').innerText = `Final Score: ${localStorage.getItem("score")}`;
             document.getElementById('accuracy').innerText = `Accuracy: ${localStorage.getItem("accuracy")}%`;
             document.getElementById('totalMisses').innerText = `Total Misses: ${localStorage.getItem("misses")}`;
-            document.getElementById('reactionTime').innerText = `Average Reaction Time: ${localStorage.getItem("reactionTime")}ms`;
+            document.getElementById('reactionTime').innerText = `Average Reaction Time: ${localStorage.getItem("reactionTime")}`;
             document.getElementById('gameOverScreen').style.display = 'block';
             console.log("here");
 
         });
+
+        let returnURL = "aim_trainer.html";
+
+        function saveScore() {
+            const params = new URLSearchParams(window.location.search);
+
+            const score = params.get("score") || "N/A";
+            const accuracy = params.get("accuracy") || "N/A";
+            const misses = params.get("misses") || "N/A";
+            const reactionTime = params.get("reactionTime") || "N/A";
+            // Update return URL to include parameters
+            returnURL = `aim_trainer.html?score=${score}&accuracy=${accuracy}&misses=${misses}&reactionTime=${reactionTime}`;
+            alert("Score saved! You can now return.");
+        }
+
+        function goBack() {
+            // Redirect to the stored returnURL
+            window.location.href = returnURL;
+        }
 
 
         function showGameOverScreen(score, accuracy, misses, reactionTime) {
