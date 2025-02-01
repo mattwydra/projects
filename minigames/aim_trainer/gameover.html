@@ -44,6 +44,8 @@
 </head>
 
 <body>
+    <h1>Game Over</h1>
+    <p>Thanks for playing!</p>
     <div class="game-over-screen" id="gameOverScreen">
         <h2>Game Over</h2>
         <p id="finalScore"></p>
@@ -54,11 +56,18 @@
     </div>
 
     <script>
+        console.log("there");
+        console.log(localStorage.getItem("score"))
+        console.log(localStorage.getItem("accuracy"));
+        console.log(localStorage.getItem("misses"));
+        console.log(localStorage.getItem("reactionTime"));
+
+
         function showGameOverScreen(score, accuracy, misses, reactionTime) {
-            document.getElementById('finalScore').innerText = `Final Score: ${score}`;
-            document.getElementById('accuracy').innerText = `Accuracy: ${accuracy}%`;
-            document.getElementById('totalMisses').innerText = `Total Misses: ${misses}`;
-            document.getElementById('reactionTime').innerText = `Average Reaction Time: ${reactionTime}ms`;
+            document.getElementById('finalScore').innerText = `Final Score: ${localStorage.getItem("score")}`;
+            document.getElementById('accuracy').innerText = `Accuracy: ${localStorage.getItem("accuracy")}%`;
+            document.getElementById('totalMisses').innerText = `Total Misses: ${localStorage.getItem("misses")}`;
+            document.getElementById('reactionTime').innerText = `Average Reaction Time: ${localStorage.getItem("reactionTime")}ms`;
             document.getElementById('gameOverScreen').style.display = 'block';
             console.log("here");
         }
