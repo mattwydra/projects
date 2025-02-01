@@ -100,22 +100,6 @@
             window.location.href = returnURL;
         }
 
-
-        function showGameOverScreen(score, accuracy, misses, reactionTime) {
-            document.getElementById('finalScore').innerText = `Final Score: ${localStorage.getItem("score")}`;
-            document.getElementById('accuracy').innerText = `Accuracy: ${localStorage.getItem("accuracy")}%`;
-            document.getElementById('totalMisses').innerText = `Total Misses: ${localStorage.getItem("misses")}`;
-            document.getElementById('reactionTime').innerText = `Average Reaction Time: ${localStorage.getItem("reactionTime")}ms`;
-            document.getElementById('gameOverScreen').style.display = 'block';
-            console.log("here");
-        }
-
-        function restartGame() {
-            document.getElementById('gameOverScreen').style.display = 'none';
-            // Reset your game logic here
-            console.log("Game restarted");
-            window.location.href = "aim_trainer.html"
-        }
     </script>
 </body>
 

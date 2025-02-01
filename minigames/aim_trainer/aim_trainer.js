@@ -1,3 +1,60 @@
+document.addEventListener("DOMContentLoaded", () => {
+  const params = new URLSearchParams(window.location.search);
+
+  if (params.has("score")) {
+    // Save to localStorage
+    localStorage.setItem("score", params.get("score"));
+    localStorage.setItem("accuracy", params.get("accuracy"));
+    localStorage.setItem("misses", params.get("misses"));
+    localStorage.setItem("reactionTime", params.get("reactionTime"));
+
+    // Clear URL parameters to avoid duplicate saves
+    window.history.replaceState({}, document.title, "aim_trainer.html");
+  }
+
+  console.log("Loaded Aim Trainer. Scores in localStorage:", {
+    score: localStorage.getItem("score"),
+    accuracy: localStorage.getItem("accuracy"),
+    misses: localStorage.getItem("misses"),
+    reactionTime: localStorage.getItem("reactionTime")
+  });
+
+  let score = localStorage.getItem("score");
+  let accuracy = localStorage.getItem("accuracy");
+  let reactionTime = localStorage.getItem("reactionTime");
+
+  console.log("score", score);
+  let old_HS = parseFloat(localStorage.getItem("highest-score")) || 0;
+  console.log("old_HS", old_HS);
+  if (score > old_HS) {
+    localStorage.setItem("highest-score", score);
+    localStorage.setItem("highest-accuracy", accuracy);
+    localStorage.setItem("reaction-time", reactionTime);
+  } else if (score == old_HS) {
+    let old_acc = parseFloat(localStorage.getItem("highest-accuracy")) || 0;
+    console.log("old_acc", old_acc);
+    if (accuracy < old_acc) {
+      accuracy = old_acc;
+    }
+
+    localStorage.setItem("highest-score", score);
+    localStorage.setItem("highest-accuracy", accuracy);
+    localStorage.setItem("reaction-time", reactionTime);
+  }
+
+  highestScoreDisplay.textContent = `highest score: ${localStorage.getItem(
+    "highest-score"
+  )}`;
+  highestAccuracyDisplay.textContent = `highest score accuracy: ${localStorage.getItem(
+    "highest-accuracy"
+  )}%`;
+  highestRTDisplay.textContent = `reaction time: ${localStorage.getItem(
+    "reaction-time"
+  )}`;
+
+});
+
+
 // Select elements
 const startButton = document.getElementById("start-button");
 const gameArea = document.getElementById("game-area");
@@ -29,22 +86,6 @@ saveBtn.hidden = true;
 resetBtn.hidden = true;
 accuracyDisplay.hidden = true;
 giveUpBtn.hidden = true;
-
-// Save high score to local storage
-function saveHighScore() {
-  localStorage.setItem("highest-score", highScore);
-  localStorage.setItem("highest-accuracy", accuracy);
-  localStorage.setItem("reaction-time", reactionTime);
-  highestScoreDisplay.textContent = `highest score: ${localStorage.getItem(
-    "highest-score"
-  )}`;
-  highestAccuracyDisplay.textContent = `highest score accuracy: ${localStorage.getItem(
-    "highest-accuracy"
-  )}%`;
-  highestRTDisplay.textContent = `reaction time: ${localStorage.getItem(
-    "reaction-time"
-  )}`;
-}
 
 // Start game logic
 function startGame() {
