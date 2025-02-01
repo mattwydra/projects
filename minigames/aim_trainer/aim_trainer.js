@@ -156,7 +156,18 @@ function stopGame(completed) {
     console.log(localStorage.getItem("misses"));
     console.log(localStorage.getItem("reactionTime"));
 
-    window.location.href = "gameover.html"; // Redirects to game-over.html
+    const t_score = localStorage.getItem("score");
+    const t_accuracy = localStorage.getItem("accuracy");
+    const t_misses = localStorage.getItem("misses");
+    const t_reactionTime = localStorage.getItem("reactionTime");
+
+    // Encode the values into the URL
+    const queryString = `gameover.html?score=${t_score}&accuracy=${t_accuracy}&misses=${t_misses}&reactionTime=${t_reactionTime}`;
+    console.log(queryString);
+    window.location.href = queryString;
+
+
+    // window.location.href = "gameover.html"; // Redirects to game-over.html
 
     if (clicks > 0) {
       alert(
