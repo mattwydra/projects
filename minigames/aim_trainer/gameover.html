@@ -56,6 +56,30 @@
     </div>
 
     <script>
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const params = new URLSearchParams(window.location.search);
+
+            const score = params.get("score") || "N/A";
+            const accuracy = params.get("accuracy") || "N/A";
+            const misses = params.get("misses") || "N/A";
+            const reactionTime = params.get("reactionTime") || "N/A";
+
+            localStorage.setItem("score", `${score}`);
+            localStorage.setItem("reactionTime", `${reactionTime}`);
+            // localStorage.setItem("RT_raw", RT_raw);
+            localStorage.setItem("misses", `${(misses)}`);
+            localStorage.setItem("accuracy", `${((score / clicks) * 100).toFixed(2)}`);
+
+            // document.getElementById('finalScore').innerText = `Final Score: ${score}`;
+            // document.getElementById('accuracy').innerText = `Accuracy: ${accuracy}%`;
+            // document.getElementById('totalMisses').innerText = `Total Misses: ${misses}`;
+            // document.getElementById('reactionTime').innerText = `Average Reaction Time: ${reactionTime}ms`;
+
+            // document.getElementById('gameOverScreen').style.display = 'block';
+        });
+
+
         console.log("there");
         console.log(localStorage.getItem("score"))
         console.log(localStorage.getItem("accuracy"));
