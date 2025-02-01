@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Over Screen</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: black;
+        }
+
+        .game-over-screen {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .game-over-screen h2 {
+            margin-top: 0;
+        }
+
+        .game-over-screen button {
+            padding: 10px 15px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .game-over-screen button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="game-over-screen" id="gameOverScreen">
+        <h2>Game Over</h2>
+        <p id="finalScore"></p>
+        <p id="accuracy"></p>
+        <p id="totalMisses"></p>
+        <p id="reactionTime"></p>
+        <button onclick="restartGame()">Restart</button>
+    </div>
+
+    <script>
+        function showGameOverScreen(score, accuracy, misses, reactionTime) {
+            document.getElementById('finalScore').innerText = `Final Score: ${score}`;
+            document.getElementById('accuracy').innerText = `Accuracy: ${accuracy}%`;
+            document.getElementById('totalMisses').innerText = `Total Misses: ${misses}`;
+            document.getElementById('reactionTime').innerText = `Average Reaction Time: ${reactionTime}ms`;
+            document.getElementById('gameOverScreen').style.display = 'block';
+            console.log("here");
+        }
+
+        function restartGame() {
+            document.getElementById('gameOverScreen').style.display = 'none';
+            // Reset your game logic here
+            console.log("Game restarted");
+        }
+    </script>
+</body>
+
+</html>
