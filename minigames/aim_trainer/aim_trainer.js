@@ -143,6 +143,19 @@ function stopGame(completed) {
       reactionTime = "insane";
     }
 
+
+    localStorage.setItem("score", `${score}`);
+    localStorage.setItem("reactionTime", `${reactionTime}`);
+    // localStorage.setItem("RT_raw", RT_raw);
+    localStorage.setItem("misses", `${(clicks - score)}`);
+    localStorage.setItem("accuracy", `${((score / clicks) * 100).toFixed(2)}`);
+
+    console.log("here");
+    console.log(localStorage.getItem("score"))
+    console.log(localStorage.getItem("accuracy"));
+    console.log(localStorage.getItem("misses"));
+    console.log(localStorage.getItem("reactionTime"));
+
     window.location.href = "gameover.html"; // Redirects to game-over.html
 
     if (clicks > 0) {
