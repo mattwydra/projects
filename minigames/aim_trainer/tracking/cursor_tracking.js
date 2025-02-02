@@ -70,3 +70,75 @@ document.addEventListener("mousemove", (event) => {
 
 setInterval(spawnBall, 1000); // Spawn a new ball every second
 updateGame();
+
+
+
+// export default function AimTrackerGame() {
+//     const [balls, setBalls] = useState([]);
+//     const ballSize = 50;
+
+//     useEffect(() => {
+//         const spawnBall = () => {
+//             const startX = Math.random() > 0.5 ? -ballSize : window.innerWidth;
+//             const y = Math.random() * (window.innerHeight - ballSize);
+//             const speed = Math.random() * 2 + 3; // Speed between 3 and 5
+//             const direction = startX < 0 ? 1 : -1;
+
+//             setBalls((prevBalls) => [
+//                 ...prevBalls,
+//                 { id: Date.now(), x: startX, y, speed, direction, hp: 2000 }
+//             ]);
+//         };
+
+//         const interval = setInterval(spawnBall, 1000);
+//         return () => clearInterval(interval);
+//     }, []);
+
+//     useEffect(() => {
+//         const updatePositions = setInterval(() => {
+//             setBalls((prevBalls) =>
+//                 prevBalls
+//                     .map(ball => ({
+//                         ...ball,
+//                         x: ball.x + ball.speed * ball.direction
+//                     }))
+//                     .filter(ball => ball.hp > 0 && ball.x > -ballSize && ball.x < window.innerWidth + ballSize) // Remove off-screen balls
+//             );
+//         }, 16);
+//         return () => clearInterval(updatePositions);
+//     }, []);
+
+//     const handleMouseMove = (e) => {
+//         setBalls((prevBalls) =>
+//             prevBalls.map(ball => {
+//                 const distX = e.clientX - (ball.x + ballSize / 2);
+//                 const distY = e.clientY - (ball.y + ballSize / 2);
+//                 const distance = Math.sqrt(distX * distX + distY * distY);
+
+//                 if (distance < ballSize / 2) {
+//                     return { ...ball, hp: ball.hp - 10 };
+//                 }
+//                 return ball;
+//             })
+//         );
+//     };
+
+//     return (
+//         <div className="relative w-screen h-screen" onMouseMove={handleMouseMove}>
+//             {balls.map((ball) => (
+//                 <div
+//                     key={ball.id}
+//                     className="absolute bg-red-500 rounded-full"
+//                     style={{
+//                         width: ballSize,
+//                         height: ballSize,
+//                         left: ball.x,
+//                         top: ball.y,
+//                         opacity: ball.hp / 2000,
+//                         transition: "opacity 0.2s ease-out"
+//                     }}
+//                 />
+//             ))}
+//         </div>
+//     );
+// }
