@@ -7,8 +7,8 @@ body {
 
 #game-container {
     position: relative;
-    width: 800px;
-    height: 400px;
+    width: dw;
+    height: dh;
     margin: 20px auto;
     border: 2px solid black;
     background-color: rosybrown;
