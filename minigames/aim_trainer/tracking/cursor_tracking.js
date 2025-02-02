@@ -12,7 +12,7 @@ function drawLine() {
     ctx.beginPath();
     ctx.moveTo(100, 200);
     ctx.lineTo(700, 200);
-    ctx.strokeStyle = "red";
+    ctx.strokeStyle = "lavender";
     ctx.lineWidth = 4;
     ctx.stroke();
 }
