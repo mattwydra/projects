@@ -1,0 +1,30 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    max-width: 400px;
+    background-color: black;
+    color: lavenderblush;
+}
+
+.task {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    background-color: #f9f9f9;
+}
+
+.task button {
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.task button:hover {
+    background-color: darkred;
+}
