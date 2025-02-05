@@ -176,9 +176,9 @@ function stopGame(completed) {
     let RT_raw = (10000 / score).toFixed(0);
     if (RT_raw > 700) {
       reactionTime = "poor";
-    } else if (RT_raw > 500) {
+    } else if (RT_raw > 600) {
       reactionTime = "average";
-    } else if (RT_raw > 350) {
+    } else if (RT_raw > 400) {
       reactionTime = "good";
     } else {
       reactionTime = "insane";
