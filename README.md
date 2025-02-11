@@ -20,7 +20,8 @@ A series of interactive web-based [games](https://mattwydra.github.io/projects/)
 - **[Aim Trainer](https://mattwydra.github.io/projects/minigames/aim_trainer/aim_trainer.html)**: Aids in improving aim for FPS games, with highscore tracking and customizable durations.  
 - **[Reaction Time Trainer](https://mattwydra.github.io/projects/minigames/rt_trainer/index.html)**: Tests and improves reaction time, with future plans for advanced features.  
 - **[Number Memory](https://mattwydra.github.io/projects/minigames/number_memory/index.html)**: Enhances short-term memory with increasing difficulty and planned highscore tracking.  
-- **[Typing Practice](https://mattwydra.github.io/projects/minigames/typing_practice_hub/hub.html)**: Offers various modes to enhance typing speed and accuracy.  
+- **[Typing Practice](https://mattwydra.github.io/projects/minigames/typing_practice_hub/hub.html)**: Offers various modes to enhance typing speed and accuracy.
+- **[Pixel Escape](https://mattwydra.github.io/projects/minigames/pixel_escape/pixel_escape.html)**: Dodge and destroy blocks as you try to get a highscore! Supports multiple gamemodes.
 - [more coming soon](minigames/program_list.txt)
 
 ### **Discord Bot: Hopecore**  
