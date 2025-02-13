@@ -1,5 +1,7 @@
 # Pixel Escape
 
+[link](https://mattwydra.github.io/projects/minigames/pixel_escape/pixel_escape.html)
+
 ## Overview
 Pixel Escape is a fast-paced, 2D endless runner game where players control a pixel character and avoid obstacles by jumping. The game tests reflexes and timing skills, with potential for exciting future enhancements.
 
