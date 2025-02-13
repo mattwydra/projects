@@ -1,5 +1,7 @@
 # Aim Trainer
 
+[link](https://mattwydra.github.io/projects/minigames/aim_trainer/landing_page.html)
+
 ## Overview
 Aim Trainer is a simple browser-based game designed to test and improve a player's precision and reaction time. The user clicks on randomly appearing targets within a set time limit, with scores and accuracy displayed in real time. The game features intuitive UI elements and tracks high scores for motivation and progress.
 
