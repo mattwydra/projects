@@ -1,5 +1,7 @@
 # Clicks Per Second (CPS) Tester
 
+[link](https://mattwydra.github.io/projects/minigames/cps/index.html)
+
 ## Overview
 The CPS Tester is a browser-based application designed to measure and track a user's clicking speed over a specified duration. The game provides real-time feedback, customizable test durations, and high score tracking for competitive fun.
 
