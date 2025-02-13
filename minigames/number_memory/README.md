@@ -1,5 +1,7 @@
 # Number Memory Game
 
+[link](https://mattwydra.github.io/projects/minigames/number_memory/index.html)
+
 ## Overview
 The Number Memory Game challenges players to memorize and recall a sequence of numbers that grows longer with each successful round. The game tests cognitive recall and memory skills, with added features to keep gameplay engaging.
 
