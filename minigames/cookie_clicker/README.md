@@ -1,5 +1,7 @@
 # Cookie Clicker
 
+[link](https://mattwydra.github.io/projects/minigames/cookie_clicker/cookie_clicker.html)
+
 ## Overview
 Cookie Clicker is a fun and interactive incremental game where players click on a cookie to increase their cookie count. The game includes power-ups, dynamic upgrades, and real-time feedback, providing an engaging experience as players work to maximize their cookie production.
 
