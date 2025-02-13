@@ -1,5 +1,7 @@
 # Reaction Time Minigame
 
+[link](https://mattwydra.github.io/projects/minigames/rt_trainer/index.html)
+
 ## Overview
 The Reaction Time Minigame tests a player's ability to respond quickly to visual stimuli. The game tracks reaction times across multiple attempts and calculates key performance statistics, such as the best time and average time. This fun and challenging minigame encourages players to improve their reflexes.
 
