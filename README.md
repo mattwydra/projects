@@ -29,7 +29,8 @@ A series of interactive web-based [games](https://mattwydra.github.io/projects/)
 ### **Discord Bot: Hopecore**  
 A bot designed to spread positivity and motivation, featuring custom daily reminders and image-based responses.  
 - Randomized motivational quotes and images.  
-- Special modes for 'daily reminders' using unique assets.  
+- Special modes for 'daily reminders' using unique assets.
+- I created a [demo](https://mattwydra.github.io/projects/discord_bots/hopecore_v1/browser_demo/index.html) that mimics the bot's behavior. Although the demo is web-based, the bot operates similarly (creating a quote/image pair and returning it to the user).
 
 ### **Planned Projects**  
 - **To-Do List & Calendar Reminder App**: A tool for managing events, tasks, and reminders, complete with motivational elements.  
