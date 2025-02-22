@@ -42,7 +42,7 @@ A bot designed to spread positivity and motivation, featuring custom daily remin
 
 ## Upcoming Features  
 - User dashboards for tracking progress (e.g., highscores or task completion).  
-- Light/Dark mode support across all projects.  
+- ~~Light/Dark mode support across all projects.~~
 - Integration of sound effects and music for a more immersive experience.  
 - Improved accessibility features like colorblind modes and keyboard-only navigation.
 - Better mobile support for minigames
