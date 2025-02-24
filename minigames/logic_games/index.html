@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riddle Game</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <button class="toggle-btn" id="themeToggle">Toggle Dark/Light Mode</button>
+    <h1>Riddle Game</h1>
+    <p id="riddle">Loading...</p>
+    <input type="text" id="answerInput" placeholder="Your answer">
+    <div>
+        <button id="ans-btn" onclick="checkAnswer()">Check Answer</button>
+        <button id="q-btn" onclick="nextRiddle()">Next</button>
+    </div>
+    <p id="feedback"></p>
+
+    <script>
+        const questionsUrl = 'https://raw.githubusercontent.com/mattwydra/projects/main/minigames/logic_games/questions.txt';
+        const answersUrl = 'https://raw.githubusercontent.com/mattwydra/projects/main/minigames/logic_games/answers.txt';
+
+        let riddles = [];
+        let answers = [];
+        let currentIndex = 0;
+
+        async function loadRiddles() {
+            const qResponse = await fetch(questionsUrl);
+            const aResponse = await fetch(answersUrl);
+            riddles = (await qResponse.text()).split('\n');
+            answers = (await aResponse.text()).split('\n');
+            currentIndex = Math.floor(Math.random() * riddles.length);
+            document.getElementById('riddle').innerText = riddles[currentIndex];
+        }
+
+        function checkAnswer() {
+            const userAnswer = document.getElementById('answerInput').value.trim().toLowerCase();
+            const correctAnswer = answers[currentIndex].trim().toLowerCase();
+            document.getElementById('feedback').innerText = userAnswer === correctAnswer ? 'Correct!' : 'Wrong!';
+        }
+
+        function nextRiddle() {
+            currentIndex = Math.floor(Math.random() * riddles.length);
+            document.getElementById('riddle').innerText = riddles[currentIndex];
+            document.getElementById('answerInput').value = '';
+            document.getElementById('feedback').innerText = '';
+        }
+
+        loadRiddles();
+        const themeToggle = document.getElementById("themeToggle");
+
+        themeToggle.addEventListener("click", () => {
+            const body = document.body;
+            const currentTheme = body.getAttribute("data-theme");
+
+            if (currentTheme === "light") {
+                body.setAttribute("data-theme", "dark");
+            } else {
+                body.setAttribute("data-theme", "light");
+            }
+        });
+    </script>
+</body>
+
+</html>
