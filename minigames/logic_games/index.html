@@ -12,7 +12,7 @@
     <button class="toggle-btn" id="themeToggle">Toggle Dark/Light Mode</button>
     <h1>Riddle Game</h1>
     <p id="riddle">Loading...</p>
-    <input type="text" id="answerInput" placeholder="Your answer">
+    <!-- <input type="text" id="answerInput" placeholder="Your answer"> -->
     <div>
         <button id="ans-btn" onclick="checkAnswer()">Check Answer</button>
         <button id="q-btn" onclick="nextRiddle()">Next</button>
@@ -37,15 +37,13 @@
         }
 
         function checkAnswer() {
-            const userAnswer = document.getElementById('answerInput').value.trim().toLowerCase();
-            const correctAnswer = answers[currentIndex].trim().toLowerCase();
-            document.getElementById('feedback').innerText = userAnswer === correctAnswer ? 'Correct!' : 'Wrong!';
+            document.getElementById('feedback').innerText = answers[currentIndex];
         }
 
         function nextRiddle() {
+            document.getElementById('feedback').innerHTML = "";
             currentIndex = Math.floor(Math.random() * riddles.length);
             document.getElementById('riddle').innerText = riddles[currentIndex];
-            document.getElementById('answerInput').value = '';
             document.getElementById('feedback').innerText = '';
         }
 
