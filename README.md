@@ -1,6 +1,6 @@
 # Personal Projects Collection  
 
-This repository is a hub for my personal projects, showcasing various creative and technical endeavors, including web-based mini-games, Discord bots, productivity tools, and more. It's an evolving space where I explore new ideas, experiment with technologies, and build fun, useful, and sometimes quirky applications.  
+This repository is a hub for my personal projects, showcasing various creative and technical endeavors, including web-based mini-games, Discord bots, productivity tools, and more. It's an evolving space where I explore new ideas, experiment with technologies, and build fun, useful, and sometimes innovative applications.  
 
 While originally focused on mini-games for learning HTML, CSS, and JavaScript, this repository has grown to include projects from other areas, such as bots, utilities, and tools aimed at improving productivity and fostering creativity (coming soon).  
 
