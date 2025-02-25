@@ -23,6 +23,7 @@ A series of interactive web-based [games](https://mattwydra.github.io/projects/)
 - **[Typing Practice](https://mattwydra.github.io/projects/minigames/typing_practice_hub/hub.html)**: Offers various modes to enhance typing speed and accuracy.
 - **[Pixel Escape](https://mattwydra.github.io/projects/minigames/pixel_escape/pixel_escape.html)**: Dodge and destroy blocks as you try to get a highscore! Supports multiple gamemodes.
 - **[Percentage Calculator](https://mattwydra.github.io/projects/minigames/percentage_calculation/index.html)**: Minigame to practice mental math percentage calculations.
+- **[Riddle Minigame](https://mattwydra.github.io/projects/minigames/logic_games/index.html)**: Minigame to practice riddles and other logic games.
 
 [more coming soon](minigames/program_list.txt)
 
