@@ -48,8 +48,4 @@ A bot designed to spread positivity and motivation, featuring custom daily remin
 - Improved accessibility features like colorblind modes and keyboard-only navigation.
 - Better mobile support for minigames
 - Home button to return to home page
-
-## About Me  
-This repository is a reflection of my journey as a developer and a creator. It blends my interests in coding, productivity, and gaming into a playful yet purposeful collection. Some projects lean toward the informal and fun side, while others aim to be polished and professional. I strive to strike a balance between learning, creating, and sharing what I’ve built with others.  
-
 Thanks for visiting! Feel free to explore, leave feedback, or even contribute to the projects!
