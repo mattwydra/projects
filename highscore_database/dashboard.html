@@ -1,0 +1,232 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minigames Hub</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Welcome to Minigames Hub</h1>
+        <p>Track your high scores across all your favorite minigames!</p>
+
+        <div class="buttons">
+            <a href="{{ url_for('login') }}" class="btn">Login</a>
+            <a href="{{ url_for('register') }}" class="btn">Register</a>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<!-- templates/register.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Minigames Hub</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Register</h1>
+
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <div class="form-group">
+                <label for="nickname">Nickname (optional):</label>
+                <input type="text" id="nickname" name="nickname">
+            </div>
+
+            <button type="submit" class="btn">Register</button>
+        </form>
+
+        <p>Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+    </div>
+</body>
+
+</html>
+
+<!-- templates/login.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Minigames Hub</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Login</h1>
+
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <button type="submit" class="btn">Login</button>
+        </form>
+
+        <p>Don't have an account? <a href="{{ url_for('register') }}">Register</a></p>
+    </div>
+</body>
+
+</html>
+
+<!-- templates/dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Minigames Hub</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Welcome, {{ user.nickname or user.username }}!</h1>
+            <a href="{{ url_for('logout') }}" class="btn btn-small">Logout</a>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="high-scores">High Scores</button>
+            <button class="tab-btn" data-tab="leaderboards">Leaderboards</button>
+            <button class="tab-btn" data-tab="progress">Progress Tracking</button>
+        </div>
+
+        <div class="tab-content active" id="high-scores">
+            <h2>Your High Scores</h2>
+
+            {% if scores %}
+            <table class="scores-table">
+                <thead>
+                    <tr>
+                        <th>Game</th>
+                        <th>Mode</th>
+                        <th>Score</th>
+                        <th>Reaction Time</th>
+                        <th>Accuracy</th>
+                        <th>Time Survived</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for score in scores %}
+                    <tr>
+                        <td>{{ score.game_name }}</td>
+                        <td>{{ score.game_mode or '-' }}</td>
+                        <td>{{ score.score }}</td>
+                        <td>{{ score.reaction_time or '-' }}</td>
+                        <td>{{ score.accuracy or '-' }}</td>
+                        <td>{{ score.time_survived or '-' }}</td>
+                        <td>{{ score.created_at }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>You haven't saved any scores yet.</p>
+            {% endif %}
+        </div>
+
+        <div class="tab-content" id="leaderboards">
+            <h2>Leaderboards</h2>
+
+            <div class="leaderboard-selector">
+                <label for="game-select">Select Game:</label>
+                <select id="game-select">
+                    <option value="aim_trainer">Aim Trainer</option>
+                    <option value="cookie_clicker">Cookie Clicker</option>
+                    <option value="cps">CPS</option>
+                    <option value="number_memory">Number Memory</option>
+                    <option value="percentage_practice">Percentage Practice</option>
+                    <option value="pixel_escape">Pixel Escape</option>
+                    <option value="reaction_time">Reaction Time</option>
+                    <option value="typing_practice">Typing Practice</option>
+                </select>
+
+                <label for="mode-select">Game Mode:</label>
+                <select id="mode-select">
+                    <option value="">All Modes</option>
+                </select>
+
+                <button id="load-leaderboard" class="btn">Load Leaderboard</button>
+            </div>
+
+            <div id="leaderboard-results">
+                <p>Select a game and mode to view the leaderboard.</p>
+            </div>
+        </div>
+
+        <div class="tab-content" id="progress">
+            <h2>Progress Tracking</h2>
+
+            <div class="progress-selector">
+                <label for="progress-game-select">Select Game:</label>
+                <select id="progress-game-select">
+                    <option value="aim_trainer">Aim Trainer</option>
+                    <option value="cookie_clicker">Cookie Clicker</option>
+                    <option value="cps">CPS</option>
+                    <option value="number_memory">Number Memory</option>
+                    <option value="percentage_practice">Percentage Practice</option>
+                    <option value="pixel_escape">Pixel Escape</option>
+                    <option value="reaction_time">Reaction Time</option>
+                    <option value="typing_practice">Typing Practice</option>
+                </select>
+
+                <label for="progress-mode-select">Game Mode:</label>
+                <select id="progress-mode-select">
+                    <option value="">All Modes</option>
+                </select>
+
+                <button id="load-progress" class="btn">View Progress</button>
+            </div>
+
+            <div id="progress-chart-container">
+                <canvas id="progress-chart"></canvas>
+                <p id="no-data-message" style="display: none;">No data available for this selection.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+</body>
+
+</html>
