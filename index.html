@@ -61,11 +61,22 @@
       cursor: pointer;
       background-color: darkgray;
       color: black;
+      transition: color 0.3s, background-color 0.3s;
+    }
+
+    .toggle-btn:hover {
+      background-color: pink;
+      color: black;
     }
 
     body[data-theme="light"] .toggle-btn {
       background-color: gray;
       color: white;
+    }
+
+    body[data-theme="light"] .toggle-btn:hover {
+      background-color: pink;
+      color: black;
     }
   </style>
 </head>
