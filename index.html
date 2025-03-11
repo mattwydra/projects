@@ -17,7 +17,7 @@
     }
 
     body[data-theme="light"] {
-      background-color: white;
+      background-color: lavender;
       color: black;
     }
 
@@ -29,26 +29,27 @@
       display: inline-block;
       margin: 15px;
       padding: 10px 20px;
-      background-color: rosybrown;
-      color: aliceblue;
+      background: rgb(65, 65, 65);
+      color: lavender;
       text-decoration: none;
       border-radius: 5px;
       font-size: 1.2em;
+      transition: color 0.3s, background-color 0.3s;
     }
 
     body[data-theme="light"] .game-link {
-      background-color: lightgray;
+      background-color: plum;
       color: black;
     }
 
     .game-link:hover {
-      background-color: lavenderblush;
-      color: darksalmon;
+      background-color: plum;
+      color: black;
     }
 
     body[data-theme="light"] .game-link:hover {
-      background-color: darksalmon;
-      color: white;
+      background-color: lightgray;
+      color: black;
     }
 
     .toggle-btn {
