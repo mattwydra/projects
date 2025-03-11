@@ -1,0 +1,26 @@
+.toggle-btn {
+    margin: 20px;
+    padding: 10px 15px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: darkgray;
+    color: black;
+    transition: color 0.3s, background-color 0.3s;
+}
+
+.toggle-btn:hover {
+    background-color: pink;
+    color: black;
+}
+
+body[data-theme="light"] .toggle-btn {
+    background-color: gray;
+    color: white;
+}
+
+body[data-theme="light"] .toggle-btn:hover {
+    background-color: pink;
+    color: black;
+}
