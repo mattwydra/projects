@@ -24,20 +24,19 @@ h2 {
   font-weight: bold;
 }
 
-
-
 #hopecore-link {
   display: inline-block;
   margin-top: 50px;
   padding: 10px 20px;
-  background-color: rosybrown;
-  color: aliceblue;
+  background: rgb(65, 65, 65);
+  color: lavender;
   text-decoration: none;
   border-radius: 5px;
   font-size: 1.2em;
+  transition: color 0.3s, background-color 0.3s;
 }
 
 #hopecore-link:hover {
-  background-color: lavenderblush;
-  color: darksalmon;
+  background-color: plum;
+  color: black;
 }
