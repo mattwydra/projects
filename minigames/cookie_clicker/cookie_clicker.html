@@ -5,16 +5,46 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cookie Clicker</title>
-  <div><button class="toggle-btn" id="themeToggle">Toggle Dark/Light Mode</button></div>
-
   <link rel="stylesheet" href="cookie_clicker.css" />
   <link rel="stylesheet" href="/styles/darkmode.css" />
 </head>
 
-<body>
-  <h1>Cookie Clicker</h1>
-  <img id="cookie" src="cookie.png" alt="Cookie" />
-  <p>Cookies: <span id="cookie-count">0</span></p>
+<body data-theme="dark">
+  <header>
+    <button class="toggle-btn" id="themeToggle">Toggle Dark/Light Mode</button>
+    <h1>Cookie Clicker</h1>
+  </header>
+
+  <main>
+    <div class="game-container">
+      <img id="cookie" src="cookie.png" alt="Cookie" />
+      <p>Cookies: <span id="cookie-count">0</span></p>
+
+      <div id="stats-panel">
+        <p class="stat">Click Multiplier: <span id="click-multiplier-value">1</span></p>
+        <p class="stat">Auto-Clicker: <span id="auto-status">Inactive</span></p>
+        <p class="stat">Auto Multiplier: <span id="auto-multiplier-value">1</span></p>
+        <p class="stat">Auto Speed: <span id="auto-speed-value">1.0</span>s</p>
+      </div>
+
+      <div id="power-ups-container"></div>
+
+      <div id="achievements-container" class="hidden">
+        <h2>Achievements</h2>
+        <ul id="achievements-list"></ul>
+      </div>
+    </div>
+
+    <div id="game-end-screen" class="hidden">
+      <h2>Game Complete!</h2>
+      <div id="end-stats"></div>
+      <button id="restart-game">Play Again</button>
+    </div>
+  </main>
+
+  <footer>
+    <p>Created by You - <span id="elapsed-time">00:00</span></p>
+  </footer>
 
   <script src="cookie_clicker.js"></script>
 </body>
