@@ -1,81 +1,393 @@
+/* Base styles */
 body {
-  background-color: black;
-  color: rosybrown;
-  font-family: Arial, sans-serif;
+  background-color: #222;
+  color: #e0b8b8;
+  font-family: 'Arial', sans-serif;
   text-align: center;
-  margin: 50px;
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-p {
-  color: gold;
-  font-size: 50px;
+/* Layout */
+header {
+  padding: 10px;
+  position: relative;
 }
 
-#cookie {
-  /* width: 200px; */
+main {
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  padding: 20px;
+}
+
+footer {
+  padding: 10px;
+  font-size: 0.8rem;
+}
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Cookie styling */
+#cookie {
+  width: 200px;
+  height: 200px;
   cursor: pointer;
   border: 6px solid #d38248;
   border-radius: 100%;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   transition: transform 0.1s;
-  object-fit: none;
+  margin: 20px 0;
 }
 
-#cookie:active {
+#cookie:active,
+#cookie.clicked {
   transform: scale(0.95);
 }
 
+/* Cookie count */
 #cookie-count {
   font-size: 3rem;
-  color: lavenderblush;
+  color: #f8e7e7;
+  font-weight: bold;
 }
 
-body[data-theme="light"] {
-  background-color: wheat;
-  color: rgb(57, 44, 112);
-  font-family: Arial, sans-serif;
-  text-align: center;
-  margin: 50px;
+/* Stats panel */
+#stats-panel {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin: 20px 0;
+  padding: 15px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  width: 100%;
+  max-width: 600px;
 }
 
-body[data-theme="light"] p {
-  color: rgb(114, 108, 108);
-  font-size: 50px;
+.stat {
+  font-size: 1rem;
+  margin: 0;
+  padding: 5px 10px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
 }
 
-body[data-theme="light"] #cookie {
-  /* width: 200px; */
-  align-items: center;
-  cursor: pointer;
-  border: 5px solid #d2691e;
-  border-radius: 50%;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  transition: transform 0.1s;
-
+/* Power-ups container */
+#power-ups-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin: 20px 0;
+  width: 100%;
+  max-width: 600px;
 }
 
-body[data-theme="light"] #cookie:active {
-  transform: scale(0.95);
-}
-
-body[data-theme="light"] #cookie-count {
-  font-size: 3rem;
-  color: rgb(134, 66, 89);
-}
-
-body[data-theme="light"] button {
-  background-color: rosybrown;
-  color: lavenderblush;
-}
-
-.toggle-btn {
-  margin: 20px;
+/* Button styling */
+button {
   padding: 10px 15px;
   font-size: 1em;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  background-color: darkgray;
-  color: black;
+  background-color: #8b6969;
+  color: #f8e7e7;
+  transition: all 0.2s;
+  position: relative;
+}
+
+button:hover {
+  background-color: #a57d7d;
+  transform: translateY(-2px);
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+.power-up-button {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 18px;
+  background-color: #8b5a2b;
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.power-up-button:hover {
+  background-color: #a86d33;
+}
+
+.power-up-button .cost {
+  font-size: 0.8em;
+  opacity: 0.8;
+  margin-top: 5px;
+}
+
+/* Toggle button */
+.toggle-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #555;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 0.9em;
+}
+
+/* Tooltip */
+.tooltip {
+  visibility: hidden;
+  width: 180px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  padding: 5px;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -90px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.power-up-button:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Achievements */
+#achievements-container {
+  margin-top: 30px;
+  padding: 15px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  max-width: 600px;
+  width: 100%;
+  text-align: left;
+}
+
+#achievements-container h2 {
+  text-align: center;
+  margin-top: 0;
+}
+
+#achievements-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.achievement {
+  padding: 8px 12px;
+  margin: 8px 0;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.achievement-title {
+  font-weight: bold;
+  margin-right: 5px;
+  color: gold;
+}
+
+/* Achievement notification */
+.achievement-notification {
+  position: fixed;
+  top: 20px;
+  right: -300px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 1000;
+  transition: right 0.5s ease-out;
+}
+
+.achievement-notification.show {
+  right: 20px;
+}
+
+.achievement-icon {
+  font-size: 1.5em;
+}
+
+/* Floating text animation */
+.floating-text {
+  position: absolute;
+  color: gold;
+  font-weight: bold;
+  pointer-events: none;
+  animation: float-up 1s ease-out forwards;
+  z-index: 100;
+}
+
+@keyframes float-up {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+}
+
+/* Button appear animation */
+.appear {
+  animation: appear 0.3s ease-out;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Game end screen */
+#game-end-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+#end-stats {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px 0;
+  max-width: 500px;
+  width: 90%;
+}
+
+#restart-game {
+  background-color: #8b5a2b;
+  padding: 12px 24px;
+  font-size: 1.2em;
+  margin-top: 20px;
+}
+
+/* Utility classes */
+.hidden {
+  display: none;
+}
+
+/* Light theme */
+body[data-theme="light"] {
+  background-color: #f5e8d0;
+  color: #5a3921;
+}
+
+body[data-theme="light"] h1,
+body[data-theme="light"] h2 {
+  color: #8b5a2b;
+}
+
+body[data-theme="light"] p {
+  color: #5a3921;
+}
+
+body[data-theme="light"] #cookie {
+  border-color: #a86d33;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+body[data-theme="light"] #cookie-count {
+  color: #8b5a2b;
+}
+
+body[data-theme="light"] button {
+  background-color: #a57d7d;
+  color: white;
+}
+
+body[data-theme="light"] .power-up-button {
+  background-color: #a86d33;
+}
+
+body[data-theme="light"] .power-up-button:hover {
+  background-color: #c68642;
+}
+
+body[data-theme="light"] #stats-panel,
+body[data-theme="light"] #achievements-container {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+body[data-theme="light"] .stat,
+body[data-theme="light"] .achievement {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+body[data-theme="light"] .achievement-title {
+  color: #8b5a2b;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  #cookie {
+    width: 150px;
+    height: 150px;
+  }
+
+  #stats-panel {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .power-up-button {
+    width: 100%;
+  }
+
+  #power-ups-container {
+    flex-direction: column;
+  }
 }
