@@ -10,12 +10,18 @@
 <body data-theme="dark">
   <div><button class="toggle-btn" id="themeToggle">Toggle Dark/Light Mode</button></div>
 
+
+  <div><button id="home-btn">Return to Home Screen</button></div>
+
   <canvas id="gameCanvas" width="800" height="400"></canvas>
 
-  <script type="module" src="working.js"></script>
+  <script type="module" src="modularization/pixel_escape.js"></script>
 
   <link rel="stylesheet" href="pixel_escape.css" />
   <link rel="stylesheet" href="/styles/darkmode.css" />
 </body>
+<script>
+  document.getElementById("home-btn").hidden = true;
+</script>
 
 </html>
