@@ -13,6 +13,7 @@ let cashMultiplier = 1; // New variable for cash multiplier
 let startTime = null;
 let achievements = [];
 let gameEnded = false; // Make sure this is false initially
+let powerUpButtonsCreated = {}; // Track which buttons have been created
 
 // Winning condition - Game ends after this many cookies
 const GAME_END_THRESHOLD = 10000;
@@ -86,6 +87,7 @@ function initGame() {
   cashMultiplier = 1;
   achievements = [];
   gameEnded = false;
+  powerUpButtonsCreated = {}; // Reset created buttons tracking
 
   // Hide the achievements container permanently
   const achievementsContainer = document.getElementById("achievements-container");
@@ -203,9 +205,6 @@ function initGame() {
 
     // Check for cash achievements
     checkCashAchievements();
-
-    // Update power-up buttons
-    updatePowerUpButtons();
   };
 
   // Boost Cash Multiplier
@@ -225,7 +224,6 @@ function initGame() {
     }
 
     updateDisplay();
-    updatePowerUpButtons();
 
     // Add achievement if multiplier is high
     if (cashMultiplier >= 3) {
@@ -247,9 +245,6 @@ function initGame() {
 
     // Add achievement
     addAchievement("Auto Pilot", "Started the auto-clicker");
-
-    // Remove the start button and create speed boost button
-    updatePowerUpButtons();
   };
 
   // Auto-Clicker Logic - now part of main game loop
@@ -286,7 +281,6 @@ function initGame() {
     }
 
     updateDisplay();
-    updatePowerUpButtons();
 
     // Add achievement if speed is very fast
     if (delay <= 100) {
@@ -311,7 +305,6 @@ function initGame() {
     }
 
     updateDisplay();
-    updatePowerUpButtons();
 
     // Add achievement if multiplier is high
     if (autoMultiplier >= 5) {
@@ -336,7 +329,6 @@ function initGame() {
     }
 
     updateDisplay();
-    updatePowerUpButtons();
 
     // Add achievement if multiplier is high
     if (clickMultiplier >= 5) {
@@ -344,16 +336,21 @@ function initGame() {
     }
   };
 
-  // Create Button with tooltips
+  // Create Button with tooltips - Modified to prevent duplicates and ensure proper rendering
   function createButton(id, text, onClick, cost, currency = "cookies") {
-    // Check if button already exists
-    if (document.getElementById(id) || !powerUpsContainer) return;
+    // Check if button already exists or if we've already tried to create this button
+    if (document.getElementById(id) || powerUpButtonsCreated[id] || !powerUpsContainer) return;
+
+    // Mark this button as created to prevent multiple creation attempts
+    powerUpButtonsCreated[id] = true;
 
     const button = document.createElement("button");
     button.id = id;
     button.className = "power-up-button";
     button.innerHTML = `${text}<span class="cost">${cost} ${currency}</span>`;
-    button.addEventListener("click", onClick);
+
+    // Add onclick directly to the element, not using addEventListener
+    button.onclick = onClick;
 
     // Add tooltip
     const tooltip = document.createElement("span");
@@ -383,15 +380,16 @@ function initGame() {
     button.appendChild(tooltip);
     powerUpsContainer.appendChild(button);
 
-    // Add appear animation
+    // Add appear animation class
     button.classList.add("appear");
   }
 
   // Update all power-up buttons based on current state
   function updatePowerUpButtons() {
-    // Clear existing buttons
+    // Only update buttons every 500ms to prevent button flashing/recreation issues
     if (!powerUpsContainer) return;
-    powerUpsContainer.innerHTML = "";
+
+    // Create each button if conditions are met and it doesn't already exist
 
     // Cash in button - always available if above threshold
     if (cookieCount >= thresholds.cashIn) {
@@ -453,6 +451,39 @@ function initGame() {
         window.boostClickMultiplier,
         upgradeCosts.clickMultiplier
       );
+    }
+
+    // Update button costs for existing buttons
+    updateButtonCosts();
+  }
+
+  // Update costs on existing buttons
+  function updateButtonCosts() {
+    // Update cash-in button cost if it exists
+    const cashInBtn = document.getElementById("cash-in-cookies");
+    if (cashInBtn && cookieCount >= thresholds.cashIn) {
+      const costSpan = cashInBtn.querySelector(".cost");
+      if (costSpan) {
+        costSpan.textContent = `${Math.floor(cookieCount * cashMultiplier / 10)} cash`;
+      }
+    }
+
+    // Update other button costs as needed
+    const buttonCosts = {
+      "cash-multiplier": { cost: upgradeCosts.cashMultiplier, currency: "cash" },
+      "auto-cookie-speed": { cost: upgradeCosts.autoClickerSpeed, currency: "cookies" },
+      "auto-multiplier": { cost: upgradeCosts.autoMultiplier, currency: "cookies" },
+      "click-multiplier": { cost: upgradeCosts.clickMultiplier, currency: "cookies" }
+    };
+
+    for (const [id, { cost, currency }] of Object.entries(buttonCosts)) {
+      const btn = document.getElementById(id);
+      if (btn) {
+        const costSpan = btn.querySelector(".cost");
+        if (costSpan) {
+          costSpan.textContent = `${cost} ${currency}`;
+        }
+      }
     }
   }
 
@@ -534,6 +565,7 @@ function initGame() {
 
   // Main game loop
   let lastTimestamp = 0;
+  let lastButtonUpdateTime = 0;
   function updateLoop(timestamp) {
     if (!lastTimestamp) lastTimestamp = timestamp;
 
@@ -551,8 +583,11 @@ function initGame() {
       updateElapsedTime();
     }
 
-    // Update power-up buttons
-    updatePowerUpButtons();
+    // Update power-up buttons only every 500ms to prevent flashing
+    if (timestamp - lastButtonUpdateTime > 500) {
+      updatePowerUpButtons();
+      lastButtonUpdateTime = timestamp;
+    }
 
     // Check for game end - only if NOT already ended
     if (!gameEnded && cookieCount >= GAME_END_THRESHOLD) {
@@ -628,6 +663,11 @@ function initGame() {
 
   // Restart game
   function restartGame() {
+    // Clear buttons first
+    if (powerUpsContainer) {
+      powerUpsContainer.innerHTML = "";
+    }
+
     // Reset all game state variables
     cookieCount = 0;
     clickMultiplier = 1;
@@ -642,6 +682,7 @@ function initGame() {
     cashMultiplier = 1;
     achievements = [];
     gameEnded = false;
+    powerUpButtonsCreated = {}; // Reset created buttons tracking
 
     // Reset costs
     upgradeCosts.clickMultiplier = 50;
@@ -649,9 +690,6 @@ function initGame() {
     upgradeCosts.autoClickerSpeed = 50;
     upgradeCosts.autoMultiplier = 200;
     upgradeCosts.cashMultiplier = 100;
-
-    // Reset UI
-    if (powerUpsContainer) powerUpsContainer.innerHTML = "";
 
     // Hide the game end screen
     if (gameEndScreen) {
