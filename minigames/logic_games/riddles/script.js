@@ -1,5 +1,5 @@
-const questionsUrl = 'https://raw.githubusercontent.com/mattwydra/projects/main/minigames/logic_games/questions.txt';
-const answersUrl = 'https://raw.githubusercontent.com/mattwydra/projects/main/minigames/logic_games/answers.txt';
+const questionsUrl = 'https://raw.githubusercontent.com/mattwydra/projects/main/minigames/logic_games/riddles/questions.txt';
+const answersUrl = 'https://raw.githubusercontent.com/mattwydra/projects/main/minigames/logic_games/riddles/answers.txt';
 
 let riddles = [];
 let answers = [];
