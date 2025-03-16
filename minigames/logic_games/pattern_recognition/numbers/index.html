@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Sequence Puzzle</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        .game-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .sequence-display {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .number-box {
+            width: 50px;
+            height: 50px;
+            background-color: #3498db;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 5px;
+            border-radius: 5px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .question-mark {
+            background-color: #e74c3c;
+        }
+
+        .input-section {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        input {
+            width: 80px;
+            height: 40px;
+            font-size: 18px;
+            text-align: center;
+            border: 2px solid #3498db;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #27ae60;
+        }
+
+        .feedback {
+            text-align: center;
+            margin: 20px 0;
+            font-weight: bold;
+            min-height: 24px;
+        }
+
+        .correct {
+            color: #2ecc71;
+        }
+
+        .incorrect {
+            color: #e74c3c;
+        }
+
+        .level-display {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .instructions {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+
+        .next-btn {
+            display: none;
+            margin: 0 auto;
+            background-color: #9b59b6;
+        }
+
+        .next-btn:hover {
+            background-color: #8e44ad;
+        }
+
+        .timer {
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Number Sequence Puzzle</h1>
+
+    <div class="game-container">
+        <div class="instructions">
+            <p>Find the pattern in the sequence and determine the missing number. Each level gets progressively harder!
+            </p>
+        </div>
+
+        <div class="level-display">Level: <span id="level">1</span></div>
+        <div class="timer">Time: <span id="time">0</span>s</div>
+
+        <div class="sequence-display" id="sequence"></div>
+
+        <div class="input-section">
+            <input type="number" id="answer-input" placeholder="?">
+            <button id="check-btn">Check Answer</button>
+        </div>
+
+        <div class="feedback" id="feedback"></div>
+        <button class="next-btn" id="next-btn">Next Sequence</button>
+
+        <div class="stats">
+            <div>Correct: <span id="correct-count">0</span></div>
+            <div>Incorrect: <span id="incorrect-count">0</span></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Game variables
+            let level = 1;
+            let correctCount = 0;
+            let incorrectCount = 0;
+            let currentSequence = [];
+            let missingNumber = null;
+            let missingIndex = null;
+            let startTime = Date.now();
+            let timerInterval;
+
+            // DOM elements
+            const sequenceDisplay = document.getElementById('sequence');
+            const answerInput = document.getElementById('answer-input');
+            const checkBtn = document.getElementById('check-btn');
+            const feedbackEl = document.getElementById('feedback');
+            const nextBtn = document.getElementById('next-btn');
+            const levelDisplay = document.getElementById('level');
+            const correctCountEl = document.getElementById('correct-count');
+            const incorrectCountEl = document.getElementById('incorrect-count');
+            const timeEl = document.getElementById('time');
+
+            // Generate sequences based on level
+            function generateSequence() {
+                let sequence = [];
+                let formula = '';
+
+                // Different patterns based on level
+                if (level <= 3) {
+                    // Simple arithmetic progression
+                    const start = Math.floor(Math.random() * 10);
+                    const increment = Math.floor(Math.random() * 5) + 1;
+                    sequence = Array.from({ length: 6 }, (_, i) => start + (increment * i));
+                    formula = `start with ${start}, add ${increment}`;
+                } else if (level <= 6) {
+                    // Geometric progression
+                    const start = Math.floor(Math.random() * 5) + 1;
+                    const multiplier = Math.floor(Math.random() * 3) + 2;
+                    sequence = Array.from({ length: 6 }, (_, i) => start * Math.pow(multiplier, i));
+                    formula = `start with ${start}, multiply by ${multiplier}`;
+                } else if (level <= 9) {
+                    // Fibonacci-like (each number is sum of two previous)
+                    const a = Math.floor(Math.random() * 5) + 1;
+                    const b = Math.floor(Math.random() * 10) + 1;
+                    sequence = [a, b];
+                    for (let i = 2; i < 6; i++) {
+                        sequence.push(sequence[i - 1] + sequence[i - 2]);
+                    }
+                    formula = `each number is sum of two previous`;
+                } else {
+                    // Complex pattern (squared + previous)
+                    const start = Math.floor(Math.random() * 5) + 1;
+                    sequence = [start];
+                    for (let i = 1; i < 6; i++) {
+                        const prev = sequence[i - 1];
+                        sequence.push(i * i + prev);
+                    }
+                    formula = `complex pattern based on position and previous value`;
+                }
+
+                console.log("Formula:", formula); // For debugging
+
+                // Choose a random position for the missing number (not the first one)
+                missingIndex = Math.floor(Math.random() * 5) + 1;
+                missingNumber = sequence[missingIndex];
+
+                return sequence;
+            }
+
+            // Display the sequence with a question mark for the missing number
+            function displaySequence() {
+                sequenceDisplay.innerHTML = '';
+                currentSequence.forEach((num, index) => {
+                    const numberBox = document.createElement('div');
+                    numberBox.classList.add('number-box');
+
+                    if (index === missingIndex) {
+                        numberBox.textContent = '?';
+                        numberBox.classList.add('question-mark');
+                    } else {
+                        numberBox.textContent = num;
+                    }
+
+                    sequenceDisplay.appendChild(numberBox);
+                });
+            }
+
+            // Check the player's answer
+            function checkAnswer() {
+                const userAnswer = parseInt(answerInput.value);
+
+                if (isNaN(userAnswer)) {
+                    feedbackEl.textContent = "Please enter a number!";
+                    feedbackEl.className = "feedback incorrect";
+                    return;
+                }
+
+                if (userAnswer === missingNumber) {
+                    feedbackEl.textContent = "Correct! Well done!";
+                    feedbackEl.className = "feedback correct";
+                    correctCount++;
+                    correctCountEl.textContent = correctCount;
+                    checkBtn.disabled = true;
+                    nextBtn.style.display = "block";
+
+                    if (level === 12) {
+                        nextBtn.textContent = "Game Completed! Play Again?";
+                    }
+                } else {
+                    feedbackEl.textContent = `Incorrect! Try again or click Next to see the answer.`;
+                    feedbackEl.className = "feedback incorrect";
+                    incorrectCount++;
+                    incorrectCountEl.textContent = incorrectCount;
+                    nextBtn.style.display = "block";
+                }
+            }
+
+            // Start a new level
+            function nextLevel() {
+                if (level === 12 && nextBtn.textContent === "Game Completed! Play Again?") {
+                    level = 0;
+                }
+
+                level++;
+                levelDisplay.textContent = level;
+                currentSequence = generateSequence();
+                displaySequence();
+
+                answerInput.value = '';
+                feedbackEl.textContent = '';
+                nextBtn.style.display = "none";
+                checkBtn.disabled = false;
+
+                // Reset the timer
+                clearInterval(timerInterval);
+                startTime = Date.now();
+                updateTimer();
+                timerInterval = setInterval(updateTimer, 1000);
+            }
+
+            // Update the timer display
+            function updateTimer() {
+                const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+                timeEl.textContent = elapsedSeconds;
+            }
+
+            // Event listeners
+            checkBtn.addEventListener('click', checkAnswer);
+            nextBtn.addEventListener('click', nextLevel);
+
+            // Allow Enter key to submit answer
+            answerInput.addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') {
+                    checkAnswer();
+                }
+            });
+
+            // Initialize the game
+            nextLevel();
+        });
+    </script>
+</body>
+
+</html>
