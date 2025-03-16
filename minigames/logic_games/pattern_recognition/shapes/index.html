@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pattern Recognition Puzzle</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .game-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .level-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .pattern-display {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .pattern-item {
+            aspect-ratio: 1;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .question-mark {
+            background-color: #ccc;
+            cursor: pointer;
+            font-size: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .option {
+            aspect-ratio: 1;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .option:hover {
+            border-color: #3498db;
+            transform: scale(1.05);
+        }
+
+        .option.selected {
+            border-color: #2ecc71;
+            background-color: rgba(46, 204, 113, 0.2);
+        }
+
+        .feedback {
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: center;
+            height: 24px;
+        }
+
+        .correct {
+            color: #2ecc71;
+        }
+
+        .incorrect {
+            color: #e74c3c;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        button:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Pattern Recognition Puzzle</h1>
+    <div class="game-container">
+        <div class="level-info">
+            <div>Level: <span id="level">1</span></div>
+            <div>Score: <span id="score">0</span></div>
+        </div>
+        <div class="pattern-display" id="pattern-display"></div>
+        <div class="options" id="options"></div>
+        <div class="feedback" id="feedback"></div>
+        <div class="controls">
+            <button id="check" disabled>Check Answer</button>
+            <button id="next" disabled>Next Pattern</button>
+        </div>
+    </div>
+
+    <script>
+        // Pattern Recognition Game Logic
+        const patternDisplay = document.getElementById('pattern-display');
+        const optionsContainer = document.getElementById('options');
+        const feedbackElement = document.getElementById('feedback');
+        const levelElement = document.getElementById('level');
+        const scoreElement = document.getElementById('score');
+        const checkButton = document.getElementById('check');
+        const nextButton = document.getElementById('next');
+
+        let currentLevel = 1;
+        let score = 0;
+        let currentPattern = [];
+        let correctAnswer = null;
+        let selectedOption = null;
+
+        // Different pattern types
+        const patternTypes = [
+            // Color patterns
+            {
+                generate: () => {
+                    const colors = ['#e74c3c', '#3498db', '#2ecc71', '#f1c40f', '#9b59b6', '#e67e22'];
+                    const pattern = [];
+
+                    // Simple color repetition pattern
+                    if (currentLevel <= 3) {
+                        const sequence = [];
+                        const sequenceLength = 2 + Math.floor(Math.random() * 2); // 2-3 colors in sequence
+
+                        for (let i = 0; i < sequenceLength; i++) {
+                            sequence.push(colors[Math.floor(Math.random() * colors.length)]);
+                        }
+
+                        // Fill pattern by repeating sequence
+                        for (let i = 0; i < 8; i++) {
+                            pattern.push({
+                                type: 'color',
+                                value: sequence[i % sequence.length]
+                            });
+                        }
+                    } else {
+                        // Alternating colors with skip pattern
+                        const baseColors = [
+                            colors[Math.floor(Math.random() * colors.length)],
+                            colors[Math.floor(Math.random() * colors.length)]
+                        ];
+
+                        // Ensure different colors
+                        if (baseColors[0] === baseColors[1]) {
+                            baseColors[1] = colors[(colors.indexOf(baseColors[0]) + 1) % colors.length];
+                        }
+
+                        // Pattern logic: 1,2,1,2,1,2,1,?
+                        for (let i = 0; i < 8; i++) {
+                            pattern.push({
+                                type: 'color',
+                                value: baseColors[i % 2]
+                            });
+                        }
+                    }
+
+                    return pattern;
+                }
+            },
+            // Symbol patterns
+            {
+                generate: () => {
+                    const symbols = ['★', '♦', '◆', '●', '▲', '♠', '♣', '♥'];
+                    const pattern = [];
+
+                    if (currentLevel <= 3) {
+                        // Simple symbol repetition
+                        const sequence = [];
+                        const sequenceLength = 2 + Math.floor(Math.random() * 2); // 2-3 symbols
+
+                        for (let i = 0; i < sequenceLength; i++) {
+                            sequence.push(symbols[Math.floor(Math.random() * symbols.length)]);
+                        }
+
+                        // Fill pattern
+                        for (let i = 0; i < 8; i++) {
+                            const backgroundColor = ['#3498db', '#2ecc71', '#e74c3c'][Math.floor(Math.random() * 3)];
+                            pattern.push({
+                                type: 'symbol',
+                                value: sequence[i % sequence.length],
+                                color: backgroundColor
+                            });
+                        }
+                    } else {
+                        // Symbol rotation pattern
+                        const selectedSymbols = [];
+                        const rotationCount = Math.min(currentLevel, symbols.length);
+
+                        // Select random starting symbol
+                        const startIndex = Math.floor(Math.random() * symbols.length);
+
+                        // Create rotation pattern
+                        for (let i = 0; i < rotationCount; i++) {
+                            selectedSymbols.push(symbols[(startIndex + i) % symbols.length]);
+                        }
+
+                        // Fill pattern with rotating symbols
+                        for (let i = 0; i < 8; i++) {
+                            const backgroundColor = ['#3498db', '#2ecc71', '#e74c3c'][Math.floor(Math.random() * 3)];
+                            pattern.push({
+                                type: 'symbol',
+                                value: selectedSymbols[i % selectedSymbols.length],
+                                color: backgroundColor
+                            });
+                        }
+                    }
+
+                    return pattern;
+                }
+            },
+            // Number patterns
+            {
+                generate: () => {
+                    const pattern = [];
+
+                    if (currentLevel <= 3) {
+                        // Simple number sequence (arithmetic)
+                        const start = Math.floor(Math.random() * 5) + 1;
+                        const step = Math.floor(Math.random() * 3) + 1;
+
+                        for (let i = 0; i < 8; i++) {
+                            const backgroundColor = ['#3498db', '#2ecc71', '#e74c3c'][Math.floor(Math.random() * 3)];
+                            pattern.push({
+                                type: 'number',
+                                value: start + (i * step),
+                                color: backgroundColor
+                            });
+                        }
+                    } else {
+                        // Fibonacci-like sequence or other complex pattern
+                        let a = Math.floor(Math.random() * 3) + 1;
+                        let b = Math.floor(Math.random() * 5) + 2;
+
+                        const sequence = [a, b];
+                        for (let i = 2; i < 8; i++) {
+                            sequence.push(sequence[i - 1] + sequence[i - 2]);
+                        }
+
+                        for (let i = 0; i < 8; i++) {
+                            const backgroundColor = ['#3498db', '#2ecc71', '#e74c3c'][Math.floor(Math.random() * 3)];
+                            pattern.push({
+                                type: 'number',
+                                value: sequence[i],
+                                color: backgroundColor
+                            });
+                        }
+                    }
+
+                    return pattern;
+                }
+            }
+        ];
+
+        // Generate options for the missing pattern item
+        function generateOptions(correctAnswer) {
+            const options = [correctAnswer];
+
+            // Generate wrong options based on pattern type
+            if (correctAnswer.type === 'color') {
+                const colors = ['#e74c3c', '#3498db', '#2ecc71', '#f1c40f', '#9b59b6', '#e67e22'];
+
+                // Add wrong colors that aren't the correct answer
+                while (options.length < 3) {
+                    const wrongColor = colors[Math.floor(Math.random() * colors.length)];
+
+                    // Ensure the wrong color is different from the correct one
+                    if (wrongColor !== correctAnswer.value && !options.some(o => o.value === wrongColor)) {
+                        options.push({
+                            type: 'color',
+                            value: wrongColor
+                        });
+                    }
+                }
+            } else if (correctAnswer.type === 'symbol') {
+                const symbols = ['★', '♦', '◆', '●', '▲', '♠', '♣', '♥'];
+
+                // Use the same color as the correct answer for consistency
+                while (options.length < 3) {
+                    const wrongSymbol = symbols[Math.floor(Math.random() * symbols.length)];
+
+                    if (wrongSymbol !== correctAnswer.value && !options.some(o => o.value === wrongSymbol)) {
+                        options.push({
+                            type: 'symbol',
+                            value: wrongSymbol,
+                            color: correctAnswer.color
+                        });
+                    }
+                }
+            } else if (correctAnswer.type === 'number') {
+                // Generate plausible but incorrect numbers
+                while (options.length < 3) {
+                    // Create a wrong number near the correct one
+                    const offset = Math.floor(Math.random() * 5) + 1;
+                    const wrongNumber = correctAnswer.value + (Math.random() < 0.5 ? offset : -offset);
+
+                    if (wrongNumber > 0 && !options.some(o => o.value === wrongNumber)) {
+                        options.push({
+                            type: 'number',
+                            value: wrongNumber,
+                            color: correctAnswer.color
+                        });
+                    }
+                }
+            }
+
+            // Shuffle options
+            return options.sort(() => Math.random() - 0.5);
+        }
+
+        // Render a pattern item in the display area
+        function renderPatternItem(item, index) {
+            const patternItem = document.createElement('div');
+            patternItem.className = 'pattern-item';
+
+            if (index === 8) {
+                // This is the question mark slot
+                patternItem.className = 'pattern-item question-mark';
+                patternItem.textContent = '?';
+                patternItem.style.backgroundColor = '#ccc';
+            } else {
+                // Regular pattern item
+                patternItem.style.backgroundColor = item.color || item.value;
+
+                if (item.type === 'symbol' || item.type === 'number') {
+                    patternItem.textContent = item.value;
+                }
+            }
+
+            patternDisplay.appendChild(patternItem);
+        }
+
+        // Render an option in the options area
+        function renderOption(option, index) {
+            const optionElement = document.createElement('div');
+            optionElement.className = 'option';
+            optionElement.dataset.index = index;
+
+            // Style based on option type
+            if (option.type === 'color') {
+                optionElement.style.backgroundColor = option.value;
+            } else if (option.type === 'symbol' || option.type === 'number') {
+                optionElement.style.backgroundColor = option.color;
+                optionElement.textContent = option.value;
+            }
+
+            // Add click event
+            optionElement.addEventListener('click', () => {
+                // Remove selected class from all options
+                document.querySelectorAll('.option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+
+                // Add selected class to clicked option
+                optionElement.classList.add('selected');
+                selectedOption = index;
+
+                // Enable check button
+                checkButton.disabled = false;
+            });
+
+            optionsContainer.appendChild(optionElement);
+        }
+
+        // Generate a new pattern for the current level
+        function generatePattern() {
+            // Clear previous pattern and options
+            patternDisplay.innerHTML = '';
+            optionsContainer.innerHTML = '';
+            feedbackElement.textContent = '';
+            feedbackElement.className = 'feedback';
+
+            // Reset selection
+            selectedOption = null;
+
+            // Select a pattern type based on level
+            const patternTypeIndex = Math.min(Math.floor((currentLevel - 1) / 3), patternTypes.length - 1);
+            currentPattern = patternTypes[patternTypeIndex].generate();
+
+            // The last item is what the player needs to guess
+            correctAnswer = currentPattern[currentPattern.length - 1];
+
+            // Display all but the last pattern item
+            for (let i = 0; i < currentPattern.length - 1; i++) {
+                renderPatternItem(currentPattern[i], i);
+            }
+
+            // Add question mark as the last item
+            renderPatternItem(null, 8);
+
+            // Generate and display options
+            const options = generateOptions(correctAnswer);
+            options.forEach((option, index) => {
+                renderOption(option, index);
+            });
+
+            // Set button states
+            checkButton.disabled = true;
+            nextButton.disabled = true;
+        }
+
+        // Check the player's answer
+        function checkAnswer() {
+            if (selectedOption === null) return;
+
+            const selectedElement = document.querySelector(`.option[data-index="${selectedOption}"]`);
+            const options = Array.from(document.querySelectorAll('.option'));
+            const selectedValue = options[selectedOption].style.backgroundColor;
+            const selectedContent = options[selectedOption].textContent;
+
+            let isCorrect = false;
+
+            // Check if answer is correct based on pattern type
+            if (correctAnswer.type === 'color') {
+                // For color patterns, compare the background colors
+                const correctColor = correctAnswer.value;
+                const selectedColor = rgbToHex(selectedValue);
+                isCorrect = selectedColor === correctColor;
+            } else if (correctAnswer.type === 'symbol') {
+                // For symbol patterns, compare the symbols
+                isCorrect = selectedContent === correctAnswer.value.toString();
+            } else if (correctAnswer.type === 'number') {
+                // For number patterns, compare the numbers
+                isCorrect = parseInt(selectedContent) === correctAnswer.value;
+            }
+
+            // Update feedback and score
+            if (isCorrect) {
+                feedbackElement.textContent = 'Correct!';
+                feedbackElement.className = 'feedback correct';
+                score += currentLevel;
+                scoreElement.textContent = score;
+            } else {
+                feedbackElement.textContent = 'Incorrect. Try again!';
+                feedbackElement.className = 'feedback incorrect';
+            }
+
+            // Enable next button
+            nextButton.disabled = false;
+
+            // Disable check button
+            checkButton.disabled = true;
+        }
+
+        // Helper function to convert RGB to Hex
+        function rgbToHex(rgb) {
+            // Extract the r, g, b values from the rgb string
+            const rgbMatch = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+            if (!rgbMatch) return rgb; // Return original if not in rgb format
+
+            // Convert to hex
+            function componentToHex(c) {
+                const hex = parseInt(c).toString(16);
+                return hex.length === 1 ? '0' + hex : hex;
+            }
+
+            return '#' + componentToHex(rgbMatch[1]) + componentToHex(rgbMatch[2]) + componentToHex(rgbMatch[3]);
+        }
+
+        // Move to the next level
+        function nextLevel() {
+            currentLevel++;
+            levelElement.textContent = currentLevel;
+            generatePattern();
+        }
+
+        // Initialize the game
+        function initGame() {
+            // Set up event listeners
+            checkButton.addEventListener('click', checkAnswer);
+            nextButton.addEventListener('click', nextLevel);
+
+            // Generate first pattern
+            generatePattern();
+        }
+
+        // Start the game when page loads
+        window.addEventListener('load', initGame);
+    </script>
+</body>
+
+</html>
