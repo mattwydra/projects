@@ -1,8 +1,10 @@
 # Grid Pattern Puzzle Game
 
-A fun, interactive memory game where players must remember and recreate grid patterns under time pressure. Challenge your visual memory and pattern recognition skills across increasingly difficult levels.
+A fun, interactive [memory game](https://mattwydra.github.io/projects/minigames/logic_games/pattern_recognition/grids/index.html) where players must remember and recreate grid patterns under time pressure. Challenge your visual memory and pattern recognition skills across increasingly difficult levels.
 
-![Grid Pattern Puzzle Game Screenshot](https://placehold.co/600x400)
+![Pattern to Memorize](memorize.png)
+![Correct Answer](correct.png)
+
 
 ## Description
 
@@ -84,3 +86,4 @@ Should work on all modern browsers including:
 - Custom difficulty settings
 - Additional game modes
 - Mobile touch optimization
+- Increase in grid size for higher levels
