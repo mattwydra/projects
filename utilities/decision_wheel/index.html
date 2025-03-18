@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decision Wheel</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #333;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .wheel-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 2rem auto;
+        }
+
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            transition: transform 4s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+            transform: rotate(0deg);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background: #f0f0f0;
+        }
+
+        .wheel-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            border-radius: 50%;
+            z-index: 10;
+            border: 4px solid #333;
+        }
+
+        .marker {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 30px solid #333;
+            z-index: 10;
+        }
+
+        .spin-button {
+            background-color: #2196F3;
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            margin: 1rem 0;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .spin-button:hover {
+            background-color: #1976D2;
+        }
+
+        .result {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 1rem 0;
+            height: 2rem;
+        }
+
+        .entries-container {
+            margin-top: 1.5rem;
+            text-align: left;
+        }
+
+        .entry-list {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .entry-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .entry-item:last-child {
+            border-bottom: none;
+        }
+
+        .entry-text {
+            flex-grow: 1;
+            margin-right: 0.5rem;
+        }
+
+        .entry-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .entry-delete {
+            background: none;
+            border: none;
+            color: #f44336;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0 0.5rem;
+        }
+
+        .entry-controls {
+            display: flex;
+            align-items: center;
+        }
+
+        .add-entry-form {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+
+        .add-entry-input {
+            flex-grow: 1;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 5px 0 0 5px;
+            font-size: 1rem;
+        }
+
+        .add-entry-button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            text-align: center;
+            text-decoration: none;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .color-picker {
+            display: none;
+            position: absolute;
+            z-index: 100;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .color-option {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            margin: 3px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .wheel-section {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            transform-origin: center bottom;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .section-text {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%) rotate(90deg);
+            margin-top: -120px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.8em;
+            text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.7);
+            width: 100px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .history {
+            margin-top: 1.5rem;
+            text-align: left;
+            max-height: 120px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 0.5rem;
+        }
+
+        .history-item {
+            padding: 0.3rem 0;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .clear-button {
+            background: none;
+            border: none;
+            color: #f44336;
+            cursor: pointer;
+            font-size: 12px;
+            padding: 0;
+        }
+
+        .tab-container {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 1rem;
+        }
+
+        .tab {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab.active {
+            border-bottom: 2px solid #2196F3;
+            color: #2196F3;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 500px) {
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Decision Wheel</h1>
+
+        <div class="tab-container">
+            <div class="tab active" data-tab="wheel">Wheel</div>
+            <div class="tab" data-tab="entries">Entries</div>
+            <div class="tab" data-tab="history">History</div>
+        </div>
+
+        <div class="tab-content active" id="wheel-tab">
+            <div class="wheel-container">
+                <div class="marker"></div>
+                <div class="wheel" id="wheel"></div>
+                <div class="wheel-center"></div>
+            </div>
+
+            <div class="result" id="result"></div>
+
+            <button class="spin-button" id="spinButton">SPIN</button>
+        </div>
+
+        <div class="tab-content" id="entries-tab">
+            <div class="add-entry-form">
+                <input type="text" class="add-entry-input" id="entryInput" placeholder="Add a new option...">
+                <button class="add-entry-button" id="addEntryButton">Add</button>
+            </div>
+
+            <div class="entry-list" id="entryList"></div>
+
+            <div class="settings-grid">
+                <button class="spin-button" id="randomColorsButton">Random Colors</button>
+                <button class="spin-button" style="background-color:#f44336" id="clearEntriesButton">Clear All</button>
+            </div>
+        </div>
+
+        <div class="tab-content" id="history-tab">
+            <div class="history" id="history"></div>
+            <button class="spin-button" style="background-color:#f44336" id="clearHistoryButton">Clear History</button>
+        </div>
+
+        <div class="color-picker" id="colorPicker"></div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const wheel = document.getElementById('wheel');
+        const result = document.getElementById('result');
+        const spinButton = document.getElementById('spinButton');
+        const entryInput = document.getElementById('entryInput');
+        const addEntryButton = document.getElementById('addEntryButton');
+        const entryList = document.getElementById('entryList');
+        const randomColorsButton = document.getElementById('randomColorsButton');
+        const clearEntriesButton = document.getElementById('clearEntriesButton');
+        const history = document.getElementById('history');
+        const clearHistoryButton = document.getElementById('clearHistoryButton');
+        const colorPicker = document.getElementById('colorPicker');
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        // State
+        let entries = [];
+        let isSpinning = false;
+        let currentRotation = 0;
+        let decisionHistory = [];
+        let activeColorPicker = null;
+
+        // Predefined colors
+        const colors = [
+            '#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6',
+            '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
+            '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A',
+            '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
+            '#66994D', '#B366CC', '#4D8000', '#B33300', '#CC80CC',
+            '#66664D', '#991AFF', '#E666FF', '#4DB3FF', '#1AB399'
+        ];
+
+        // Initialize color picker
+        function initColorPicker() {
+            colorPicker.innerHTML = '';
+            colors.forEach(color => {
+                const colorOption = document.createElement('div');
+                colorOption.className = 'color-option';
+                colorOption.style.backgroundColor = color;
+                colorOption.addEventListener('click', () => {
+                    if (activeColorPicker) {
+                        const index = parseInt(activeColorPicker.getAttribute('data-index'));
+                        entries[index].color = color;
+                        activeColorPicker.style.backgroundColor = color;
+                        colorPicker.style.display = 'none';
+                        activeColorPicker = null;
+                        updateWheel();
+                        saveEntries();
+                    }
+                });
+                colorPicker.appendChild(colorOption);
+            });
+        }
+
+        // Initialize wheel
+        function updateWheel() {
+            wheel.innerHTML = '';
+
+            if (entries.length === 0) {
+                wheel.style.background = '#f0f0f0';
+                return;
+            }
+
+            const sectionAngle = 360 / entries.length;
+
+            entries.forEach((entry, index) => {
+                const section = document.createElement('div');
+                section.className = 'wheel-section';
+                section.style.backgroundColor = entry.color;
+                section.style.transform = `rotate(${index * sectionAngle}deg)`;
+                section.style.clipPath = `polygon(0 0, 100% 0, 100% 100%, 0 100%)`;
+
+                const text = document.createElement('div');
+                text.className = 'section-text';
+                text.textContent = entry.text;
+
+                section.appendChild(text);
+                wheel.appendChild(section);
+            });
+        }
+
+        // Update entry list
+        function updateEntryList() {
+            entryList.innerHTML = '';
+
+            entries.forEach((entry, index) => {
+                const entryItem = document.createElement('div');
+                entryItem.className = 'entry-item';
+
+                const entryText = document.createElement('div');
+                entryText.className = 'entry-text';
+                entryText.textContent = entry.text;
+
+                const entryControls = document.createElement('div');
+                entryControls.className = 'entry-controls';
+
+                const colorButton = document.createElement('div');
+                colorButton.className = 'entry-color';
+                colorButton.style.backgroundColor = entry.color;
+                colorButton.setAttribute('data-index', index);
+                colorButton.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    activeColorPicker = this;
+                    colorPicker.style.display = 'block';
+                    colorPicker.style.top = `${e.pageY - 50}px`;
+                    colorPicker.style.left = `${e.pageX - 50}px`;
+                });
+
+                const deleteButton = document.createElement('button');
+                deleteButton.className = 'entry-delete';
+                deleteButton.innerHTML = '&times;';
+                deleteButton.addEventListener('click', () => {
+                    entries.splice(index, 1);
+                    updateEntryList();
+                    updateWheel();
+                    saveEntries();
+                });
+
+                entryControls.appendChild(colorButton);
+                entryControls.appendChild(deleteButton);
+
+                entryItem.appendChild(entryText);
+                entryItem.appendChild(entryControls);
+                entryList.appendChild(entryItem);
+            });
+        }
+
+        // Spin the wheel
+        function spinWheel() {
+            if (isSpinning || entries.length === 0) return;
+
+            isSpinning = true;
+            result.textContent = '';
+
+            // Generate random rotation between 5 and 10 full rotations
+            const rotations = 5 + Math.random() * 5;
+            const extraDegrees = Math.floor(Math.random() * 360);
+            const totalDegrees = rotations * 360 + extraDegrees;
+
+            // Track the current rotation for multiple spins
+            currentRotation = (currentRotation + totalDegrees) % 360;
+
+            // Animate the wheel
+            wheel.style.transform = `rotate(${currentRotation}deg)`;
+
+            // Determine the winner
+            setTimeout(() => {
+                const sectionAngle = 360 / entries.length;
+                const normalizedRotation = (360 - (currentRotation % 360)) % 360;
+                const winningIndex = Math.floor(normalizedRotation / sectionAngle);
+                const winner = entries[winningIndex];
+
+                result.textContent = winner.text;
+                result.style.color = winner.color;
+
+                // Add to history
+                addToHistory(winner);
+
+                isSpinning = false;
+            }, 4000);
+        }
+
+        // Add entry to the wheel
+        function addEntry() {
+            const text = entryInput.value.trim();
+            if (text) {
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                entries.push({ text, color });
+                entryInput.value = '';
+                updateEntryList();
+                updateWheel();
+                saveEntries();
+            }
+        }
+
+        // Random colors
+        function randomizeColors() {
+            entries.forEach(entry => {
+                entry.color = colors[Math.floor(Math.random() * colors.length)];
+            });
+            updateEntryList();
+            updateWheel();
+            saveEntries();
+        }
+
+        // Add to history
+        function addToHistory(entry) {
+            const now = new Date();
+            const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            decisionHistory.unshift({
+                text: entry.text,
+                color: entry.color,
+                time: time
+            });
+
+            // Limit history to 10 items
+            if (decisionHistory.length > 10) {
+                decisionHistory.pop();
+            }
+
+            updateHistoryDisplay();
+            saveHistory();
+        }
+
+        // Update history display
+        function updateHistoryDisplay() {
+            history.innerHTML = '';
+
+            decisionHistory.forEach((item) => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                historyItem.innerHTML = `
+                    <span>${item.time}</span>
+                    <span style="color: ${item.color}; font-weight: bold;">${item.text}</span>
+                `;
+                history.appendChild(historyItem);
+            });
+        }
+
+        // Save entries to local storage
+        function saveEntries() {
+            localStorage.setItem('decisionWheel.entries', JSON.stringify(entries));
+        }
+
+        // Load entries from local storage
+        function loadEntries() {
+            const storedEntries = localStorage.getItem('decisionWheel.entries');
+            if (storedEntries) {
+                entries = JSON.parse(storedEntries);
+                updateEntryList();
+                updateWheel();
+            } else {
+                // Add some default entries if none exist
+                entries = [
+                    { text: 'Productive', color: '#FF6633' },
+                    { text: 'YouTube', color: '#00B3E6' },
+                    { text: 'Netflix', color: '#E6B333' },
+                    { text: 'Meditate', color: '#80B300' }
+                ];
+                updateEntryList();
+                updateWheel();
+                saveEntries();
+            }
+        }
+
+        // Save history to local storage
+        function saveHistory() {
+            localStorage.setItem('decisionWheel.history', JSON.stringify(decisionHistory));
+        }
+
+        // Load history from local storage
+        function loadHistory() {
+            const storedHistory = localStorage.getItem('decisionWheel.history');
+            if (storedHistory) {
+                decisionHistory = JSON.parse(storedHistory);
+                updateHistoryDisplay();
+            }
+        }
+
+        // Tab switching
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.getAttribute('data-tab');
+
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+
+                tab.classList.add('active');
+                document.getElementById(`${tabName}-tab`).classList.add('active');
+            });
+        });
+
+        // Event listeners
+        spinButton.addEventListener('click', spinWheel);
+        addEntryButton.addEventListener('click', addEntry);
+        entryInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addEntry();
+        });
+        randomColorsButton.addEventListener('click', randomizeColors);
+        clearEntriesButton.addEventListener('click', () => {
+            if (confirm('Clear all entries?')) {
+                entries = [];
+                updateEntryList();
+                updateWheel();
+                saveEntries();
+            }
+        });
+        clearHistoryButton.addEventListener('click', () => {
+            decisionHistory = [];
+            updateHistoryDisplay();
+            saveHistory();
+        });
+
+        // Close color picker when clicking outside
+        document.addEventListener('click', () => {
+            colorPicker.style.display = 'none';
+            activeColorPicker = null;
+        });
+
+        // Prevent propagation for color picker clicks
+        colorPicker.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+
+        // Initialize
+        initColorPicker();
+        loadEntries();
+        loadHistory();
+    </script>
+</body>
+
+</html>
