@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yes/No Decision Button</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #FF9A8B, #FF6A88);
+            color: #333;
+        }
+
+        .container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+
+        .decision-button {
+            background-color: #2196F3;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 18px;
+            margin: 1.5rem 0;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .decision-button:hover {
+            background-color: #1976D2;
+            transform: scale(1.05);
+        }
+
+        .decision-button:active {
+            transform: scale(0.95);
+        }
+
+        .result {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 1.5rem 0;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .settings {
+            margin-top: 1.5rem;
+            text-align: left;
+        }
+
+        .settings label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .settings input {
+            margin-bottom: 1rem;
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .history {
+            margin-top: 1.5rem;
+            text-align: left;
+            max-height: 120px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 0.5rem;
+        }
+
+        .history-item {
+            padding: 0.3rem 0;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .clear-button {
+            background: none;
+            border: none;
+            color: #f44336;
+            cursor: pointer;
+            font-size: 12px;
+            padding: 0;
+        }
+
+        .bias-slider {
+            width: 100%;
+            margin: 1rem 0;
+        }
+
+        .bias-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .animation {
+            animation: pulse 0.5s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Yes or No?</h1>
+        <p>Need a quick decision? Click the button below!</p>
+
+        <div class="result" id="result">?</div>
+        <button class="decision-button" id="decideButton">DECIDE</button>
+
+        <div class="settings">
+            <label for="yesText">Yes Text:</label>
+            <input type="text" id="yesText" value="YES">
+
+            <label for="noText">No Text:</label>
+            <input type="text" id="noText" value="NO">
+
+            <label for="yesColor">Yes Color:</label>
+            <input type="color" id="yesColor" value="#4CAF50">
+
+            <label for="noColor">No Color:</label>
+            <input type="color" id="noColor" value="#f44336">
+
+            <label>Bias:</label>
+            <div class="bias-labels">
+                <span>More No</span>
+                <span>Neutral</span>
+                <span>More Yes</span>
+            </div>
+            <input type="range" min="0" max="100" value="50" class="bias-slider" id="biasSlider">
+        </div>
+
+        <div class="history-title">
+            <span>History</span>
+            <button class="clear-button" id="clearButton">Clear</button>
+        </div>
+        <div class="history" id="history"></div>
+    </div>
+
+    <script>
+        const result = document.getElementById('result');
+        const decideButton = document.getElementById('decideButton');
+        const yesText = document.getElementById('yesText');
+        const noText = document.getElementById('noText');
+        const yesColor = document.getElementById('yesColor');
+        const noColor = document.getElementById('noColor');
+        const biasSlider = document.getElementById('biasSlider');
+        const history = document.getElementById('history');
+        const clearButton = document.getElementById('clearButton');
+
+        let decisionHistory = [];
+
+        decideButton.addEventListener('click', () => {
+            // Get current values
+            const yes = yesText.value || 'YES';
+            const no = noText.value || 'NO';
+            const yesClr = yesColor.value;
+            const noClr = noColor.value;
+            const bias = biasSlider.value / 100; // Convert to 0-1 range
+
+            // Make decision with bias
+            const decision = Math.random() < bias ? yes : no;
+            const color = decision === yes ? yesClr : noClr;
+
+            // Display result
+            result.textContent = decision;
+            result.style.color = color;
+
+            // Add animation
+            result.classList.remove('animation');
+            void result.offsetWidth; // Force reflow to restart animation
+            result.classList.add('animation');
+
+            // Add to history
+            addToHistory(decision, color);
+        });
+
+        function addToHistory(decision, color) {
+            const now = new Date();
+            const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            // Add to history array
+            decisionHistory.unshift({
+                decision: decision,
+                color: color,
+                time: time
+            });
+
+            // Limit history to 10 items
+            if (decisionHistory.length > 10) {
+                decisionHistory.pop();
+            }
+
+            // Update history display
+            updateHistoryDisplay();
+        }
+
+        function updateHistoryDisplay() {
+            history.innerHTML = '';
+
+            decisionHistory.forEach((item) => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                historyItem.innerHTML = `
+                    <span>${item.time}</span>
+                    <span style="color: ${item.color}; font-weight: bold;">${item.decision}</span>
+                `;
+                history.appendChild(historyItem);
+            });
+        }
+
+        clearButton.addEventListener('click', () => {
+            decisionHistory = [];
+            updateHistoryDisplay();
+        });
+
+        // Initialize
+        updateHistoryDisplay();
+    </script>
+</body>
+
+</html>
