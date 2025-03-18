@@ -1,6 +1,6 @@
 # Utilities
 
-This directory contains a collection of lightweight, browser-based utility applications built using HTML, CSS, and JavaScript. These utilities are designed to be simple, efficient, and ready to use without any dependencies or installation required.
+This directory contains a collection of lightweight, browser-based utility applications built using HTML, CSS, and JavaScript. These utilities are designed to be simple, efficient, and ready to use without any dependencies or installation required. The utilities hub can be found [here](https://mattwydra.github.io/projects/utilities/)
 
 ## Purpose
 
@@ -23,19 +23,28 @@ A clean, simple timer application with customizable presets.
 - Start, pause, and reset functionality
 - Visual and audio alerts when timer completes
 
-**Usage:** Open `timer-app.html` in any modern web browser.
+**Usage:** Open [this link](https://mattwydra.github.io/projects/utilities/timer/index.html) in any modern web browser.
 
-### Yes/No Decision Wheel
+### Yes/No Decision Button
 
-A fun tool to help make simple yes/no decisions with a spinning wheel or random button.
+A fun tool to help make simple yes/no decisions with a button.
 
 **Features:**
-- Two modes: Spinning wheel or instant decision button
 - Customizable text for "Yes" and "No" options
 - Customizable colors
-- Animated spinning effect in wheel mode
 
-**Usage:** Open `yes-no-wheel.html` in any modern web browser.
+**Usage:** Open [this link](https://mattwydra.github.io/projects/utilities/yes_no/index.html) in any modern web browser.
+
+### Yes/No Decision Button
+
+A tool to help when you have many choices and can't choose!
+
+**Features:**
+- Animated spinning
+- As many entries as the user wishes
+- Randomly selects based on where the wheel lands
+
+**Usage:** Open [this link](https://mattwydra.github.io/projects/utilities/decision_wheel/index.html) in any modern web browser.
 
 ### Random Number Generator
 
@@ -49,7 +58,7 @@ A versatile random generator with multiple modes.
 - Option for unique values (no duplicates)
 - History of previous generations
 
-**Usage:** Open `random-number-generator.html` in any modern web browser.
+**Usage:** Open [this link](https://mattwydra.github.io/projects/utilities/rng/index.html) in any modern web browser.
 
 ## Upcoming Utilities
 
@@ -71,7 +80,7 @@ These are utilities planned for future development:
 - Convert between color formats (HEX, RGB, HSL)
 - Extract colors from images
 
-### Todo List
+### Todo List (Porting Over Previous Implementation)
 - Simple task management
 - Local storage to save tasks
 - Task categorization and priorities
@@ -80,16 +89,3 @@ These are utilities planned for future development:
 - Set a specific date/time to count down to
 - Customizable display format
 - Optional alarm/notification
-
-## Contributing
-
-Feel free to add new utilities to this collection! To contribute:
-
-1. Create a new HTML file for your utility
-2. Follow the existing design patterns for consistency
-3. Ensure your utility works without external dependencies
-4. Update this README with information about your utility
-
-## License
-
-These utilities are available under the MIT License. Feel free to use, modify, and distribute them as needed.
