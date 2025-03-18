@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Utilities Hub</title>
+  <style>
+    body {
+      background-color: black;
+      color: aliceblue;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    body[data-theme="light"] {
+      background-color: lavender;
+      color: black;
+    }
+
+    h1 {
+      margin-top: 20px;
+    }
+
+    .game-link {
+      display: inline-block;
+      margin: 15px;
+      padding: 10px 20px;
+      background: rgb(65, 65, 65);
+      color: lavender;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 1.2em;
+      transition: color 0.3s, background-color 0.3s;
+    }
+
+    body[data-theme="light"] .game-link {
+      background-color: plum;
+      color: black;
+    }
+
+    .game-link:hover {
+      background-color: plum;
+      color: black;
+    }
+
+    body[data-theme="light"] .game-link:hover {
+      background-color: lightgray;
+      color: black;
+    }
+  </style>
+  <link rel="stylesheet" href="/styles/darkmode.css" />
+  <link rel="stylesheet" href="/projects/styles/darkmode.css" />
+</head>
+
+<body>
+  <h1>Welcome to The Utilities Hub!</h1>
+  <button class="toggle-btn" id="themeToggle">Toggle Dark/Light Mode</button>
+  <div>
+    <a href="rng/index.html" class="game-link">RNG</a>
+    <a href="decision_wheel/index.html" class="game-link">decision wheel</a>
+    <a href="yes_no/index.html" class="game-link">yes/no button</a>
+    <a href="timer/index.html" class="game-link">timer</a>
+  </div>
+
+
+  <script>
+    const themeToggle = document.getElementById("themeToggle");
+
+    themeToggle.addEventListener("click", () => {
+      const body = document.body;
+      const currentTheme = body.getAttribute("data-theme");
+
+      if (currentTheme === "light") {
+        body.setAttribute("data-theme", "dark");
+      } else {
+        body.setAttribute("data-theme", "light");
+      }
+    });
+  </script>
+</body>
+
+</html>
