@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Number Generator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #C9D6FF, #E2E2E2);
+            color: #333;
+        }
+
+        .container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 320px;
+        }
+
+        .result {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 1.5rem 0;
+            height: 4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2196F3;
+        }
+
+        .generate-button {
+            background-color: #2196F3;
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            margin: 1rem 0;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+
+        .generate-button:hover {
+            background-color: #1976D2;
+        }
+
+        .settings {
+            margin-top: 1.5rem;
+            text-align: left;
+        }
+
+        .settings label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .settings input {
+            margin-bottom: 1rem;
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .range-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .range-container input {
+            width: 45%;
+            margin-bottom: 0;
+        }
+
+        .range-separator {
+            margin: 0 5px;
+        }
+
+        .mode-selector {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .mode-button {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            background-color: #f5f5f5;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .mode-button:first-child {
+            border-radius: 5px 0 0 5px;
+        }
+
+        .mode-button:last-child {
+            border-radius: 0 5px 5px 0;
+        }
+
+        .mode-button.active {
+            background-color: #2196F3;
+            color: white;
+            border-color: #2196F3;
+        }
+
+        .history {
+            margin-top: 1.5rem;
+            text-align: left;
+            max-height: 150px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 0.5rem;
+        }
+
+        .history-item {
+            padding: 0.3rem 0;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .clear-button {
+            background: none;
+            border: none;
+            color: #f44336;
+            cursor: pointer;
+            font-size: 12px;
+            padding: 0;
+        }
+
+        .copy-button {
+            background: none;
+            border: none;
+            color: #2196F3;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .quantity-selector label {
+            margin-right: 10px;
+            margin-bottom: 0;
+        }
+
+        .quantity-selector input {
+            width: 60px;
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Random Generator</h1>
+
+        <div class="mode-selector">
+            <button class="mode-button active" data-mode="number">Number</button>
+            <button class="mode-button" data-mode="dice">Dice</button>
+            <button class="mode-button" data-mode="letter">Letter</button>
+        </div>
+
+        <!-- Number mode settings -->
+        <div id="number-settings" class="settings">
+            <div class="range-container">
+                <input type="number" id="min" value="1" min="-9999" max="9999">
+                <span class="range-separator">to</span>
+                <input type="number" id="max" value="100" min="-9999" max="9999">
+            </div>
+
+            <div class="quantity-selector">
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" value="1" min="1" max="10">
+            </div>
+
+            <label>
+                <input type="checkbox" id="unique"> Generate unique numbers
+            </label>
+        </div>
+
+        <!-- Dice mode settings -->
+        <div id="dice-settings" class="settings" style="display: none;">
+            <label for="diceType">Dice Type:</label>
+            <select id="diceType"
+                style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 1rem;">
+                <option value="6">6-sided (D6)</option>
+                <option value="4">4-sided (D4)</option>
+                <option value="8">8-sided (D8)</option>
+                <option value="10">10-sided (D10)</option>
+                <option value="12">12-sided (D12)</option>
+                <option value="20">20-sided (D20)</option>
+                <option value="100">100-sided (D100)</option>
+            </select>
+
+            <div class="quantity-selector">
+                <label for="diceQuantity">Number of dice:</label>
+                <input type="number" id="diceQuantity" value="1" min="1" max="10">
+            </div>
+        </div>
+
+        <!-- Letter mode settings -->
+        <div id="letter-settings" class="settings" style="display: none;">
+            <label>
+                <input type="checkbox" id="uppercase" checked> Uppercase
+            </label>
+            <div class="quantity-selector">
+                <label for="letterQuantity">Number of letters:</label>
+                <input type="number" id="letterQuantity" value="1" min="1" max="10">
+            </div>
+            <label>
+                <input type="checkbox" id="uniqueLetters"> Generate unique letters
+            </label>
+        </div>
+
+        <div class="result" id="result">?</div>
+
+        <button class="generate-button" id="generateButton">GENERATE</button>
+
+        <div class="history-title">
+            <span>History</span>
+            <button class="clear-button" id="clearButton">Clear</button>
+        </div>
+        <div class="history" id="history"></div>
+    </div>
+
+    <script>
+        // Wrap your entire script in a DOMContentLoaded event to ensure all elements are loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            const result = document.getElementById('result');
+            const generateButton = document.getElementById('generateButton');
+            const clearButton = document.getElementById('clearButton');
+            const historyContainer = document.getElementById('history');
+            const modeButtons = document.querySelectorAll('.mode-button');
+            const numberSettings = document.getElementById('number-settings');
+            const diceSettings = document.getElementById('dice-settings');
+            const letterSettings = document.getElementById('letter-settings');
+
+            // Number mode elements
+            const minInput = document.getElementById('min');
+            const maxInput = document.getElementById('max');
+            const quantityInput = document.getElementById('quantity');
+            const uniqueCheckbox = document.getElementById('unique');
+
+            // Dice mode elements
+            const diceTypeSelect = document.getElementById('diceType');
+            const diceQuantityInput = document.getElementById('diceQuantity');
+
+            // Letter mode elements
+            const uppercaseCheckbox = document.getElementById('uppercase');
+            const letterQuantityInput = document.getElementById('letterQuantity');
+            const uniqueLettersCheckbox = document.getElementById('uniqueLetters');
+
+            let currentMode = 'number';
+            let history = [];
+
+            // Mode switching
+            modeButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    modeButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    currentMode = button.getAttribute('data-mode');
+
+                    // Hide all settings and show the current mode's settings
+                    numberSettings.style.display = 'none';
+                    diceSettings.style.display = 'none';
+                    letterSettings.style.display = 'none';
+
+                    if (currentMode === 'number') {
+                        numberSettings.style.display = 'block';
+                    } else if (currentMode === 'dice') {
+                        diceSettings.style.display = 'block';
+                    } else if (currentMode === 'letter') {
+                        letterSettings.style.display = 'block';
+                    }
+
+                    // Reset result
+                    result.textContent = '?';
+                });
+            });
+
+            // Generate random results
+            generateButton.addEventListener('click', () => {
+                let generatedResult;
+
+                if (currentMode === 'number') {
+                    generatedResult = generateRandomNumbers();
+                } else if (currentMode === 'dice') {
+                    generatedResult = generateDiceRoll();
+                } else if (currentMode === 'letter') {
+                    generatedResult = generateRandomLetters();
+                }
+
+                // Display the result
+                result.textContent = generatedResult;
+
+                // Add to history
+                addToHistory(generatedResult);
+            });
+
+            // Generate random numbers
+            function generateRandomNumbers() {
+                const min = parseInt(minInput.value);
+                const max = parseInt(maxInput.value);
+                const quantity = parseInt(quantityInput.value);
+                const unique = uniqueCheckbox.checked;
+
+                if (min > max) {
+                    alert('Minimum value must be less than or equal to maximum value.');
+                    return '?';
+                }
+
+                if (unique && max - min + 1 < quantity) {
+                    alert('Cannot generate that many unique numbers in the given range.');
+                    return '?';
+                }
+
+                const numbers = [];
+
+                if (unique) {
+                    // Generate unique numbers
+                    const availableNumbers = Array.from(
+                        { length: max - min + 1 },
+                        (_, i) => i + min
+                    );
+
+                    for (let i = 0; i < quantity; i++) {
+                        const randomIndex = Math.floor(Math.random() * availableNumbers.length);
+                        numbers.push(availableNumbers.splice(randomIndex, 1)[0]);
+                    }
+                } else {
+                    // Generate non-unique numbers
+                    for (let i = 0; i < quantity; i++) {
+                        numbers.push(Math.floor(Math.random() * (max - min + 1)) + min);
+                    }
+                }
+
+                return numbers.join(', ');
+            }
+
+            // Generate dice roll
+            function generateDiceRoll() {
+                const sides = parseInt(diceTypeSelect.value);
+                const quantity = parseInt(diceQuantityInput.value);
+
+                const rolls = [];
+                let total = 0;
+
+                for (let i = 0; i < quantity; i++) {
+                    const roll = Math.floor(Math.random() * sides) + 1;
+                    rolls.push(roll);
+                    total += roll;
+                }
+
+                return quantity > 1
+                    ? `${rolls.join(' + ')} = ${total}`
+                    : `${total}`;
+            }
+
+            // Generate random letters
+            // This completes the generateRandomLetters function and other missing parts
+            function generateRandomLetters() {
+                const quantity = parseInt(letterQuantityInput.value);
+                const uppercase = uppercaseCheckbox.checked;
+                const unique = uniqueLettersCheckbox.checked;
+
+                if (unique && quantity > 26) {
+                    alert('Cannot generate more than 26 unique letters.');
+                    return '?';
+                }
+
+                const letters = [];
+
+                if (unique) {
+                    // Generate unique letters
+                    const availableLetters = Array.from(
+                        { length: 26 },
+                        (_, i) => String.fromCharCode(uppercase ? 65 + i : 97 + i)
+                    );
+
+                    for (let i = 0; i < quantity; i++) {
+                        const randomIndex = Math.floor(Math.random() * availableLetters.length);
+                        letters.push(availableLetters.splice(randomIndex, 1)[0]);
+                    }
+                } else {
+                    // Generate non-unique letters
+                    for (let i = 0; i < quantity; i++) {
+                        const randomChar = String.fromCharCode(
+                            uppercase ?
+                                Math.floor(Math.random() * 26) + 65 :
+                                Math.floor(Math.random() * 26) + 97
+                        );
+                        letters.push(randomChar);
+                    }
+                }
+
+                return letters.join(' ');
+            }
+
+            // Add to history function
+            function addToHistory(value) {
+                // Add to history array
+                history.unshift(value);
+
+                // Keep history limited to 20 items
+                if (history.length > 20) {
+                    history.pop();
+                }
+
+                // Update history display
+                updateHistoryDisplay();
+            }
+
+            // Update history display
+            function updateHistoryDisplay() {
+                historyContainer.innerHTML = '';
+
+                history.forEach(item => {
+                    const historyItem = document.createElement('div');
+                    historyItem.className = 'history-item';
+
+                    historyItem.innerHTML = `
+            <span>${item}</span>
+            <button class="copy-button">Copy</button>
+        `;
+
+                    historyContainer.appendChild(historyItem);
+
+                    // Add copy functionality
+                    historyItem.querySelector('.copy-button').addEventListener('click', () => {
+                        navigator.clipboard.writeText(item)
+                            .then(() => {
+                                const copyBtn = historyItem.querySelector('.copy-button');
+                                copyBtn.textContent = 'Copied!';
+                                setTimeout(() => {
+                                    copyBtn.textContent = 'Copy';
+                                }, 1500);
+                            })
+                            .catch(err => {
+                                console.error('Failed to copy: ', err);
+                            });
+                    });
+                });
+            }
+
+            // Clear history
+            clearButton.addEventListener('click', () => {
+                history = [];
+                updateHistoryDisplay();
+            });
+
+            // Input validation
+            minInput.addEventListener('change', validateRange);
+            maxInput.addEventListener('change', validateRange);
+
+            function validateRange() {
+                const min = parseInt(minInput.value);
+                const max = parseInt(maxInput.value);
+
+                if (min > max) {
+                    maxInput.value = min;
+                }
+            }
+
+            generateButton.addEventListener('click', () => {
+                console.log("Generate button clicked");
+                let generatedResult;
+
+                try {
+                    if (currentMode === 'number') {
+                        console.log("Generating random numbers with:", { min: minInput.value, max: maxInput.value, quantity: quantityInput.value, unique: uniqueCheckbox.checked });
+                        generatedResult = generateRandomNumbers();
+                    } else if (currentMode === 'dice') {
+                        console.log("Generating dice roll with:", { sides: diceTypeSelect.value, quantity: diceQuantityInput.value });
+                        generatedResult = generateDiceRoll();
+                    } else if (currentMode === 'letter') {
+                        console.log("Generating random letters with:", { uppercase: uppercaseCheckbox.checked, quantity: letterQuantityInput.value, unique: uniqueLettersCheckbox.checked });
+                        generatedResult = generateRandomLetters();
+                    }
+
+                    console.log("Generated result:", generatedResult);
+
+                    // Display the result
+                    result.textContent = generatedResult;
+
+                    // Add to history
+                    addToHistory(generatedResult);
+                } catch (error) {
+                    console.error("Error generating result:", error);
+                }
+            });
+
+            // Initialize
+            updateHistoryDisplay();
+        });
