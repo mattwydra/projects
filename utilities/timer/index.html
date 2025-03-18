@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Timer</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #74ebd5, #9face6);
+            color: #333;
+        }
+        .container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 300px;
+        }
+        .display {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 1rem 0;
+            color: #333;
+        }
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+        }
+        button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            flex: 1;
+            margin: 0 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #reset {
+            background-color: #f44336;
+        }
+        #reset:hover {
+            background-color: #d32f2f;
+        }
+        #pause {
+            background-color: #ff9800;
+        }
+        #pause:hover {
+            background-color: #f57c00;
+        }
+        .presets {
+            display: flex;
+            justify-content: space-between;
+            margin: 1rem 0;
+        }
+        .preset-btn {
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        .preset-btn:hover {
+            background-color: #1976D2;
+        }
+        .input-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        input {
+            width: 60px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+        }
+        label {
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Timer</h1>
+        <div class="input-group">
+            <div>
+                <input type="number" id="minutes" min="0" max="59" value="0">
+                <label for="minutes">Minutes</label>
+            </div>
+            <div>
+                <input type="number" id="seconds" min="0" max="59" value="0">
+                <label for="seconds">Seconds</label>
+            </div>
+        </div>
+        <div class="presets">
+            <button class="preset-btn" data-time="60">1 min</button>
+            <button class="preset-btn" data-time="300">5 min</button>
+            <button class="preset-btn" data-time="600">10 min</button>
+        </div>
+        <div class="display" id="time">00:00</div>
+        <div class="controls">
+            <button id="start">Start</button>
+            <button id="pause">Pause</button>
+            <button id="reset">Reset</button>
+        </div>
+    </div>
+
+    <script>
+        const minutesInput = document.getElementById('minutes');
+        const secondsInput = document.getElementById('seconds');
+        const timeDisplay = document.getElementById('time');
+        const startButton = document.getElementById('start');
+        const pauseButton = document.getElementById('pause');
+        const resetButton = document.getElementById('reset');
+        const presetButtons = document.querySelectorAll('.preset-btn');
+        
+        let timer;
+        let seconds = 0;
+        let isRunning = false;
+        
+        function updateDisplay() {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            timeDisplay.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+        
+        function startTimer() {
+            if (!isRunning) {
+                // If timer is not set, get values from inputs
+                if (seconds === 0) {
+                    seconds = parseInt(minutesInput.value) * 60 + parseInt(secondsInput.value);
+                    if (seconds === 0) return; // Don't start if no time is set
+                }
+                
+                isRunning = true;
+                timer = setInterval(() => {
+                    seconds--;
+                    updateDisplay();
+                    
+                    if (seconds <= 0) {
+                        clearInterval(timer);
+                        isRunning = false;
+                        timeDisplay.style.color = '#f44336';
+                        playAlarm();
+                    }
+                }, 1000);
+            }
+        }
+        
+        function pauseTimer() {
+            clearInterval(timer);
+            isRunning = false;
+        }
+        
+        function resetTimer() {
+            clearInterval(timer);
+            isRunning = false;
+            seconds = 0;
+            minutesInput.value = 0;
+            secondsInput.value = 0;
+            timeDisplay.style.color = '#333';
+            updateDisplay();
+        }
+        
+        function playAlarm() {
+            // Create a simple alarm sound
+            const context = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = context.createOscillator();
+            const gainNode = context.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(context.destination);
+            
+            oscillator.type = 'sine';
+            oscillator.frequency.value = 800;
+            gainNode.gain.value = 0.5;
+            
+            oscillator.start(context.currentTime);
+            oscillator.stop(context.currentTime + 0.5);
+            
+            // Repeat the alarm
+            setTimeout(() => {
+                const repeat = oscillator.frequency.value === 800 ? 1000 : 800;
+                oscillator.frequency.value = repeat;
+                if (seconds <= 0) playAlarm();
+            }, 600);
+        }
+        
+        startButton.addEventListener('click', startTimer);
+        pauseButton.addEventListener('click', pauseTimer);
+        resetButton.addEventListener('click', resetTimer);
+        
+        presetButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const time = parseInt(button.getAttribute('data-time'));
+                seconds = time;
+                minutesInput.value = Math.floor(time / 60);
+                secondsInput.value = time % 60;
+                updateDisplay();
+            });
+        });
+        
+        minutesInput.addEventListener('change', () => {
+            if (isRunning) pauseTimer();
+            seconds = parseInt(minutesInput.value) * 60 + parseInt(secondsInput.value);
+            updateDisplay();
+        });
+        
+        secondsInput.addEventListener('change', () => {
+            if (isRunning) pauseTimer();
+            seconds = parseInt(minutesInput.value) * 60 + parseInt(secondsInput.value);
+            updateDisplay();
+        });
+        
+        // Initialize display
+        updateDisplay();
+    </script>
+</body>
+</html>
