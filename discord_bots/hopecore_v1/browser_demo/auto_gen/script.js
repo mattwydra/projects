@@ -118,3 +118,5 @@ async function generateHopecore() {
 
 
 // auto-generate
+generateHopecore();
+setInterval(generateHopecore, 10000);
