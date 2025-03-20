@@ -117,9 +117,4 @@ async function generateHopecore() {
 }
 
 
-// Attach the event listener
-if (generateButton) {
-  generateButton.addEventListener("click", generateHopecore);
-} else {
-  console.error("Generate button not found!");
-}
+// auto-generate
