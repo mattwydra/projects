@@ -313,23 +313,45 @@
                 });
             });
 
-            // Generate random results
+            // Generate random results - COMBINED SINGLE EVENT LISTENER WITH LOGGING
             generateButton.addEventListener('click', () => {
+                console.log("Generate button clicked");
                 let generatedResult;
 
-                if (currentMode === 'number') {
-                    generatedResult = generateRandomNumbers();
-                } else if (currentMode === 'dice') {
-                    generatedResult = generateDiceRoll();
-                } else if (currentMode === 'letter') {
-                    generatedResult = generateRandomLetters();
+                try {
+                    if (currentMode === 'number') {
+                        console.log("Generating random numbers with:", {
+                            min: minInput.value,
+                            max: maxInput.value,
+                            quantity: quantityInput.value,
+                            unique: uniqueCheckbox.checked
+                        });
+                        generatedResult = generateRandomNumbers();
+                    } else if (currentMode === 'dice') {
+                        console.log("Generating dice roll with:", {
+                            sides: diceTypeSelect.value,
+                            quantity: diceQuantityInput.value
+                        });
+                        generatedResult = generateDiceRoll();
+                    } else if (currentMode === 'letter') {
+                        console.log("Generating random letters with:", {
+                            uppercase: uppercaseCheckbox.checked,
+                            quantity: letterQuantityInput.value,
+                            unique: uniqueLettersCheckbox.checked
+                        });
+                        generatedResult = generateRandomLetters();
+                    }
+
+                    console.log("Generated result:", generatedResult);
+
+                    // Display the result
+                    result.textContent = generatedResult;
+
+                    // Add to history
+                    addToHistory(generatedResult);
+                } catch (error) {
+                    console.error("Error generating result:", error);
                 }
-
-                // Display the result
-                result.textContent = generatedResult;
-
-                // Add to history
-                addToHistory(generatedResult);
             });
 
             // Generate random numbers
@@ -392,7 +414,6 @@
             }
 
             // Generate random letters
-            // This completes the generateRandomLetters function and other missing parts
             function generateRandomLetters() {
                 const quantity = parseInt(letterQuantityInput.value);
                 const uppercase = uppercaseCheckbox.checked;
@@ -454,9 +475,9 @@
                     historyItem.className = 'history-item';
 
                     historyItem.innerHTML = `
-            <span>${item}</span>
-            <button class="copy-button">Copy</button>
-        `;
+                        <span>${item}</span>
+                        <button class="copy-button">Copy</button>
+                    `;
 
                     historyContainer.appendChild(historyItem);
 
@@ -496,34 +517,10 @@
                 }
             }
 
-            generateButton.addEventListener('click', () => {
-                console.log("Generate button clicked");
-                let generatedResult;
-
-                try {
-                    if (currentMode === 'number') {
-                        console.log("Generating random numbers with:", { min: minInput.value, max: maxInput.value, quantity: quantityInput.value, unique: uniqueCheckbox.checked });
-                        generatedResult = generateRandomNumbers();
-                    } else if (currentMode === 'dice') {
-                        console.log("Generating dice roll with:", { sides: diceTypeSelect.value, quantity: diceQuantityInput.value });
-                        generatedResult = generateDiceRoll();
-                    } else if (currentMode === 'letter') {
-                        console.log("Generating random letters with:", { uppercase: uppercaseCheckbox.checked, quantity: letterQuantityInput.value, unique: uniqueLettersCheckbox.checked });
-                        generatedResult = generateRandomLetters();
-                    }
-
-                    console.log("Generated result:", generatedResult);
-
-                    // Display the result
-                    result.textContent = generatedResult;
-
-                    // Add to history
-                    addToHistory(generatedResult);
-                } catch (error) {
-                    console.error("Error generating result:", error);
-                }
-            });
-
             // Initialize
             updateHistoryDisplay();
         });
+    </script>
+</body>
+
+</html>
