@@ -1,148 +1,822 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Combinatorics Calculator</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      padding: 2rem;
-      max-width: 600px;
-      margin: auto;
-      background-color: #f9f9f9;
-    }
-    h1 {
-      text-align: center;
-    }
-    label, select, input, button {
-      display: block;
-      width: 100%;
-      margin-bottom: 1rem;
-    }
-    #result {
-      background: #fff;
-      padding: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-    }
-    .hidden {
-      display: none;
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Comprehensive Combinatorics Calculator</title>
+    <style>
+        :root {
+            --primary: #3498db;
+            --primary-dark: #2980b9;
+            --secondary: #2ecc71;
+            --text: #333;
+            --bg: #f9f9f9;
+            --card: #fff;
+            --border: #ddd;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 1rem;
+            max-width: 800px;
+            margin: auto;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: var(--primary-dark);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .calculator-card {
+            background: var(--card);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        select,
+        input,
+        button {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        #result {
+            background: var(--card);
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .explanation {
+            background-color: rgba(46, 204, 113, 0.1);
+            border-left: 4px solid var(--secondary);
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .formula-explanation {
+            margin-top: 2rem;
+        }
+
+        .tab-container {
+            margin-bottom: 1rem;
+        }
+
+        .tab-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tab-button {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .tab-button.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 1rem;
+            background: var(--card);
+            border-radius: 6px;
+            border: 1px solid var(--border);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .input-group {
+            margin-bottom: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid var(--border);
+        }
+
+        th,
+        td {
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        code {
+            background: #f1f1f1;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 0.5rem;
+            }
+        }
+    </style>
 </head>
+
 <body>
-  <h1>Combinatorics Calculator</h1>
-  
-  <label for="type">Select calculation type:</label>
-  <select id="type">
-    <option value="nCr">Combinations (nCr)</option>
-    <option value="nPr">Permutations (nPr)</option>
-    <option value="combRep">Combinations with Repetition</option>
-    <option value="permRep">Permutations with Repetition</option>
-    <option value="factorial">Factorial</option>
-    <option value="expectedPairs">Expected Mutual Pairs (HxH style)</option>
-  </select>
+    <h1>Comprehensive Combinatorics Calculator</h1>
 
-  <div id="inputs">
-    <label for="n">n:</label>
-    <input type="number" id="n" value="24" />
+    <div class="tab-container">
+        <div class="tab-buttons">
+            <button class="tab-button active" onclick="openTab('calculator')">Calculator</button>
+            <button class="tab-button" onclick="openTab('basics')">Counting Basics</button>
+            <button class="tab-button" onclick="openTab('permcomb')">Permutations & Combinations</button>
+            <button class="tab-button" onclick="openTab('advanced')">Advanced Concepts</button>
+        </div>
 
-    <label for="r">r:</label>
-    <input type="number" id="r" value="2" />
-  </div>
+        <!-- Calculator Tab -->
+        <div id="calculator" class="tab-content active">
+            <div class="calculator-card">
+                <label for="type">Select calculation type:</label>
+                <select id="type">
+                    <option value="nCr">Combinations (nCr)</option>
+                    <option value="nPr">Permutations (nPr)</option>
+                    <option value="combRep">Combinations with Repetition</option>
+                    <option value="permRep">Permutations with Repetition</option>
+                    <option value="factorial">Factorial</option>
+                    <option value="circularPerm">Circular Permutations</option>
+                    <option value="multiset">Multiset Permutations</option>
+                    <option value="binomial">Binomial Coefficient</option>
+                    <option value="expectedPairs">Expected Mutual Pairs</option>
+                    <option value="stirling">Stirling Number (Second Kind)</option>
+                    <option value="catalan">Catalan Number</option>
+                </select>
 
-  <button onclick="calculate()">Calculate</button>
+                <div id="inputs">
+                    <div class="input-group">
+                        <label for="n">n:</label>
+                        <input type="number" id="n" value="24" min="0" />
+                    </div>
 
-  <div id="result"></div>
+                    <div class="input-group" id="r-input">
+                        <label for="r">r:</label>
+                        <input type="number" id="r" value="2" min="0" />
+                    </div>
 
-  <script>
-    function factorial(num) {
-      if (num < 0) return NaN;
-      let res = 1;
-      for (let i = 2; i <= num; i++) res *= i;
-      return res;
-    }
+                    <div class="input-group hidden" id="multiset-input">
+                        <label for="multisetValues">Enter repetitions (comma separated):</label>
+                        <input type="text" id="multisetValues" placeholder="e.g., 2,3,1" />
+                    </div>
+                </div>
 
-    function combinations(n, r) {
-      return factorial(n) / (factorial(r) * factorial(n - r));
-    }
+                <button onclick="calculate()">Calculate</button>
 
-    function permutations(n, r) {
-      return factorial(n) / factorial(n - r);
-    }
+                <div id="result"></div>
 
-    function combinationsWithRepetition(n, r) {
-      return combinations(n + r - 1, r);
-    }
+                <div id="formula-explanation" class="explanation hidden"></div>
+            </div>
+        </div>
 
-    function permutationsWithRepetition(n, r) {
-      return Math.pow(n, r);
-    }
+        <!-- Counting Basics Tab -->
+        <div id="basics" class="tab-content">
+            <div class="calculator-card">
+                <h2>Basic Counting Principles</h2>
 
-    function expectedMutualPairs(n) {
-      const totalPairs = (n * (n - 1)) / 2;
-      const probOnePair = 1 / ((n - 1) ** 2);
-      const expected = totalPairs * probOnePair;
-      return {
-        formula: `${totalPairs} × (1/${n - 1})²`,
-        value: expected.toFixed(3)
-      };
-    }
+                <h3>Rule of Sum (Addition Principle)</h3>
+                <p>If task A can be done in m ways and task B can be done in n ways, and these tasks cannot be done
+                    simultaneously, then task "A or B" can be done in m + n ways.</p>
+                <div class="explanation">
+                    <strong>Use cases:</strong> When you have multiple mutually exclusive options or paths to choose
+                    from.
+                    <br>
+                    <strong>Example:</strong> If you can choose either a burger (5 options) or a pizza (3 options) for
+                    lunch, then you have 5 + 3 = 8 total options.
+                </div>
 
-    function updateInputs() {
-      const type = document.getElementById("type").value;
-      const rInput = document.getElementById("r");
+                <h3>Rule of Product (Multiplication Principle)</h3>
+                <p>If task A can be done in m ways and task B can be done in n ways, then the sequence "A followed by B"
+                    can be done in m × n ways.</p>
+                <div class="explanation">
+                    <strong>Use cases:</strong> When you need to make sequential decisions or arrange events in order.
+                    <br>
+                    <strong>Example:</strong> If you have 4 shirts and 3 pants, you can make 4 × 3 = 12 different
+                    outfits.
+                </div>
 
-      if (type === "factorial" || type === "expectedPairs") {
-        rInput.parentElement.classList.add("hidden");
-      } else {
-        rInput.parentElement.classList.remove("hidden");
-      }
-    }
+                <h3>Complement Principle</h3>
+                <p>To find the number of ways to accomplish a task with restrictions, sometimes it's easier to count the
+                    complementary situation (all possible ways minus the ways that don't satisfy the constraints).</p>
+                <div class="explanation">
+                    <strong>Use cases:</strong> When it's easier to count what doesn't meet criteria than what does.
+                    <br>
+                    <strong>Example:</strong> To count the number of 5-card poker hands with at least one ace, count all
+                    hands (C(52,5)) and subtract hands with no aces (C(48,5)).
+                </div>
+            </div>
+        </div>
 
-    document.getElementById("type").addEventListener("change", updateInputs);
-    updateInputs();
+        <!-- Permutations & Combinations Tab -->
+        <div id="permcomb" class="tab-content">
+            <div class="calculator-card">
+                <h2>Permutations and Combinations</h2>
 
-    function calculate() {
-      const type = document.getElementById("type").value;
-      const n = parseInt(document.getElementById("n").value);
-      const r = parseInt(document.getElementById("r").value);
-      const resultDiv = document.getElementById("result");
+                <h3>Permutations</h3>
+                <p>Ordered arrangements of objects. The order matters!</p>
+                <p><strong>Formula:</strong> P(n,r) = n! / (n-r)!</p>
+                <div class="explanation">
+                    <strong>Use cases:</strong> Ranking problems, scheduling, arrangements where order matters.
+                    <br>
+                    <strong>Example:</strong> Different ways to arrange 3 runners finishing in gold, silver, and bronze
+                    positions from 8 runners = P(8,3) = 336.
+                </div>
 
-      let output = "";
-      let formula = "";
+                <h3>Combinations</h3>
+                <p>Unordered selections of objects. The order doesn't matter!</p>
+                <p><strong>Formula:</strong> C(n,r) = n! / (r! × (n-r)!)</p>
+                <div class="explanation">
+                    <strong>Use cases:</strong> Team selection, lottery problems, choosing subsets.
+                    <br>
+                    <strong>Example:</strong> Ways to select a committee of 4 people from 12 candidates = C(12,4) = 495.
+                </div>
 
-      switch (type) {
-        case "nCr":
-          output = combinations(n, r);
-          formula = `C(${n}, ${r}) = ${n}! / (${r}! × (${n - r})!)`;
-          break;
-        case "nPr":
-          output = permutations(n, r);
-          formula = `P(${n}, ${r}) = ${n}! / (${n - r})!`;
-          break;
-        case "combRep":
-          output = combinationsWithRepetition(n, r);
-          formula = `C(${n + r - 1}, ${r}) = (${n + r - 1})! / (${r}! × (${n - 1})!)`;
-          break;
-        case "permRep":
-          output = permutationsWithRepetition(n, r);
-          formula = `${n}^${r} = ${output}`;
-          break;
-        case "factorial":
-          output = factorial(n);
-          formula = `${n}! = ${output}`;
-          break;
-        case "expectedPairs":
-          const result = expectedMutualPairs(n);
-          formula = `Expected mutual pairs: ${result.formula}`;
-          output = result.value;
-          break;
-      }
+                <h3>Permutations with Repetition</h3>
+                <p>Ordered arrangements where each object can be used multiple times.</p>
+                <p><strong>Formula:</strong> n^r</p>
+                <div class="explanation">
+                    <strong>Use cases:</strong> Creating codes, passwords, or configurations where repetition is
+                    allowed.
+                    <br>
+                    <strong>Example:</strong> Possible 4-digit PINs using digits 0-9 = 10^4 = 10,000.
+                </div>
 
-      resultDiv.innerHTML = `<strong>Formula:</strong> ${formula}<br/><strong>Result:</strong> ${output}`;
-    }
-  </script>
+                <h3>Combinations with Repetition</h3>
+                <p>Unordered selections where each object can be selected multiple times.</p>
+                <p><strong>Formula:</strong> C(n+r-1,r)</p>
+                <div class="explanation">
+                    <strong>Use cases:</strong> Selecting multiple identical items, distributions problems.
+                    <br>
+                    <strong>Example:</strong> Ways to select 6 donuts from 10 flavors (can select multiple of same
+                    flavor) = C(10+6-1,6) = C(15,6) = 5,005.
+                </div>
+
+                <h3>Circular Permutations</h3>
+                <p>Arrangements in a circle, where only the relative positions matter.</p>
+                <p><strong>Formula:</strong> (n-1)!</p>
+                <div class="explanation">
+                    <strong>Use cases:</strong> Seating people around a table, arranging items in a circle.
+                    <br>
+                    <strong>Example:</strong> Distinct ways to seat 6 people around a circular table = (6-1)! = 120.
+                </div>
+
+                <h3>Multiset Permutations</h3>
+                <p>Permutations of a multiset (set with repeated elements).</p>
+                <p><strong>Formula:</strong> n! / (r₁! × r₂! × ... × rₖ!)</p>
+                <div class="explanation">
+                    <strong>Use cases:</strong> Arranging items where some are identical.
+                    <br>
+                    <strong>Example:</strong> Distinct arrangements of the letters in "MISSISSIPPI" = 11! / (4!×4!×2!) =
+                    34,650.
+                </div>
+            </div>
+        </div>
+
+        <!-- Advanced Concepts Tab -->
+        <div id="advanced" class="tab-content">
+            <div class="calculator-card">
+                <h2>Advanced Combinatorial Concepts</h2>
+
+                <h3>Binomial Theorem & Pascal's Triangle</h3>
+                <p>The expansion of (a + b)^n involves binomial coefficients:</p>
+                <p>(a + b)^n = Σ C(n,k) × a^(n-k) × b^k</p>
+                <div class="explanation">
+                    <strong>Use cases:</strong> Probability calculations, algebraic expansions, combinatorial proofs.
+                    <br>
+                    <strong>Example:</strong> The coefficient of x^3 in (1+x)^5 is C(5,3) = 10.
+                </div>
+
+                <h3>Pigeonhole Principle</h3>
+                <p>If n items are put into m containers and n > m, then at least one container must contain more than
+                    one item.</p>
+                <div class="explanation">
+                    <strong>Use cases:</strong> Proving existence theorems, data distribution, hash collisions.
+                    <br>
+                    <strong>Example:</strong> Among any 367 people, at least two must share a birthday (pigeons=367,
+                    holes=366).
+                </div>
+
+                <h3>Inclusion-Exclusion Principle</h3>
+                <p>For sets A and B: |A ∪ B| = |A| + |B| - |A ∩ B|</p>
+                <p>For three sets: |A ∪ B ∪ C| = |A| + |B| + |C| - |A ∩ B| - |A ∩ C| - |B ∩ C| + |A ∩ B ∩ C|</p>
+                <div class="explanation">
+                    <strong>Use cases:</strong> Counting elements in unions of sets, solving problems with multiple
+                    constraints.
+                    <br>
+                    <strong>Example:</strong> Count integers from 1 to 100 divisible by either 2, 3, or 5.
+                </div>
+
+                <h3>Stirling Numbers</h3>
+                <p>Stirling numbers of the second kind S(n,k) count ways to partition n objects into k non-empty
+                    subsets.</p>
+                <div class="explanation">
+                    <strong>Use cases:</strong> Partitioning problems, Bell numbers, combinatorial counting.
+                    <br>
+                    <strong>Example:</strong> S(4,2) = 7 ways to partition 4 distinct elements into 2 non-empty subsets.
+                </div>
+
+                <h3>Catalan Numbers</h3>
+                <p>The nth Catalan number is C(n) = (1/(n+1)) × C(2n,n)</p>
+                <div class="explanation">
+                    <strong>Use cases:</strong> Counting valid parentheses arrangements, binary trees, polygon
+                    triangulations.
+                    <br>
+                    <strong>Example:</strong> C(3) = 5 ways to insert parentheses in a product of 4 factors.
+                </div>
+
+                <h3>Generating Functions</h3>
+                <p>Formal power series used to encode sequences and solve recurrence relations.</p>
+                <div class="explanation">
+                    <strong>Use cases:</strong> Solving complex counting problems, recurrence relations, partition
+                    problems.
+                    <br>
+                    <strong>Example:</strong> The generating function for Fibonacci numbers helps derive the explicit
+                    formula.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab functionality
+        function openTab(tabName) {
+            // Hide all tabs
+            const tabs = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove("active");
+            }
+
+            // Remove active class from all buttons
+            const buttons = document.getElementsByClassName("tab-button");
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove("active");
+            }
+
+            // Show selected tab and activate button
+            document.getElementById(tabName).classList.add("active");
+
+            // Find and activate the button for this tab
+            const allButtons = document.getElementsByClassName("tab-button");
+            for (let i = 0; i < allButtons.length; i++) {
+                if (allButtons[i].getAttribute("onclick").includes(tabName)) {
+                    allButtons[i].classList.add("active");
+                }
+            }
+        }
+
+        // Mathematical functions
+        function factorial(num) {
+            if (num < 0) return NaN;
+            if (num === 0 || num === 1) return 1;
+
+            // Use a more efficient algorithm for larger numbers to avoid overflow
+            if (num > 170) {
+                return Infinity; // JavaScript can't handle factorials this large
+            }
+
+            let res = 1;
+            for (let i = 2; i <= num; i++) res *= i;
+            return res;
+        }
+
+        function combinations(n, r) {
+            if (r > n) return 0;
+            if (r === 0 || r === n) return 1;
+
+            // Use symmetry to reduce calculation
+            if (r > n - r) {
+                r = n - r;
+            }
+
+            // Calculate nCr using multiplication and division
+            // This avoids computing full factorials which can overflow
+            let result = 1;
+            for (let i = 1; i <= r; i++) {
+                result *= (n - (r - i));
+                result /= i;
+            }
+
+            return Math.round(result); // Round to fix potential floating point issues
+        }
+
+        function permutations(n, r) {
+            if (r > n) return 0;
+
+            let result = 1;
+            for (let i = 0; i < r; i++) {
+                result *= (n - i);
+            }
+
+            return result;
+        }
+
+        function combinationsWithRepetition(n, r) {
+            return combinations(n + r - 1, r);
+        }
+
+        function permutationsWithRepetition(n, r) {
+            return Math.pow(n, r);
+        }
+
+        function circularPermutation(n) {
+            return factorial(n - 1);
+        }
+
+        function multisetPermutation(n, values) {
+            let denominator = 1;
+            for (let val of values) {
+                denominator *= factorial(val);
+            }
+            return factorial(n) / denominator;
+        }
+
+        function binomialCoefficient(n, k) {
+            return combinations(n, k);
+        }
+
+        function expectedMutualPairs(n) {
+            const totalPairs = (n * (n - 1)) / 2;
+            const probOnePair = 1 / ((n - 1) ** 2);
+            const expected = totalPairs * probOnePair;
+            return {
+                formula: `${totalPairs} × (1/${n - 1})²`,
+                value: expected.toFixed(3)
+            };
+        }
+
+        function stirlingNumber2(n, k) {
+            // Base cases
+            if (k === 0 && n === 0) return 1;
+            if (k === 0 || n === 0) return 0;
+            if (k === 1 || k === n) return 1;
+
+            // Recursive calculation using the formula: S(n,k) = k*S(n-1,k) + S(n-1,k-1)
+            // We'll use dynamic programming to avoid recalculation
+            const dp = Array(n + 1).fill().map(() => Array(k + 1).fill(0));
+
+            // Initialize base cases
+            dp[0][0] = 1;
+
+            for (let i = 1; i <= n; i++) {
+                for (let j = 1; j <= Math.min(i, k); j++) {
+                    dp[i][j] = j * dp[i - 1][j] + dp[i - 1][j - 1];
+                }
+            }
+
+            return dp[n][k];
+        }
+
+        function catalanNumber(n) {
+            return combinations(2 * n, n) / (n + 1);
+        }
+
+        function updateInputs() {
+            const type = document.getElementById("type").value;
+            const rInput = document.getElementById("r-input");
+            const multisetInput = document.getElementById("multiset-input");
+
+            // Reset visibility
+            rInput.classList.remove("hidden");
+            multisetInput.classList.add("hidden");
+
+            // Show/hide inputs based on calculation type
+            if (type === "factorial" || type === "expectedPairs" || type === "catalan") {
+                rInput.classList.add("hidden");
+            } else if (type === "multiset") {
+                multisetInput.classList.remove("hidden");
+            }
+
+            // Update explanation
+            updateExplanation(type);
+        }
+
+        function updateExplanation(type) {
+            const explanationDiv = document.getElementById("formula-explanation");
+            explanationDiv.classList.remove("hidden");
+
+            // Show explanation based on formula type
+            let explanation = "";
+
+            switch (type) {
+                case "nCr":
+                    explanation = `<h3>Combinations (nCr)</h3>
+            <p>Counts the number of ways to select r items from a set of n items, where order doesn't matter.</p>
+            <p><strong>Formula:</strong> C(n,r) = n! / (r! × (n-r)!)</p>
+            <p><strong>Use cases:</strong> Team selection, lottery problems, committee formation, any selection where order is irrelevant.</p>
+            <p><strong>Example:</strong> Ways to select 3 books from a shelf of 10 books = C(10,3) = 120.</p>`;
+                    break;
+                case "nPr":
+                    explanation = `<h3>Permutations (nPr)</h3>
+            <p>Counts the number of ways to arrange r items from a set of n items, where order matters.</p>
+            <p><strong>Formula:</strong> P(n,r) = n! / (n-r)!</p>
+            <p><strong>Use cases:</strong> Race results, rankings, scheduling in order, any arrangement where sequence is important.</p>
+            <p><strong>Example:</strong> Ways to assign gold, silver, and bronze medals among 10 athletes = P(10,3) = 720.</p>`;
+                    break;
+                case "combRep":
+                    explanation = `<h3>Combinations with Repetition</h3>
+            <p>Counts the number of ways to select r items from a set of n distinct items, where order doesn't matter and items can be repeated.</p>
+            <p><strong>Formula:</strong> C(n+r-1,r) = (n+r-1)! / (r! × (n-1)!)</p>
+            <p><strong>Use cases:</strong> Selecting items with duplicates allowed, multiset selection, distribution problems.</p>
+            <p><strong>Example:</strong> Ways to buy 8 fruits from a store that sells 4 types of fruits = C(4+8-1,8) = C(11,8) = 165.</p>`;
+                    break;
+                case "permRep":
+                    explanation = `<h3>Permutations with Repetition</h3>
+            <p>Counts the number of ways to arrange r items from a set of n distinct items, where order matters and items can be repeated.</p>
+            <p><strong>Formula:</strong> n^r</p>
+            <p><strong>Use cases:</strong> Creating codes or passwords, counting possible sequences.</p>
+            <p><strong>Example:</strong> Number of possible 4-digit PINs = 10^4 = 10,000.</p>`;
+                    break;
+                case "factorial":
+                    explanation = `<h3>Factorial</h3>
+            <p>The product of all positive integers less than or equal to n.</p>
+            <p><strong>Formula:</strong> n! = n × (n-1) × (n-2) × ... × 2 × 1</p>
+            <p><strong>Use cases:</strong> Counting permutations, basic component of many combinatorial formulas.</p>
+            <p><strong>Example:</strong> 5! = 5 × 4 × 3 × 2 × 1 = 120.</p>`;
+                    break;
+                case "circularPerm":
+                    explanation = `<h3>Circular Permutations</h3>
+            <p>Counts the number of ways to arrange n objects in a circle, where only relative positions matter.</p>
+            <p><strong>Formula:</strong> (n-1)!</p>
+            <p><strong>Use cases:</strong> Seating arrangements around a table, necklace designs, cyclic arrangements.</p>
+            <p><strong>Example:</strong> Ways to seat 8 people around a circular table = 7! = 5,040.</p>`;
+                    break;
+                case "multiset":
+                    explanation = `<h3>Multiset Permutations</h3>
+            <p>Counts the number of distinct arrangements of a multiset (a set with repeated elements).</p>
+            <p><strong>Formula:</strong> n! / (r₁! × r₂! × ... × rₖ!)</p>
+            <p>where n is the total number of elements and r₁, r₂, etc. are the repetitions of each element.</p>
+            <p><strong>Use cases:</strong> Word arrangements with repeated letters, organizing items when some are identical.</p>
+            <p><strong>Example:</strong> Number of distinct arrangements of the letters in "MATHEMATICS" = 11! / (2! × 2! × 1! × ... × 1!) = 9,979,200.</p>`;
+                    break;
+                case "binomial":
+                    explanation = `<h3>Binomial Coefficient</h3>
+            <p>Same as combinations (nCr), used in the binomial theorem and probability.</p>
+            <p><strong>Formula:</strong> C(n,k) = n! / (k! × (n-k)!)</p>
+            <p><strong>Use cases:</strong> Expanding (x+y)^n, calculating probabilities in binomial distribution.</p>
+            <p><strong>Example:</strong> The coefficient of x^3 y^2 in the expansion of (x+y)^5 is C(5,3) = 10.</p>`;
+                    break;
+                case "expectedPairs":
+                    explanation = `<h3>Expected Mutual Pairs (HxH style)</h3>
+            <p>Calculates the expected number of mutual pairs when each person randomly selects another person.</p>
+            <p><strong>Formula:</strong> (n(n-1)/2) × (1/(n-1)²)</p>
+            <p><strong>Use cases:</strong> Random matching problems, probabilistic pair formation.</p>
+            <p><strong>Example:</strong> In a group of 30 people where each randomly selects someone else, the expected number of mutual selections is approximately 0.517.</p>`;
+                    break;
+                case "stirling":
+                    explanation = `<h3>Stirling Numbers of the Second Kind</h3>
+            <p>Counts the number of ways to partition a set of n labeled objects into k non-empty unlabeled subsets.</p>
+            <p><strong>Formula:</strong> S(n,k) = k×S(n-1,k) + S(n-1,k-1)</p>
+            <p><strong>Use cases:</strong> Set partitioning problems, counting surjective functions.</p>
+            <p><strong>Example:</strong> S(4,2) = 7 ways to partition 4 elements into 2 non-empty subsets.</p>`;
+                    break;
+                case "catalan":
+                    explanation = `<h3>Catalan Numbers</h3>
+            <p>A sequence of numbers that appear in various counting problems.</p>
+            <p><strong>Formula:</strong> C(n) = (1/(n+1)) × C(2n,n)</p>
+            <p><strong>Use cases:</strong> Counting valid parentheses expressions, binary trees, polygon triangulations.</p>
+            <p><strong>Example:</strong> C(3) = 5 counts the number of different ways to insert parentheses in a product of 4 factors.</p>`;
+                    break;
+            }
+
+            explanationDiv.innerHTML = explanation;
+        }
+
+        document.getElementById("type").addEventListener("change", updateInputs);
+        updateInputs(); // Initialize with default selection
+
+        function calculate() {
+            const type = document.getElementById("type").value;
+            const n = parseInt(document.getElementById("n").value);
+            const resultDiv = document.getElementById("result");
+
+            let output = "";
+            let formula = "";
+
+            try {
+                switch (type) {
+                    case "nCr": {
+                        const r = parseInt(document.getElementById("r").value);
+                        if (r > n) {
+                            throw new Error("r cannot be greater than n for combinations");
+                        }
+                        output = combinations(n, r);
+                        formula = `C(${n}, ${r}) = ${n}! / (${r}! × (${n - r})!)`;
+                        break;
+                    }
+                    case "nPr": {
+                        const r = parseInt(document.getElementById("r").value);
+                        if (r > n) {
+                            throw new Error("r cannot be greater than n for permutations");
+                        }
+                        output = permutations(n, r);
+                        formula = `P(${n}, ${r}) = ${n}! / (${n - r})!`;
+                        break;
+                    }
+                    case "combRep": {
+                        const r = parseInt(document.getElementById("r").value);
+                        output = combinationsWithRepetition(n, r);
+                        formula = `C(${n + r - 1}, ${r}) = (${n + r - 1})! / (${r}! × (${n - 1})!)`;
+                        break;
+                    }
+                    case "permRep": {
+                        const r = parseInt(document.getElementById("r").value);
+                        output = permutationsWithRepetition(n, r);
+                        formula = `${n}^${r} = ${output}`;
+                        break;
+                    }
+                    case "factorial": {
+                        output = factorial(n);
+                        formula = `${n}! = ${output}`;
+                        break;
+                    }
+                    case "circularPerm": {
+                        output = circularPermutation(n);
+                        formula = `(${n}-1)! = ${n - 1}! = ${output}`;
+                        break;
+                    }
+                    case "multiset": {
+                        const values = document.getElementById("multisetValues").value
+                            .split(",")
+                            .map(x => parseInt(x.trim()))
+                            .filter(x => !isNaN(x));
+
+                        if (values.length === 0) {
+                            throw new Error("Please enter valid repetition values");
+                        }
+
+                        const sum = values.reduce((a, b) => a + b, 0);
+                        if (sum !== n) {
+                            throw new Error(`The sum of repetitions (${sum}) must equal n (${n})`);
+                        }
+
+                        output = multisetPermutation(n, values);
+                        formula = `${n}! / (${values.join("! × ")}!) = ${output}`;
+                        break;
+                    }
+                    case "binomial": {
+                        const k = parseInt(document.getElementById("r").value);
+                        if (k > n) {
+                            throw new Error("k cannot be greater than n for binomial coefficients");
+                        }
+                        output = binomialCoefficient(n, k);
+                        formula = `C(${n}, ${k}) = ${n}! / (${k}! × (${n - k})!) = ${output}`;
+                        break;
+                    }
+                    case "expectedPairs": {
+                        const result = expectedMutualPairs(n);
+                        output = result.value;
+                        formula = `(${n}(${n}-1)/2) × ${result.formula} = ${output}`;
+                        break;
+                    }
+                    case "stirling": {
+                        const k = parseInt(document.getElementById("r").value);
+                        if (k > n) {
+                            throw new Error("k cannot be greater than n for Stirling numbers");
+                        }
+                        output = stirlingNumber2(n, k);
+                        formula = `S(${n}, ${k}) = ${output}`;
+                        break;
+                    }
+                    case "catalan": {
+                        output = catalanNumber(n);
+                        formula = `C(${n}) = (1/${n + 1}) × C(2×${n}, ${n}) = ${output}`;
+                        break;
+                    }
+                    default:
+                        throw new Error("Invalid calculation type");
+                }
+
+                resultDiv.innerHTML = `
+          <h3>Result: ${output}</h3>
+          <p>Formula: ${formula}</p>
+        `;
+
+            } catch (error) {
+                resultDiv.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        }
+
+        // Handle Enter key press
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('keyup', function (event) {
+                if (event.key === 'Enter') {
+                    calculate();
+                }
+            });
+        });
+
+        // Add more useful helper functions
+
+        // Function to calculate binomial distribution probability
+        function binomialProbability(n, k, p) {
+            return combinations(n, k) * Math.pow(p, k) * Math.pow(1 - p, n - k);
+        }
+
+        // Function to calculate the Bell number (total number of partitions of a set)
+        function bellNumber(n) {
+            if (n === 0) return 1;
+
+            // Calculate using Stirling numbers
+            let sum = 0;
+            for (let k = 0; k <= n; k++) {
+                sum += stirlingNumber2(n, k);
+            }
+            return sum;
+        }
+
+        // Function to calculate the Fibonacci number (useful for certain combinatorial problems)
+        function fibonacci(n) {
+            if (n <= 1) return n;
+
+            let a = 0, b = 1;
+            for (let i = 2; i <= n; i++) {
+                const temp = a + b;
+                a = b;
+                b = temp;
+            }
+            return b;
+        }
+
+        // Function to calculate the number of derangements (permutations with no fixed points)
+        function derangement(n) {
+            if (n === 0) return 1;
+            if (n === 1) return 0;
+
+            // Use the recurrence relation: D(n) = (n-1) * (D(n-1) + D(n-2))
+            let a = 1, b = 0;
+            for (let i = 2; i <= n; i++) {
+                const temp = (i - 1) * (a + b);
+                b = a;
+                a = temp;
+            }
+            return a;
+        }
+    </script>
 </body>
+
 </html>
