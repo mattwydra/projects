@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Combinatorics Calculator</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2rem;
+      max-width: 600px;
+      margin: auto;
+      background-color: #f9f9f9;
+    }
+    h1 {
+      text-align: center;
+    }
+    label, select, input, button {
+      display: block;
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+    #result {
+      background: #fff;
+      padding: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Combinatorics Calculator</h1>
+  
+  <label for="type">Select calculation type:</label>
+  <select id="type">
+    <option value="nCr">Combinations (nCr)</option>
+    <option value="nPr">Permutations (nPr)</option>
+    <option value="combRep">Combinations with Repetition</option>
+    <option value="permRep">Permutations with Repetition</option>
+    <option value="factorial">Factorial</option>
+    <option value="expectedPairs">Expected Mutual Pairs (HxH style)</option>
+  </select>
+
+  <div id="inputs">
+    <label for="n">n:</label>
+    <input type="number" id="n" value="24" />
+
+    <label for="r">r:</label>
+    <input type="number" id="r" value="2" />
+  </div>
+
+  <button onclick="calculate()">Calculate</button>
+
+  <div id="result"></div>
+
+  <script>
+    function factorial(num) {
+      if (num < 0) return NaN;
+      let res = 1;
+      for (let i = 2; i <= num; i++) res *= i;
+      return res;
+    }
+
+    function combinations(n, r) {
+      return factorial(n) / (factorial(r) * factorial(n - r));
+    }
+
+    function permutations(n, r) {
+      return factorial(n) / factorial(n - r);
+    }
+
+    function combinationsWithRepetition(n, r) {
+      return combinations(n + r - 1, r);
+    }
+
+    function permutationsWithRepetition(n, r) {
+      return Math.pow(n, r);
+    }
+
+    function expectedMutualPairs(n) {
+      const totalPairs = (n * (n - 1)) / 2;
+      const probOnePair = 1 / ((n - 1) ** 2);
+      const expected = totalPairs * probOnePair;
+      return {
+        formula: `${totalPairs} × (1/${n - 1})²`,
+        value: expected.toFixed(3)
+      };
+    }
+
+    function updateInputs() {
+      const type = document.getElementById("type").value;
+      const rInput = document.getElementById("r");
+
+      if (type === "factorial" || type === "expectedPairs") {
+        rInput.parentElement.classList.add("hidden");
+      } else {
+        rInput.parentElement.classList.remove("hidden");
+      }
+    }
+
+    document.getElementById("type").addEventListener("change", updateInputs);
+    updateInputs();
+
+    function calculate() {
+      const type = document.getElementById("type").value;
+      const n = parseInt(document.getElementById("n").value);
+      const r = parseInt(document.getElementById("r").value);
+      const resultDiv = document.getElementById("result");
+
+      let output = "";
+      let formula = "";
+
+      switch (type) {
+        case "nCr":
+          output = combinations(n, r);
+          formula = `C(${n}, ${r}) = ${n}! / (${r}! × (${n - r})!)`;
+          break;
+        case "nPr":
+          output = permutations(n, r);
+          formula = `P(${n}, ${r}) = ${n}! / (${n - r})!`;
+          break;
+        case "combRep":
+          output = combinationsWithRepetition(n, r);
+          formula = `C(${n + r - 1}, ${r}) = (${n + r - 1})! / (${r}! × (${n - 1})!)`;
+          break;
+        case "permRep":
+          output = permutationsWithRepetition(n, r);
+          formula = `${n}^${r} = ${output}`;
+          break;
+        case "factorial":
+          output = factorial(n);
+          formula = `${n}! = ${output}`;
+          break;
+        case "expectedPairs":
+          const result = expectedMutualPairs(n);
+          formula = `Expected mutual pairs: ${result.formula}`;
+          output = result.value;
+          break;
+      }
+
+      resultDiv.innerHTML = `<strong>Formula:</strong> ${formula}<br/><strong>Result:</strong> ${output}`;
+    }
+  </script>
+</body>
+</html>
