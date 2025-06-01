@@ -48,4 +48,7 @@ A bot designed to spread positivity and motivation, featuring custom daily remin
 - Improved accessibility features like colorblind modes and keyboard-only navigation.
 - Better mobile support for minigames
 - Home button to return to home page
+
+--- 
+
 Thanks for visiting! Feel free to explore, leave feedback, or even contribute to the projects!
