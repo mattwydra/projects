@@ -34,12 +34,14 @@ Features:
 ## Directory Structure  
 
 ```
-typing-practice/
-├── special-characters.txt   # List of special characters used in the game.
-├── uncommon-words.txt       # Collection of uncommon words for practice.
-├── cs-jargon.txt            # Computer science-related terms and commands.
-├── numbers.txt              # Numeric sequences for typing practice.
-├── README.md                # Documentation for this directory (you're reading it!).
+README.md                    # Documentation for this directory (you're reading it!).
+percentage-practice/
+mult_table/
+├── tmp   # tmp.
+├── tmp   # tmp.
+├── tmp   # tmp.
+├── tmp   # tmp.
+├── tmp   # tmp.
 ```
 
 ## How to Add or Modify Content  
@@ -52,5 +54,3 @@ typing-practice/
    - For special characters, include a variety of symbols, ensuring diversity.  
    - For jargon and uncommon words, avoid duplicates and maintain relevancy.  
    - For numbers, include a mix of short and long sequences, as well as formatted numbers (e.g., `1,234` or `3.14`).
-
-Would you like to customize this further?
