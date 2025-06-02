@@ -41,5 +41,3 @@ typing-practice/
    - For special characters, include a variety of symbols, ensuring diversity.  
    - For jargon and uncommon words, avoid duplicates and maintain relevancy.  
    - For numbers, include a mix of short and long sequences, as well as formatted numbers (e.g., `1,234` or `3.14`).
-
-Would you like to customize this further?
