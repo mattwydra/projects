@@ -23,12 +23,12 @@ This directory contains the configuration and resources for the **Typing Practic
 ## Directory Structure  
 
 ```
+README.md                    # Documentation for this directory (you're reading it!).
 typing-practice/
 ├── special-characters.txt   # List of special characters used in the game.
 ├── uncommon-words.txt       # Collection of uncommon words for practice.
 ├── cs-jargon.txt            # Computer science-related terms and commands.
 ├── numbers.txt              # Numeric sequences for typing practice.
-├── README.md                # Documentation for this directory (you're reading it!).
 ```
 
 ## How to Add or Modify Content  
