@@ -1,6 +1,6 @@
 # Percent Master
 
-[link](https://mattwydra.github.io/projects/minigames/percentage_calculation/index.html)
+[link](https://mattwydra.github.io/projects/minigames/math_games/percentage_calculation/index.html)
 
 **Percent Master** is an interactive mini-game designed to improve your percentage calculation skills through fun and engaging multiple-choice questions. The game challenges players with random percentage problems and tracks their performance.
 
