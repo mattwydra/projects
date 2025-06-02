@@ -2,23 +2,34 @@
 
 This directory contains the configuration and resources for the **Typing Practice Mini-Game**, part of the larger minigames project. The game focuses on improving typing speed and accuracy through diverse challenges across several game modes. Below is a detailed breakdown of what this directory holds and how to use it.
 
-## Game Modes  
+## Games 
 
-### 1. **Special Characters**  
-- **Objective**: Practice typing common and uncommon special characters (e.g., `@`, `#`, `%`, `&`, `*`, etc.).  
-- **Use Case**: Helps users get comfortable with frequently used symbols in coding, writing, and online communication.  
+### 1. **Percentage Calculation**  
+Features:
 
-### 2. **Uncommon Words**  
-- **Objective**: Boost typing proficiency with less frequently used words.  
-- **Use Case**: Improves vocabulary and typing speed for unique or advanced words.  
+1. **Random Percentage Questions**  
+   - Solve questions like "What is X% of Y?".
+   - Four randomized multiple-choice answers.
 
-### 3. **Computer Science Jargon**  
-- **Objective**: Master typing commands, reserved words, and terminology from programming and computer science (e.g., `grep`, `commit`, `interface`, `encapsulation`, etc.).  
-- **Use Case**: Tailored for developers and students in tech fields, ensuring familiarity with essential terms.  
+2. **Feedback System**  
+   - Immediate feedback on correct and incorrect answers.
+   - Highlights the correct answer after each question.
 
-### 4. **Numbers**  
-- **Objective**: Enhance numerical typing speed and accuracy, including random sequences and formatted numbers.  
-- **Use Case**: Helps with data entry, math exercises, or programming tasks that involve numeric input.  
+3. **Dynamic Question Generation**  
+   - Randomized percentage values (10% - 50%).
+   - Randomized totals (100 - 500).
+
+4. **Interactive Design**  
+   - Hover and click effects for an engaging user experience.
+   - Automatic transition to the next question after 2 seconds.
+
+5. **Responsive and Simple UI**  
+   - Clean and accessible layout.
+   - Built with HTML, CSS, and JavaScript.
+
+
+### 2. **Multiplication Practice**  
+
 
 ## Directory Structure  
 
