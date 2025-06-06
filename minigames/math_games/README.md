@@ -1,6 +1,6 @@
 # Hub for all Math games
 
-This directory contains the configuration and resources for the **Typing Practice Mini-Game**, part of the larger minigames project. The game focuses on improving typing speed and accuracy through diverse challenges across several game modes. Below is a detailed breakdown of what this directory holds and how to use it.
+This directory contains the configuration and resources for the **Math Mini-Games**, part of the larger minigames project. Below is a detailed breakdown of what this directory holds and how to use it.
 
 ## Games 
 
