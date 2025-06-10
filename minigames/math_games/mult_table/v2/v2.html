@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Multiplication Quiz</title>
-    <style>
-        
-    </style>
+    <link rel="stylesheet" href="styles.css" />
+
 </head>
+
 <body data-theme="dark">
     <button class="theme-toggle" onclick="toggleTheme()">
         <span id="theme-icon">🌙</span>
@@ -17,18 +18,18 @@
     <div class="container">
         <h1>Multiplication Quiz</h1>
         <p class="subtitle">Test your multiplication skills!</p>
-        
+
         <div class="problem" id="problem">3 × 7 = ?</div>
-        
+
         <div class="input-group">
             <input type="number" id="answer" placeholder="Your answer" autofocus>
         </div>
-        
+
         <button class="btn" onclick="checkAnswer()">Submit</button>
         <button class="btn" onclick="nextProblem()">Skip</button>
-        
+
         <div class="feedback" id="feedback"></div>
-        
+
         <div class="stats">
             <div class="stat">
                 <div class="stat-number" id="correct">0</div>
@@ -73,7 +74,7 @@
                 num2: num2,
                 answer: num1 * num2
             };
-            
+
             document.getElementById('problem').textContent = `${num1} × ${num2} = ?`;
             document.getElementById('answer').value = '';
             document.getElementById('feedback').textContent = '';
@@ -83,13 +84,13 @@
         function checkAnswer() {
             const userAnswer = parseInt(document.getElementById('answer').value);
             const feedback = document.getElementById('feedback');
-            
+
             if (isNaN(userAnswer)) {
                 feedback.textContent = 'Please enter a number!';
                 feedback.className = 'feedback incorrect';
                 return;
             }
-            
+
             if (userAnswer === currentProblem.answer) {
                 feedback.textContent = '🎉 Correct!';
                 feedback.className = 'feedback correct';
@@ -104,7 +105,7 @@
                 stats.streak = 0;
                 setTimeout(nextProblem, 2500);
             }
-            
+
             updateStats();
         }
 
@@ -123,7 +124,7 @@
             const body = document.body;
             const themeIcon = document.getElementById('theme-icon');
             const themeText = document.getElementById('theme-text');
-            
+
             if (body.getAttribute('data-theme') === 'dark') {
                 body.setAttribute('data-theme', 'light');
                 themeIcon.textContent = '☀️';
@@ -136,7 +137,7 @@
         }
 
         // Handle Enter key press
-        document.getElementById('answer').addEventListener('keypress', function(e) {
+        document.getElementById('answer').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 checkAnswer();
             }
@@ -146,4 +147,5 @@
         generateProblem();
     </script>
 </body>
+
 </html>
