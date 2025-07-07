@@ -29,6 +29,7 @@ A personal productivity Discord bot designed to help you track daily goals, wins
 
 2. **Install dependencies**
    ```
+   npm init -y
    npm install discord.js node-cron
    ```
 
